@@ -1,3 +1,6 @@
+*.exe
+
+#this is some cmake shit
 CMakeLists.txt.user
 CMakeCache.txt
 CMakeFiles
