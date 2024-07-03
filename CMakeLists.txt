@@ -23,8 +23,8 @@ add_compile_options(--std=c++98 -Wall -Wextra -Werror -g -O0)
            
            
 # Add an executable target
-add_executable(server ${server_srcs})
-add_executable(client ${client_srcs})
+add_executable(server.exe ${server_srcs})
+add_executable(client.exe ${client_srcs})
            
            
            
