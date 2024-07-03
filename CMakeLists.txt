@@ -6,8 +6,8 @@ cmake_minimum_required(VERSION 3.10)
 project(MyProject)
            
 # Add source fileFILE(GLOB_RECURSE MyCSources ./*.c)
-FILE(GLOB client_srcs client.cpp)
-FILE(GLOB server_srcs server.cpp)
+FILE(GLOB client_srcs srcs/client/client.cpp)
+FILE(GLOB server_srcs srcs/server/server.cpp)
            
            
            
