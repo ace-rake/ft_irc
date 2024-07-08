@@ -14,12 +14,12 @@ FILE(GLOB server_srcs srcs/server/main.cpp srcs/server/server.cpp)
            
            
 # Add linker flags globally
-# add_link_options(--std=c++98 -Wall -Werror -Wextra -g)
+add_link_options(-g)
            
            
            
 # Add compiler flags globally
-# add_compile_options(--std=c++98 -Wall -Wextra -Werror -g -O0)
+add_compile_options(-g -O0)
            
            
            
