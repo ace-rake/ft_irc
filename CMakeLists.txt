@@ -9,6 +9,7 @@ project(MyProject)
 FILE(GLOB test_client_srcs srcs/client/socket_client.cpp)
 FILE(GLOB test_server_srcs srcs/server/socket_server.cpp)
 FILE(GLOB server_srcs srcs/server/main.cpp srcs/server/server.cpp)
+FILE(GLOB client_srcs srcs/client/main.cpp srcs/client/client.cpp)
            
            
            
@@ -27,6 +28,7 @@ add_compile_options(-g -O0)
 add_executable(test_server.exe ${test_server_srcs})
 add_executable(test_client.exe ${test_client_srcs})
 add_executable(server.exe ${server_srcs})
+add_executable(client.exe ${client_srcs})
            
            
            

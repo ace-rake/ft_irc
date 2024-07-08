@@ -2,8 +2,8 @@
 # define SERVER_HPP
 
 # include <netinet/in.h>
-#include <vector>
 #define PORT 12345
+#define MAX_CLIENTS 10
 
 // Custom class: server
 class	server
@@ -31,7 +31,7 @@ class	server
 		int			_server_socket;
 		struct sockaddr_in	_address;
 		int			_addrlen;
-		std::vector<int>	_clients;
+		int			_fds[MAX_CLIENTS];
 		/*_*/;
 
 		void handleNewConnection(){};

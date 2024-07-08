@@ -33,6 +33,7 @@ int	main(void)
 
 	fds[0].fd = server_fd;
 	fds[0].events = POLLIN;
+
 	for (int i = 1; i < MAX_CLIENTS; ++i)
 		fds[i].fd = -1;
 
@@ -96,7 +97,10 @@ int	main(void)
 			}
 		}
 	}
-	close(new_socket);
+	for (int i = 1; i < MAX_CLIENTS; ++i)
+		if (fds[i].fd != -1)
+			close(fds[i].fd);
+
 	close(server_fd);
 }
 
