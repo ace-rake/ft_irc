@@ -32,13 +32,16 @@ int main() {
         return -1;
     }
 
-    // Receive message from the server
-    while (true) {
-        int valread = read(sock, buffer, 1024);
-        if (valread > 0) {
-            std::cout << buffer << std::endl;
-            memset(buffer, 0, 1024); // Clear the buffer after reading
-        }
+    // Send message to the server
+    while (1)
+    {
+	    std::string str;
+	    std::getline(std::cin, str);
+	    if (std::cin.eof())
+		    break;
+	    send(sock, str.c_str(), str.size(), 0);
+	    std::cout << "Sent \"" << str << "\" to server" << std::endl;
+	    str.clear();
     }
 
     // Close the connection
