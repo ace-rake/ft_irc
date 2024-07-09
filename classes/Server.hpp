@@ -23,6 +23,8 @@ class   Server
     private:
         //void    idle(void);
         void    getIpAddress(void);
+        bool    findSuitableIp(struct hostent *host);
+        void    noSuitableIpFound(void);
 };
 
 #endif

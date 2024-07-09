@@ -20,6 +20,27 @@ Server::Server(void)
     std::cout << "Listening to port: " << htons(this->_address.sin_port) << std::endl;
 }
 
+bool    Server::findSuitableIp(struct hostent *host)
+{
+    for (int i = 0; host->h_addr_list[i] != NULL; i++)
+    {
+        struct in_addr  *addr = (struct in_addr *)host->h_addr_list[i];
+        if (strcmp(inet_ntoa(*addr), "127.0.0.1") != 0)
+        {
+            this->_address.sin_addr = *addr;
+            std::cout << "Using IP address: " << inet_ntoa(*addr) << std::endl;
+            return true;
+        }
+    }
+    return false;
+}
+
+void    Server::noSuitableIpFound(void)
+{
+    this->_address.sin_addr.s_addr = INADDR_ANY;
+    std::cerr << "No suitable IP address found, using 0.0.0.0 instead" << std::endl;
+}
+
 void    Server::getIpAddress(void)
 {
     char    hostname[256];
@@ -36,19 +57,8 @@ void    Server::getIpAddress(void)
         exit(EXIT_FAILURE);
     }
 
-    for (int i = 0; host->h_addr_list[i] != NULL; i++)
-    {
-        struct in_addr  *addr = (struct in_addr *)host->h_addr_list[i];
-        if (strcmp(inet_ntoa(*addr), "127.0.0.1") != 0)
-        {
-            this->_address.sin_addr = *addr;
-            std::cout << "Using IP address: " << inet_ntoa(*addr) << std::endl;
-            return;
-        }
-    }
-
-    this->_address.sin_addr.s_addr = INADDR_ANY;
-    std::cerr << "No suitable IP address found, using 0.0.0.0" << std::endl;
+    if (!findSuitableIp(host))
+        noSuitableIpFound();
 }
 
 Server::~Server(void)
