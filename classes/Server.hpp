@@ -2,17 +2,16 @@
 # define SERVER_HPP
 
 #include <netinet/in.h>
-
-#define MAX_CLIENTS 10
+#include "../irc.h"
 
 class   Server
 {
     public:
-        Server(int);
+        Server(void);
 
         ~Server(void);
 
-        void    run(void);
+        //void    run(void);
 
     private:
         int                 _serverFd;
@@ -22,7 +21,7 @@ class   Server
         struct sockaddr_in  _address;
 
     private:
-        void    idle(void);
+        //void    idle(void);
         void    getIpAddress(void);
 };
 
