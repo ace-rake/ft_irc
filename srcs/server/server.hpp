@@ -2,8 +2,10 @@
 # define SERVER_HPP
 
 # include <netinet/in.h>
+#include <sys/poll.h>
 #define PORT 12345
 #define MAX_CLIENTS 10
+#define BUFFER_SIZE 1024
 
 // Custom class: server
 class	server
@@ -31,11 +33,12 @@ class	server
 		int			_server_socket;
 		struct sockaddr_in	_address;
 		int			_addrlen;
-		int			_fds[MAX_CLIENTS];
+		struct pollfd		_fds[MAX_CLIENTS];
 		/*_*/;
 
-		void handleNewConnection(){};
-		void handleClientMessage(int){};
+		void	idle();
+		void handleNewConnection();
+		void handleClientMessage(int*);
 };
 
 #endif
