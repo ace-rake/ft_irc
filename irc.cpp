@@ -4,4 +4,5 @@
 int     main(void)
 {
     Server  server;
+    server.run();
 }
