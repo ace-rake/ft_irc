@@ -1,0 +1,144 @@
+#include "./Server_Quinten.hpp"
+#include <arpa/inet.h>
+#include <cstdlib>
+#include <cstring>
+#include <iostream>
+#include <netdb.h>
+#include <unistd.h>
+#include <sstream>
+
+Server::Server(int port)
+{
+    _addrLen = sizeof(_address);
+    _address.sin_family = AF_INET;
+    _address.sin_port = htons(port);
+
+    getIpAddress();
+
+    if ((_serverFd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+    {
+        perror("Socket creation failed");
+        exit(EXIT_FAILURE);
+    }
+
+    if (bind(_serverFd, (struct sockaddr*)&_address, sizeof(_address)) < 0)
+    {
+        perror("Bind failed");
+        close(_serverFd);
+        exit(EXIT_FAILURE);
+    }
+
+    if (listen(_serverFd, 10) < 0)
+    {
+        perror("Listen failed");
+        close(_serverFd);
+        exit(EXIT_FAILURE);
+    }
+}
+
+Server::~Server()
+{
+    close(_serverFd);
+    for (int clientFd : _clients)
+    {
+        close(clientFd);
+    }
+}
+
+void Server::getIpAddress()
+{
+    _address.sin_addr.s_addr = INADDR_ANY;
+}
+
+void Server::run()
+{
+    fd_set readfds;
+    int max_sd, activity, new_socket;
+
+    while (true)
+    {
+        FD_ZERO(&readfds);
+        FD_SET(_serverFd, &readfds);
+        max_sd = _serverFd;
+
+        for (int clientFd : _clients)
+        {
+            if (clientFd > 0)
+                FD_SET(clientFd, &readfds);
+            if (clientFd > max_sd)
+                max_sd = clientFd;
+        }
+
+        activity = select(max_sd + 1, &readfds, nullptr, nullptr, nullptr);
+
+        if (FD_ISSET(_serverFd, &readfds))
+        {
+            if ((new_socket = accept(_serverFd, (struct sockaddr*)&_address, (socklen_t*)&_addrLen)) < 0)
+            {
+                perror("Accept failed");
+                exit(EXIT_FAILURE);
+            }
+
+            std::cout << "New connection, socket fd is " << new_socket << std::endl;
+            _clients.push_back(new_socket);
+        }
+
+        for (auto it = _clients.begin(); it != _clients.end();)
+        {
+            int sd = *it;
+            if (FD_ISSET(sd, &readfds))
+            {
+                char buffer[1024] = {0};
+                int valread = read(sd, buffer, 1024);
+
+                if (valread == 0)
+                {
+                    std::cout << "Client disconnected, socket fd is " << sd << std::endl;
+                    close(sd);
+                    it = _clients.erase(it);
+                }
+                else
+                {
+                    buffer[valread] = '\0';
+                    handleCommand(sd, std::string(buffer));
+                    ++it;
+                }
+            }
+            else
+            {
+                ++it;
+            }
+        }
+    }
+}
+
+void Server::handleCommand(int clientFd, const std::string& command)
+{
+    std::cout << "Received command: " << command << std::endl;
+
+    std::istringstream iss(command);
+    std::string cmd;
+    iss >> cmd;
+
+    if (cmd == "JOIN")
+    {
+        std::string channel;
+        iss >> channel;
+        if (!channel.empty())
+        {
+            std::string response = ":server 332 * " + channel + " :Welcome to the " + channel + " channel\r\n";
+            send(clientFd, response.c_str(), response.size(), 0);
+        }
+    }
+    else if (cmd == "PING")
+    {
+        std::string response = "PONG :server\r\n";
+        send(clientFd, response.c_str(), response.size(), 0);
+    }
+    else
+    {
+        std::string response = ":server 421 * " + cmd + " :Unknown command\r\n";
+        send(clientFd, response.c_str(), response.size(), 0);
+    }
+}
+

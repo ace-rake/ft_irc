@@ -1,0 +1,28 @@
+#ifndef SERVER_HPP
+#define SERVER_HPP
+
+#include <netinet/in.h>
+#include <vector>
+#include <string>
+
+class Server
+{
+public:
+    Server(int port);
+    ~Server();
+
+    void run();
+
+private:
+    int _serverFd;
+    int _addrLen;
+    struct sockaddr_in _address;
+    std::vector<int> _clients;
+
+    void getIpAddress();
+    void handleClient(int clientFd);
+    void handleCommand(int clientFd, const std::string& command);
+};
+
+#endif
+
