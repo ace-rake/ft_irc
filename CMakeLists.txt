@@ -8,8 +8,9 @@ project(MyProject)
 # Add source fileFILE(GLOB_RECURSE MyCSources ./*.c)
 FILE(GLOB test_client_srcs srcs/client/socket_client.cpp)
 FILE(GLOB test_server_srcs srcs/server/socket_server.cpp)
-FILE(GLOB server_srcs srcs/server/main.cpp srcs/server/server.cpp)
-FILE(GLOB client_srcs srcs/client/main.cpp srcs/client/client.cpp)
+FILE(GLOB shared_srcs srcs/server/Server.cpp srcs/client/client.cpp srcs/channel/Channel.cpp)
+FILE(GLOB server_srcs srcs/server/main.cpp ${shared_srcs})
+FILE(GLOB client_srcs srcs/client/main.cpp ${shared_srcs})
            
            
            

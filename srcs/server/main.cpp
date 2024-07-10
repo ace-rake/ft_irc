@@ -1,8 +1,8 @@
-#include "server.hpp"
+#include "Server.hpp"
 
 int main(void)
 {
-	server server(12345);
+	Server server;
 	server.run();
 	return (0);
 }

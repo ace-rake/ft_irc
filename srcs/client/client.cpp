@@ -1,5 +1,7 @@
 #include "client.hpp"
 #include <arpa/inet.h>
+#include <cstddef>
+#include <cstdlib>
 #include <exception>
 #include <iostream>
 #include <string>
@@ -11,6 +13,7 @@ client::client( int port)
 	_server_fd = -1;
 	_serv_addr.sin_family = AF_INET;
 	_serv_addr.sin_port = htons(port);
+	_serv_addr.sin_addr = "10.12.2.5";
 }
 
 // Copy constructor
@@ -40,8 +43,6 @@ void	client::run()
 		std::cerr << "Socket creation error" << std::endl;
 		throw std::exception();
 	}
-
-
 	if (inet_pton(AF_INET, "127.0.0.1", &_serv_addr.sin_addr) <= 0) {
 		std::cerr << "Invalid address/ Address not supported" << std::endl;
 		throw std::exception();
@@ -50,6 +51,7 @@ void	client::run()
 		std::cerr << "Connection failed" << std::endl;
 		throw std::exception();
 	}
+	//TODO receive fd
 	this->idle();
 }
 

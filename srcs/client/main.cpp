@@ -1,8 +1,13 @@
 #include "client.hpp"
+#include <iostream>
+#include <string>
 
 
 int main(void)
 {
-	client client(12345);
+	std::string str;
+	std::getline(std::cin, str);
+	
+	client client(PORT);
 	client.run();
 }

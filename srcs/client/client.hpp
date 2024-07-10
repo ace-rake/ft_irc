@@ -3,9 +3,7 @@
 
 #include <netinet/in.h>
 #include <string>
-# ifndef PORT
-#  define PORT 12345
-# endif
+#include "../irc.h"
 
 // Custom class: client
 class	client
@@ -30,10 +28,11 @@ class	client
 		/*_*/;
 
 	private:
-		int _server_fd;
-		struct sockaddr_in _serv_addr;
-		char buffer[1024];
-		int _port;
+		int			_server_fd;
+		int			_client_fd;
+		struct sockaddr_in	_serv_addr;
+		char			_buffer[BUFFER_SIZE];
+		int			_port;
 		/*_*/;
 
 		void	idle();
