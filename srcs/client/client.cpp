@@ -51,8 +51,19 @@ void	client::run()
 		std::cerr << "Connection failed" << std::endl;
 		throw std::exception();
 	}
-	//TODO receive fd
+	receiveClientFd();
 	this->idle();
+}
+
+void	client::receiveClientFd()
+{
+	char buffer[BUFFER_SIZE];
+	int valread = read(_server_fd, buffer, BUFFER_SIZE);
+	if (valread == 0)
+		throw std::exception();
+	else
+		_client_fd = std::atoi(buffer);
+	std::cout << "I am " << _client_fd << std::endl;
 }
 
 void	client::idle()
@@ -72,4 +83,9 @@ void	client::send_message(std::string str)
 {
 	send(_server_fd, str.c_str(), str.size(), 0);
 	std::cout << "Sent \"" << str << "\" to server" << std::endl;
+}
+
+int	client::getClientFd()
+{
+	return _client_fd;
 }

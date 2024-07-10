@@ -22,6 +22,8 @@ class	client
 		~client	(void);
 
 
+		int 	getClientFd	(	void	);
+
 		void	run	(	void	);
 
 	protected:
@@ -37,6 +39,7 @@ class	client
 
 		void	idle();
 		void	send_message(std::string);
+		void	receiveClientFd();
 };
 
 #endif

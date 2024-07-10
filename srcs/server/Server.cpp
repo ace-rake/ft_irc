@@ -131,7 +131,7 @@ void Server::handleNewConnection()
 			_fds[i].events = POLLIN;
 			std::string number = std::to_string(new_connection);
 			send(new_connection, number.c_str(), number.size(), 0);
-			std::cout << "Client connected" << std::endl;
+			std::cout << "Client connected with fd " << new_connection << std::endl;
 			break;
 		}
 }
@@ -139,7 +139,7 @@ void Server::handleNewConnection()
 void Server::handleClientMessage(int *fd)
 {
 	char buffer[BUFFER_SIZE];
-	int valread = read(*fd, buffer, BUFFER_SIZE);
+	int valread = recv(*fd, buffer, BUFFER_SIZE, 0);
 	if (valread == 0)
 	{
 		close(*fd);
