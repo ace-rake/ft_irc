@@ -23,11 +23,14 @@ class	Server
 		/*_*/;
 
 	private:
-		int			_server_fd;
 		int			_server_socket;
 		struct sockaddr_in	_address;
 		int			_addrlen;
-		struct pollfd		_fds[MAX_CLIENTS];
+		struct pollfd &		_server;
+
+		struct pollfd		_fds[MAX_CLIENTS + 1];
+		client			_clients[MAX_CLIENTS];
+
 		std::vector<Channel>	_channels;
 
 

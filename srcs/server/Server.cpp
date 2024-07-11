@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 // Constructor
-Server::Server(void)
+Server::Server(void): _server(_fds[0])
 {
 	_addrlen = sizeof(_address);
 	_address.sin_family = AF_INET;
@@ -29,7 +29,7 @@ Server::Server(void)
 // Destructor
 Server::~Server(void)
 {
-	close(_server_fd);
+	close(_server.fd);
 }
 
 bool    Server::findSuitableIp(struct hostent *host)
@@ -74,26 +74,31 @@ void    Server::getIpAddress(void)
 }
 
 void Server::run() {
-	if ((_server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
+	if ((_server.fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
 	{
 		perror("Socket creation failed");
 		exit(EXIT_FAILURE);
 	}
-	_fds[0].fd = _server_fd;
+	_fds[0].fd = _server.fd;
 	_fds[0].events = POLLIN;
-	for (int i = 1; i < MAX_CLIENTS; ++i)
+	_server.events = POLLIN;
+	for (int i = 1; i < MAX_CLIENTS + 1; ++i)// The +1 offset is to compensate for the server fd being a t_fds[0]
+	{
 		_fds[i].fd = -1;
-	if (bind(_server_fd, (struct sockaddr *)&_address, sizeof(_address)) < 0)
+		_fds[i].events = POLLIN;
+		_clients[i - 1].setFd(&_fds[i]);
+	}
+	if (bind(_server.fd, (struct sockaddr *)&_address, sizeof(_address)) < 0)
 	{
 		perror("bind failed");
-		close(_server_fd);
+		close(_server.fd);
 		exit(EXIT_FAILURE);
 	}
 
-	if (listen(_server_fd, 1) < 0)
+	if (listen(_server.fd, 1) < 0)
 	{
 		perror("listen");
-		close(_server_fd);
+		close(_server.fd);
 		exit(EXIT_FAILURE);
 	}
 
@@ -110,10 +115,10 @@ void Server::idle()
 
 		if (retval > 0)
 		{
-			if (_fds[0].revents & POLLIN)
+			if (_server.revents & POLLIN)
 				handleNewConnection();
-			for (int i = 1; i < MAX_CLIENTS; ++i)
-				if (_fds[i].fd != -1 && (_fds[i].revents & POLLIN))
+			for (int i = 0; i < MAX_CLIENTS; ++i)
+				if (_clients[i].getFd().fd != -1 && (_clients[i].getFd().revents & POLLIN))
 					handleClientMessage(_fds[i].fd);
 		}
 	}
@@ -123,16 +128,15 @@ void Server::idle()
 //TODO send client fd back to the client
 void Server::handleNewConnection()
 {
-	int new_connection = accept(_server_fd, (struct sockaddr *) &_address, (socklen_t *)&_addrlen);
-	for (int i = 1; i < MAX_CLIENTS ; ++i)
-		if (_fds[i].fd == -1)
+	int new_connection = accept(_server.fd, (struct sockaddr *) &_address, (socklen_t *)&_addrlen);
+	for (int i = 0; i < MAX_CLIENTS ; ++i)
+		if (_clients[i].getFd().fd == -1)
 		{
-			_fds[i].fd = new_connection;
-			_fds[i].events = POLLIN;
+			_clients[i].getFd().fd = new_connection;
+			_clients[i].getFd().events = POLLIN;
 			std::string number = std::to_string(new_connection);
-			send(new_connection, number.c_str(), number.size(), 0);
 			std::cout << "Client connected with fd " << new_connection << std::endl;
-			createNewClient(_fds[i]);
+			createNewClient(_clients[i].getFd());
 
 			break;
 		}
