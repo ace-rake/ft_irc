@@ -42,7 +42,7 @@ class	client
 		std::string 		_userName;
 		std::string 		_nickName;
 		std::string 		_realName;
-		std::string		_ip;
+		std::string		_ip;//TODO Do we need to get ip from server or client, rn its whatever the initial handshake gives
 		/*_*/;
 
 		void	idle();
