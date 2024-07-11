@@ -35,9 +35,17 @@ class	Server
 		void		idle();
 		void		handleNewConnection();
 		std::string	handleClientMessage(int & fd, bool silent = false);//TODO this need to be changed to actually forward the msg to a client or channel
-		bool		findSuitableIp(struct hostent *host);
+		
+        // ServerIp.cpp
+        bool		findSuitableIp(struct hostent *host);
 		void		noSuitableIpFound(void);
 		void		getIpAddress(void);
+
+        // ServerSetup.cpp
+        void        createSocket(void);
+        void        setupPolling(void);
+        void        bindSocketToAddress(void);
+        void        listenIncomingConnections(void);
 
 		std::string	receiveUserData(struct pollfd client);
 		void		createNewClient(struct pollfd client);

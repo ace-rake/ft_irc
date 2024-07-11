@@ -4,5 +4,5 @@
 int main(void)
 {
 	client client(PORT);
-	client.run();
+	//client.run();
 }
