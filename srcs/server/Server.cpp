@@ -114,7 +114,7 @@ void Server::idle()
 				handleNewConnection();
 			for (int i = 1; i < MAX_CLIENTS; ++i)
 				if (_fds[i].fd != -1 && (_fds[i].revents & POLLIN))
-					handleClientMessage(&(_fds[i].fd));
+					handleClientMessage(_fds[i].fd);
 		}
 	}
 }
@@ -132,24 +132,64 @@ void Server::handleNewConnection()
 			std::string number = std::to_string(new_connection);
 			send(new_connection, number.c_str(), number.size(), 0);
 			std::cout << "Client connected with fd " << new_connection << std::endl;
+			createNewClient(_fds[i]);
+
 			break;
 		}
 }
+std::string	Server::receiveUserData(struct pollfd client)
+{
+	std::string buffer;
+	std::string str;
+	bool user_received = false;
 
-void Server::handleClientMessage(int *fd)
+	while (!user_received) {
+		buffer += handleClientMessage(client.fd, true);
+
+		size_t pos;
+		while ((pos = buffer.find("\r\n")) != std::string::npos) {
+			str += buffer.substr(0, pos); // Extract the complete message
+			str += " ";
+			buffer.erase(0, pos + 2); // Remove the processed message
+
+			std::cout << "Current message: " << str << std::endl;
+
+			if (str.find("USER") != std::string::npos) {
+				user_received = true;
+				break;
+			}
+		}
+
+		if (user_received) {
+			std::cout << "Full USER command received: " << str << std::endl;
+		}
+	}
+	return str;
+}
+
+void	Server::createNewClient(struct pollfd client)
+{
+	receiveUserData(client);
+}
+
+std::string Server::handleClientMessage(int &fd, bool silent)
 {
 	char buffer[BUFFER_SIZE];
-	int valread = recv(*fd, buffer, BUFFER_SIZE, 0);
+	int valread = recv(fd, buffer, BUFFER_SIZE, 0);
 	if (valread == 0)
 	{
-		close(*fd);
-		*fd = -1;
-		std::cout << "Client disconnected" <<std::endl;
+		close(fd);
+		fd = -1;
+		if (!silent)
+			std::cout << "Client disconnected" <<std::endl;
 	}
 	else
 	{
 		buffer[valread] = '\0';
-		std::cout << "Received:\t" << buffer << std::endl;
+		std::string msg(buffer);
+		if (!silent)
+			std::cout << "Received from " << fd << ":\t" << msg << std::endl;
+		return msg;
 	}
-
+	return ("");
 }

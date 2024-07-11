@@ -3,6 +3,7 @@
 
 #include <netinet/in.h>
 #include <string>
+#include <sys/poll.h>
 #include "../irc.h"
 
 // Custom class: client
@@ -11,12 +12,6 @@ class	client
 	public:
 		// Constructor
 		client	(	int	);
-
-		// Copy constructor
-		client	(	const client& other	);
-
-		// Copy assignment operator overload
-		client& operator = (const client& other);
 
 		// Destructor
 		~client	(void);
@@ -31,10 +26,14 @@ class	client
 
 	private:
 		int			_server_fd;
-		int			_client_fd;
-		struct sockaddr_in	_serv_addr;
-		char			_buffer[BUFFER_SIZE];
-		int			_port;
+		struct pollfd		_client_fd;
+
+		/* User data */
+		std::string 		_hostName;
+		std::string 		_userName;
+		std::string 		_nickName;
+		std::string 		_realName;
+		std::string		_ip;
 		/*_*/;
 
 		void	idle();

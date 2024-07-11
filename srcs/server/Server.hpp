@@ -32,12 +32,15 @@ class	Server
 
 
 	private:
-		void	idle();
-		void	handleNewConnection();
-		void	handleClientMessage(int*);//TODO this need to be changed to actually forward the msg to a client or channel
-		bool    findSuitableIp(struct hostent *host);
-		void    noSuitableIpFound(void);
-		void    getIpAddress(void);
+		void		idle();
+		void		handleNewConnection();
+		std::string	handleClientMessage(int & fd, bool silent = false);//TODO this need to be changed to actually forward the msg to a client or channel
+		bool		findSuitableIp(struct hostent *host);
+		void		noSuitableIpFound(void);
+		void		getIpAddress(void);
+
+		std::string	receiveUserData(struct pollfd client);
+		void		createNewClient(struct pollfd client);
 };
 
 #endif
