@@ -51,7 +51,7 @@ class	Server
         void        listenIncomingConnections(void);
 
 		std::string	receiveUserData(struct pollfd client);
-		void		createNewClient(struct pollfd client);
+		void		createNewClient(client client);
 };
 
 #endif

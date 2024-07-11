@@ -14,7 +14,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 // Destructor
 Server::~Server(void)
 {
@@ -33,7 +32,7 @@ void Server::idle()
 				handleNewConnection();
 			for (int i = 0; i < MAX_CLIENTS; ++i)
 				if (_clients[i].getFd().fd != -1 && (_clients[i].getFd().revents & POLLIN))
-					handleClientMessage(_fds[i].fd);
+					handleClientMessage(_clients[i].getFd().fd);
 		}
 	}
 }
@@ -48,7 +47,7 @@ void Server::handleNewConnection()
 			_clients[i].getFd().events = POLLIN;
 			std::string number = std::to_string(new_connection);
 			std::cout << "Client connected with fd " << new_connection << std::endl;
-			createNewClient(_clients[i].getFd());
+			createNewClient(_clients[i]);
 
 			break;
 		}
@@ -83,9 +82,11 @@ std::string	Server::receiveUserData(struct pollfd client)
 	return str;
 }
 
-void	Server::createNewClient(struct pollfd client)
+void	Server::createNewClient(client client)
 {
-	receiveUserData(client);
+	std::string userData = receiveUserData(client.getFd());
+	client.create(userData);
+	std::cout << "create user\n" << client << std::endl;
 }
 
 std::string Server::handleClientMessage(int &fd, bool silent)
