@@ -11,13 +11,14 @@ class	client
 {
 	public:
 		// Constructor
-		client	(	int	);
+		client	(	void	);
 
 		// Destructor
 		~client	(void);
 
 
-		int 	getClientFd	(	void	);
+		struct pollfd &	getFd 	(	void	)const;
+		void	setFd	(struct pollfd * fd);
 
 		void	run	(	void	);
 
@@ -26,7 +27,7 @@ class	client
 
 	private:
 		int			_server_fd;
-		struct pollfd		_client_fd;
+		struct pollfd *		_client_fd;
 
 		/* User data */
 		std::string 		_hostName;

@@ -14,10 +14,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 // Destructor
 Server::~Server(void)
 {
-	close(_server_fd);
+	close(_server.fd);
 }
 
 void Server::idle()
@@ -28,29 +29,26 @@ void Server::idle()
 
 		if (retval > 0)
 		{
-			if (_fds[0].revents & POLLIN)
+			if (_server.revents & POLLIN)
 				handleNewConnection();
-			for (int i = 1; i < MAX_CLIENTS; ++i)
-				if (_fds[i].fd != -1 && (_fds[i].revents & POLLIN))
+			for (int i = 0; i < MAX_CLIENTS; ++i)
+				if (_clients[i].getFd().fd != -1 && (_clients[i].getFd().revents & POLLIN))
 					handleClientMessage(_fds[i].fd);
 		}
 	}
 }
 
-//TODO what to do if max clients
-//TODO send client fd back to the client
 void Server::handleNewConnection()
 {
-	int new_connection = accept(_server_fd, (struct sockaddr *) &_address, (socklen_t *)&_addrlen);
-	for (int i = 1; i < MAX_CLIENTS ; ++i)
-		if (_fds[i].fd == -1)
+	int new_connection = accept(_server.fd, (struct sockaddr *) &_address, (socklen_t *)&_addrlen);
+	for (int i = 0; i < MAX_CLIENTS ; ++i)
+		if (_clients[i].getFd().fd == -1)
 		{
-			_fds[i].fd = new_connection;
-			_fds[i].events = POLLIN;
+			_clients[i].getFd().fd = new_connection;
+			_clients[i].getFd().events = POLLIN;
 			std::string number = std::to_string(new_connection);
-			send(new_connection, number.c_str(), number.size(), 0);
 			std::cout << "Client connected with fd " << new_connection << std::endl;
-			createNewClient(_fds[i]);
+			createNewClient(_clients[i].getFd());
 
 			break;
 		}
