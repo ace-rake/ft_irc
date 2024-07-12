@@ -22,7 +22,11 @@ class	Channel
 
 	private:
 		void	broadcastMsg		(std::string msg);
-		void	handleJoinRequest	(client client);
+		void	handleJoinRequest	(client client, std::string psw);
+		client *	retrieveClientByNick	(std::string name);
+		client *	retrieveClientById(int id);
+		int	addClient		(client client);
+		int	deleteClient		(client client);
 };
 
 #endif
