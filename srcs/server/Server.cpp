@@ -51,6 +51,7 @@ void Server::handleNewConnection()
 			break;
 		}
 }
+
 //TODO delete client at some point
 std::string	Server::receiveUserData(struct pollfd client)
 {
@@ -87,6 +88,10 @@ void	Server::createNewClient(client client)
 	std::string userData = receiveUserData(client.getFd());
 	client.create(userData);
 	std::cout << "create user\n" << client << std::endl;
+
+    // Welcome handshake
+    std::string welcomeMessage = ":serverhostname 001 " + client.getNickName() + " :Welcome to the IRC network, " + client.getNickName() + "!\r\n";
+    send(client.getFd().fd, welcomeMessage.c_str(), welcomeMessage.size(), 0);
 }
 
 std::string Server::handleClientMessage(int &fd, bool silent)

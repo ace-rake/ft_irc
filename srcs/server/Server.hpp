@@ -6,6 +6,7 @@
 #include <vector>
 #include "../irc.h"
 #include "../channel/Channel.hpp"
+#include "../client/client.hpp"
 
 // Custom class: Server
 class	Server

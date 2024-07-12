@@ -9,8 +9,10 @@
 // Constructor
 client::client()
 {
+	static int id = 0;
 	_server_fd = -1;
 	_client_fd = NULL;
+	_clientId = id++;
 }
 
 // Destructor
@@ -81,6 +83,10 @@ void	client::create(std::string userData)
 }
 //FUCK
 
+const bool client::operator==(const client & other)const
+{
+	return this->_clientId == other._clientId;
+}
 
 std::ostream& operator << (std::ostream &os,const client & client)
 {
@@ -89,6 +95,7 @@ std::ostream& operator << (std::ostream &os,const client & client)
 	os << "real name " << client.getRealName() << std::endl;
 	os << "nick name " << client.getNickName() << std::endl;
 	os << "user name " << client.getUserName() << std::endl;
+	os << "id " << client.getId() << std::endl;
 	os << "ip " << client.getIp() << std::endl;
 	return os;
 }
