@@ -17,7 +17,7 @@ Channel::~Channel(void)
 void	Channel::sendMsgToAll(std::vector<std::string> args, client& sender)
 {
 	// Msg start from args[2].1;
-	std::string msg = ":" + sender.getNickName() + "!" + sender.getUserName() + "@" + sender.getHostName() + " PRIVMSG " + _channelName + " :" + args[2];
+	std::string msg = ":" + sender.getNickName() + "!" + sender.getUserName() + "@" + sender.getHostName() + " PRIVMSG " + _channelName + " " + args[2];
 	for (int i = 3; i < args.size(); ++i)
 		msg += " " +args[i];
 	broadcastMsg(msg);
