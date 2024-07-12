@@ -91,7 +91,7 @@ void	Server::createNewClient(client client)
 
     // Welcome handshake
     std::string welcomeMessage = ":serverhostname 001 " + client.getNickName() + " :Welcome to the IRC network, " + client.getNickName() + "!\r\n";
-    send(client.getFd().fd, welcomeMessage.c_str(), welcomeMessage.size(), 0);
+    client.sendMessageToClient(welcomeMessage);
 }
 
 std::string Server::handleClientMessage(int &fd, bool silent)

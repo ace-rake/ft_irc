@@ -2,7 +2,9 @@
 #include <arpa/inet.h>
 #include <cstdlib>
 #include <sstream>
+#include <stdexcept>
 #include <string>
+#include <sys/socket.h>
 #include <unistd.h>
 #include <vector>
 
@@ -82,6 +84,13 @@ void	client::create(std::string userData)
 	_realName = realName;
 }
 //FUCK
+
+void    client::sendMessageToClient(std::string message) const
+{
+    std::string buffer = message + "\r\n";
+    if (send(this->getFd().fd, buffer.c_str(), buffer.size(), 0) < 0)
+        throw std::runtime_error("Error while sending message to the client");
+}
 
 const bool client::operator==(const client & other)const
 {
