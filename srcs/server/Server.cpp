@@ -32,7 +32,7 @@ void Server::idle()
 				handleNewConnection();
 			for (int i = 0; i < MAX_CLIENTS; ++i)
 				if (_clients[i].getFd().fd != -1 && (_clients[i].getFd().revents & POLLIN))
-					handleClientMessage(_clients[i].getFd().fd);
+					handleClientMessage(_clients[i]);
 		}
 	}
 }
@@ -60,7 +60,7 @@ std::string	Server::receiveUserData(struct pollfd client)
 	bool user_received = false;
 
 	while (!user_received) {
-		buffer += handleClientMessage(client.fd, true);
+		buffer += readUserData(client.fd);
 
 		size_t pos;
 		while ((pos = buffer.find("\r\n")) != std::string::npos) {
@@ -82,19 +82,7 @@ std::string	Server::receiveUserData(struct pollfd client)
 	}
 	return str;
 }
-
-void	Server::createNewClient(client client)
-{
-	std::string userData = receiveUserData(client.getFd());
-	client.create(userData);
-	std::cout << "create user\n" << client << std::endl;
-
-    // Welcome handshake
-    std::string welcomeMessage = ":serverhostname 001 " + client.getNickName() + " :Welcome to the IRC network, " + client.getNickName() + "!\r\n";
-    client.sendMessageToClient(welcomeMessage);
-}
-
-std::string Server::handleClientMessage(int &fd, bool silent)
+std::string Server::readUserData(int &fd)
 {
 	char buffer[BUFFER_SIZE];
 	int valread = recv(fd, buffer, BUFFER_SIZE, 0);
@@ -102,16 +90,58 @@ std::string Server::handleClientMessage(int &fd, bool silent)
 	{
 		close(fd);
 		fd = -1;
-		if (!silent)
-			std::cout << "Client disconnected" <<std::endl;
+		std::cout << "Client disconnected" <<std::endl;
 	}
 	else
 	{
 		buffer[valread] = '\0';
 		std::string msg(buffer);
-		if (!silent)
-			std::cout << "Received from " << fd << ":\t" << msg << std::endl;
 		return msg;
 	}
 	return ("");
+}
+
+void	Server::createNewClient(client client)
+{
+	std::string userData = receiveUserData(client.getFd());
+	client.create(userData);
+	std::cout << "create user\n" << client << std::endl;
+
+	// Welcome handshake
+	std::string welcomeMessage = ":serverhostname 001 " + client.getNickName() + " :Welcome to the IRC network, " + client.getNickName() + "!\r\n";
+	client.sendMessageToClient(welcomeMessage);
+	client.sendMessageToClient("Anotha one");
+	broadCastMsg("Fuck you");
+}
+
+std::string Server::handleClientMessage(client & client)
+{
+	char buffer[BUFFER_SIZE];
+	int clientFd = client.getFd().fd;
+	int valread = recv(clientFd, buffer, BUFFER_SIZE, 0);
+	if (valread == 0)
+	{
+		close(clientFd);
+		clientFd = -1;
+		std::cout << "Client disconnected" <<std::endl;
+	}
+	else
+	{
+		buffer[valread] = '\0';
+		std::string msg(buffer);
+		std::cout << "Received from " << clientFd << ":\t" << msg << std::endl;
+		commandHandler(msg, client);
+		return msg;
+	}
+	return ("");
+}
+
+void	Server::broadCastMsg(std::string msg)
+{
+	for (int i = 0; i < MAX_CLIENTS && _clients[i].getFd().fd != -1; ++i)
+	{
+		std::cout << "sending msg..." << std::endl;
+		_clients[i].sendMessageToClient(msg);
+	}
+
 }

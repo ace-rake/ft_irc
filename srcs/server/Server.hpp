@@ -19,6 +19,7 @@ class	Server
 		~Server	(void);
 
 		void	run(void);
+		client * getClients(){return _clients;}
 
 	protected:
 		/*_*/;
@@ -38,7 +39,7 @@ class	Server
 	private:
 		void		idle();
 		void		handleNewConnection();
-		std::string	handleClientMessage(int & fd, bool silent = false);//TODO this need to be changed to actually forward the msg to a client or channel
+		std::string	handleClientMessage(client & client);//TODO this need to be changed to actually forward the msg to a client or channel
 
 		// ServerIp.cpp
 		bool		findSuitableIp(struct hostent *host);
@@ -52,12 +53,19 @@ class	Server
 		void        listenIncomingConnections(void);
 
 		std::string	receiveUserData(struct pollfd client);
+		std::string	readUserData(int &fd);
 		void		createNewClient(client client);
 
+		// Commands
+		void	commandHandler		(std::string command, client & client);
 		Channel *	findChannel	(std::string name);
-		void	joinChannel	(std::string name, client client);
-		void	joinChannel	(std::string name, client client, std::string psw);
+		void	joinHandler	(std::vector<std::string> args, client &client);
+		void	joinChannel	(std::string name, client & client);
+		void	joinChannel	(std::string name, client & client, std::string psw);
 		Channel *	createChannel	(std::string name, std::string psw = "");
+
+
+		void		broadCastMsg(std::string msg);
 };
 
 #endif

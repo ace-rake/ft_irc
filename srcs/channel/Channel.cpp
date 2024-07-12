@@ -1,6 +1,7 @@
 #include "Channel.hpp"
 #include <iostream>
 #include <sys/socket.h>
+#include "../irc.h"
 
 // Constructor
 Channel::Channel(std::string name, std::string psw): _channelName(name), _psw(psw)
@@ -13,27 +14,38 @@ Channel::~Channel(void)
 	std::cout << "Channel:\tdestroying object\n";
 }
 
-void	Channel::broadcastMsg(std::string str)// Send a msg to all members of a channel
+void	Channel::sendMsgToAll(std::vector<std::string> args)
 {
-	for (std::vector<client>::iterator it = _clients.begin(); it != _clients.end(); it++)
-	{
-
-	}
-
+	// Msg start from args[2].1;
+	std::string msg = "#test test_client " + args[2];
+	for (int i = 3; i < args.size(); ++i)
+		msg += " " +args[i];
+	broadcastMsg(msg);
 }
 
-void	Channel::handleJoinRequest(client client, std::string psw)
+void	Channel::broadcastMsg(std::string str)// Send a msg to all members of a channel
+{
+	
+	for (int i = 0; i < _clients.size(); ++i)
+	{
+		std::cout << "Sending " << str << " to client in channel:" << _channelName << std::endl;
+		_clients[i].sendMessageToClient(str);
+	}
+	
+}
+
+void	Channel::handleJoinRequest(client & client, std::string psw)
 {
 	if (retrieveClientById(client.getId()) != NULL)
 		return ;// Client already in channel
 	// TODO: Check blacklist
 	// TODO: Check join permission for channel
-	if (_psw.compare(psw) != 0 || _psw.empty())
+	if (_psw.compare(psw) != 0 && !_psw.empty())
 		return ;// Wrong Password
 	addClient(client);
 }
 
-int	Channel::addClient(client client)
+int	Channel::addClient(client & client)
 {
 	if (retrieveClientById(client.getId()) != NULL)
 		return 1;// Client already in channel
@@ -51,11 +63,12 @@ int	Channel::deleteClient(client client)
 
 // Returns client with nickname "name"
 // Returns NULL if no matching client found
-client * Channel::retrieveClientByNick(std::string name)
+template<typename T>
+client * retrieveClientByNick(T t, std::string name)
 {
-	for (std::vector<client>::iterator it = _clients.begin(); it != _clients.end(); it++)
-		if (it->getNickName().compare(name) == 0)
-			return &(*it);
+	for (int i = 0; i < MAX_CLIENTS ; ++i)
+		if (t.getClients()[i].getUserName().compare(name) == 0)
+			return &t.getClients()[i];
 	return NULL;
 }
 

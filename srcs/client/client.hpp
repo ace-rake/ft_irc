@@ -5,7 +5,6 @@
 #include <ostream>
 #include <string>
 #include <sys/poll.h>
-#include "../irc.h"
 
 // Custom class: client
 class	client

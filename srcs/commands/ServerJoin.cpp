@@ -1,12 +1,20 @@
-#include "Server.hpp"
+#include "../server/Server.hpp"
 
 
-void	Server::joinChannel(std::string name, client client)
+void	Server::joinHandler(std::vector<std::string> args, client & client)
+{
+	if (args.size() == 2)
+		joinChannel(args[1], client);
+	else
+		joinChannel(args[1], client, args[2]);
+}
+
+void	Server::joinChannel(std::string name, client & client)
 {
 	joinChannel(name, client, "");
 }
 
-void	Server::joinChannel(std::string name, client client, std::string psw)
+void	Server::joinChannel(std::string name, client & client, std::string psw)
 {
 	// Check if channel exists
 	// if not create channel
