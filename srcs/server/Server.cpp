@@ -48,10 +48,10 @@ void Server::handleNewConnection()
 			std::string number = std::to_string(new_connection);
 			std::cout << "Client connected with fd " << new_connection << std::endl;
 			createNewClient(_clients[i]);
-
 			break;
 		}
 }
+//TODO delete client at some point
 std::string	Server::receiveUserData(struct pollfd client)
 {
 	std::string buffer;
