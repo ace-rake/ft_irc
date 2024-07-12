@@ -20,8 +20,9 @@ void	Server::commandHandler(std::string command, client & client)
 		std::vector<std::string> args = split(command);
 		if (args[1].at(0) == '#')
 		{
+            std::cout << "test: " << client.getNickName() << std::endl;
 			Channel * channel = findChannel(args[1]);
-			channel->sendMsgToAll(args);
+			channel->sendMsgToAll(args, client);
 			// Channel
 		}
 		else
