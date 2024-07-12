@@ -9,10 +9,13 @@ class	Channel
 {
 	public:
 		// Constructor
-		Channel	(	void	);
+		Channel	(	std::string name, std::string psw = ""	);
 
 		// Destructor
 		~Channel	(void);
+
+		std::string getName()const{return _channelName;}
+		void	handleJoinRequest	(client client, std::string psw = "");
 
 
 	private:
@@ -22,10 +25,9 @@ class	Channel
 
 	private:
 		void	broadcastMsg		(std::string msg);
-		void	handleJoinRequest	(client client, std::string psw);
+		int	addClient		(client client);
 		client *	retrieveClientByNick	(std::string name);
 		client *	retrieveClientById(int id);
-		int	addClient		(client client);
 		int	deleteClient		(client client);
 };
 

@@ -3,9 +3,8 @@
 #include <sys/socket.h>
 
 // Constructor
-Channel::Channel()
+Channel::Channel(std::string name, std::string psw): _channelName(name), _psw(psw)
 {
-	std::cout << "Channel:\tcreating object\n";
 }
 
 // Destructor
@@ -18,6 +17,7 @@ void	Channel::broadcastMsg(std::string str)// Send a msg to all members of a cha
 {
 	for (std::vector<client>::iterator it = _clients.begin(); it != _clients.end(); it++)
 	{
+
 	}
 
 }
@@ -28,8 +28,9 @@ void	Channel::handleJoinRequest(client client, std::string psw)
 		return ;// Client already in channel
 	// TODO: Check blacklist
 	// TODO: Check join permission for channel
-	if (_psw.compare(psw) != 0)
+	if (_psw.compare(psw) != 0 || _psw.empty())
 		return ;// Wrong Password
+	addClient(client);
 }
 
 int	Channel::addClient(client client)
