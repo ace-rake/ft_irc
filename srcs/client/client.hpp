@@ -24,11 +24,14 @@ class	client
 
 		void	run	(	void	);
 
-		std::string getHostName()const{return _hostName;}
-		std::string getNickName()const{return _nickName;}
-		std::string getUserName()const{return _userName;}
-		std::string getRealName()const{return _realName;}
-		std::string getIp()const{return _ip;}
+		const bool operator == (const client & other)const;
+
+		std::string	getHostName()const{return _hostName;}
+		std::string	getNickName()const{return _nickName;}
+		std::string	getUserName()const{return _userName;}
+		std::string	getRealName()const{return _realName;}
+		std::string	getIp()const{return _ip;}
+		int		getId()const{return _clientId;}
 
 	protected:
 		/*_*/;
@@ -36,6 +39,7 @@ class	client
 	private:
 		int			_server_fd;
 		struct pollfd *		_client_fd;
+		int			_clientId;
 
 		/* User data */
 		std::string 		_hostName;
