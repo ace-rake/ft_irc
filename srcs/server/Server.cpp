@@ -101,7 +101,7 @@ std::string Server::readUserData(int &fd)
 	return ("");
 }
 
-void	Server::createNewClient(client client)
+void	Server::createNewClient(client & client)
 {
 	std::string userData = receiveUserData(client.getFd());
 	client.create(userData);

@@ -54,7 +54,7 @@ class	Server
 
 		std::string	receiveUserData(struct pollfd client);
 		std::string	readUserData(int &fd);
-		void		createNewClient(client client);
+		void		createNewClient(client & client);
 
 		// Commands
 		void	commandHandler		(std::string command, client & client);
