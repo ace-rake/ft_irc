@@ -1,3 +1,4 @@
+#include <cstddef>
 #include <vector>
 #include "../client/client.hpp"
 #include "../irc.h"
@@ -54,6 +55,13 @@ void    kickHandler(std::vector<std::string> args, client &executor, std::vector
 
     channel->deleteClient(*victim);
 
-    std::string kickMessage = ":" + executor.getNickName() + " KICK " + channelName + " " + victimName + " :You have been kicked\r\n";
+    std::string kickMessage = ":" + executor.getNickName() + " KICK " + channelName + " " + victimName + " :";
+
+    for (size_t i = 3; i < args.size(); ++i)
+        kickMessage += args[i] + " ";
+
+    kickMessage = kickMessage.substr(0, kickMessage.size() - 1); // Remove trailing space
+    kickMessage += "\r\n";
+
     send(victim->getFd().fd, kickMessage.c_str(), kickMessage.size(), 0);
 }
