@@ -30,4 +30,10 @@ void	Server::commandHandler(std::string command, client & client)
 			// Private Message
 		}
 	}
+    if (starts_with(command, "KICK "))
+    {
+        std::cout << "enter KICK" << std::endl;
+        std::vector<std::string> args = split(command);
+        kickHandler(args, client, _channels);
+    }
 }

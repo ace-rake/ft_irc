@@ -18,6 +18,8 @@ class	Channel
 		void	handleJoinRequest	(client & client, std::string psw = "");
 		void	sendMsgToAll		(std::vector<std::string> args, client& client);
 		std::vector<client> getClients(){return _clients;}
+		int	deleteClient		(client client);
+        client *    retrieveClientByNick(const std::string& name);
 
 
 	private:
@@ -29,7 +31,6 @@ class	Channel
 		void	broadcastMsg		(std::string msg);
 		int	addClient		(client & client);
 		client *	retrieveClientById(int id);
-		int	deleteClient		(client client);
 };
 
 #endif

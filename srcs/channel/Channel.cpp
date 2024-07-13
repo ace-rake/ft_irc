@@ -72,6 +72,15 @@ client * retrieveClientByNick(T t, std::string name)
 	return NULL;
 }
 
+client* Channel::retrieveClientByNick(const std::string& name)
+{
+    for (std::vector<client>::iterator it = _clients.begin(); it != _clients.end(); ++it) {
+        if (it->getNickName() == name)
+            return &(*it);
+    }
+    return NULL;
+}
+
 client * Channel::retrieveClientById(int id)
 {
 	for (std::vector<client>::iterator it = _clients.begin(); it != _clients.end(); it++)
