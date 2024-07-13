@@ -50,6 +50,8 @@ int	Channel::addClient(client & client)
 	if (retrieveClientById(client.getId()) != NULL)
 		return 1;// Client already in channel
 	_clients.push_back(client);
+    if (_opList.empty())
+        _opList.push_back(client);
 	return 0;
 }
 
@@ -87,4 +89,12 @@ client * Channel::retrieveClientById(int id)
 		if (it->getId() == id)
 			return &(*it);
 	return NULL;
+}
+
+bool    Channel::clientIsOperator(client findClient)
+{
+	for (std::vector<client>::iterator it = _opList.begin(); it != _opList.end(); it++)
+        if (it->getId() == findClient.getId())
+            return true;
+    return false;
 }

@@ -20,12 +20,14 @@ class	Channel
 		std::vector<client> getClients(){return _clients;}
 		int	deleteClient		(client client);
         client *    retrieveClientByNick(const std::string& name);
+        bool    clientIsOperator(client client);
 
 
 	private:
 		std::string		_channelName;
 		std::vector<client>	_clients;
 		std::string		_psw;
+        std::vector<client> _opList;
 
 	private:
 		void	broadcastMsg		(std::string msg);
