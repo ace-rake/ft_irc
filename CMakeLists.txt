@@ -11,6 +11,7 @@ FILE(GLOB test_server_srcs srcs/server/test_server.cpp)
 FILE(GLOB shared_srcs srcs/server/Server.cpp srcs/client/client.cpp srcs/channel/Channel.cpp srcs/server/ServerIp.cpp srcs/server/ServerSetup.cpp srcs/commands/ServerJoin.cpp srcs/commands/commandHandler.cpp srcs/commands/Kick.cpp srcs/commands/Invite.cpp)
 FILE(GLOB server_srcs srcs/server/main.cpp ${shared_srcs})
 FILE(GLOB client_srcs srcs/client/main.cpp ${shared_srcs})
+FILE(GLOB mock_srcs srcs/mock/* ${shared_srcs})
            
            
            
@@ -30,6 +31,7 @@ add_executable(test_server.exe ${test_server_srcs})
 add_executable(test_client.exe ${test_client_srcs})
 add_executable(server.exe ${server_srcs})
 add_executable(client.exe ${client_srcs})
+add_executable(mock.exe ${mock_srcs})
            
            
            
