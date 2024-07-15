@@ -1,11 +1,13 @@
 #include "Server.hpp"
 #include <arpa/inet.h>
+#include <fstream>
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
 #include <netdb.h>
+#include <stdexcept>
 #include <sys/poll.h>
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -130,7 +132,14 @@ std::string Server::handleClientMessage(client & client)
 		buffer[valread] = '\0';
 		std::string msg(buffer);
 		std::cout << "Received from " << clientFd << ":\t" << msg << std::endl;
-		commandHandler(msg, client);
+		logCommand(msg);
+		try{
+			commandHandler(msg, client);
+		}
+		catch (std::runtime_error &e)
+		{
+			std::cout << e.what();
+		}
 		return msg;
 	}
 	return ("");
@@ -145,3 +154,34 @@ void	Server::broadCastMsg(std::string msg)
 	}
 
 }
+
+client*	Server::getUser(userData field, std::string data)
+{
+	std::string (client::*funcptr)()const;
+	switch (field){
+		case (NICK):
+		{
+			funcptr = &client::getNickName;
+			break;
+		}
+		default:
+			return (NULL);
+	}
+	for (int i = 0; i < MAX_CLIENTS; ++i)
+	{
+		if ((_clients[i].*funcptr)() == data)
+			return &_clients[i];
+
+	}
+	return NULL;
+}
+
+
+void	Server::logCommand(std::string str)
+{
+	std::ofstream out;
+	out.open("Commands.txt", std::ios_base::app);
+	out << str << std::endl;;
+	out.close();
+}
+

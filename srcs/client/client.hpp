@@ -31,7 +31,7 @@ class	client
 		std::string	getRealName()const{return _realName;}
 		std::string	getIp()const{return _ip;}
 		int		getId()const{return _clientId;}
-        void    sendMessageToClient(std::string) const;
+		void		sendMessageToClient(std::string) const;
 
 	protected:
 		/*_*/;
