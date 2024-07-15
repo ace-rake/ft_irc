@@ -39,8 +39,8 @@ void	Channel::handleJoinRequest(client & client, std::string psw)
 		return ;// Client already in channel
 	// TODO: Check blacklist
 	// TODO: Check join permission for channel
-	if (_psw.compare(psw) != 0 && !_psw.empty())
-		return ;// Wrong Password
+	if (_psw.compare(psw) != 0 && !_psw.empty() && !isInInviteList(client.getId()))
+		return ;// Cannot Join
 	addClient(client);
 }
 
