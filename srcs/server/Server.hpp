@@ -64,6 +64,7 @@ class	Server
 		void	joinChannel	(std::string name, client & client, std::string psw);
 		Channel *	createChannel	(std::string name, std::string psw = "");
 
+		void		inviteToChannel	(std::string ChannelName, std::string nickName);
 
 		void		broadCastMsg(std::string msg);
 };
