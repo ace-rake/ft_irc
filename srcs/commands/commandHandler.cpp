@@ -24,11 +24,16 @@ void	Server::commandHandler(std::string command, client & client)
 			Channel * channel = findChannel(args[1]);
 			if (channel)
 				channel->sendMsgToAll(args, client);
+			else
+			{
+				//TODO: Handle channel doesnt exist
+			}
 			// Channel
 		}
 		else
 		{
-			// Private Message
+			//TODO: Private Message
+			privateMsg(args, client);
 		}
 	}
 	if (starts_with(command, "KICK "))
