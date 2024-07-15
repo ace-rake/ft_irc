@@ -20,18 +20,17 @@ void	Channel::sendMsgToAll(std::vector<std::string> args, client& sender)
 	std::string msg = ":" + sender.getNickName() + "!" + sender.getUserName() + "@" + sender.getHostName() + " PRIVMSG " + _channelName + " " + args[2];
 	for (int i = 3; i < args.size(); ++i)
 		msg += " " +args[i];
-	broadcastMsg(msg);
+	broadcastMsg(msg, sender);
 }
 
-void	Channel::broadcastMsg(std::string str)// Send a msg to all members of a channel
+void	Channel::broadcastMsg(std::string str, client & sender)// Send a msg to all members of a channel, except to the sender
 {
-	
 	for (int i = 0; i < _clients.size(); ++i)
 	{
 		std::cout << "Sending " << str << " to client in channel:" << _channelName << std::endl;
-		_clients[i].sendMessageToClient(str);
+		if (_clients[i].getId() != sender.getId())
+			_clients[i].sendMessageToClient(str);
 	}
-	
 }
 
 void	Channel::handleJoinRequest(client & client, std::string psw)
@@ -61,17 +60,6 @@ int	Channel::deleteClient(client client)
 		return 1;// Client not in channel	
 	_clients.erase(_clients.begin());
 	return (0);
-}
-
-// Returns client with nickname "name"
-// Returns NULL if no matching client found
-template<typename T>
-client * retrieveClientByNick(T t, std::string name)
-{
-	for (int i = 0; i < MAX_CLIENTS ; ++i)
-		if (t.getClients()[i].getUserName().compare(name) == 0)
-			return &t.getClients()[i];
-	return NULL;
 }
 
 client* Channel::retrieveClientByNick(const std::string& name)

@@ -21,6 +21,7 @@ class	Channel
 		int	deleteClient		(client client);
         client *    retrieveClientByNick(const std::string& name);
         bool    clientIsOperator(client client);
+		client *	retrieveClientById(int id);
 
 
 	private:
@@ -30,9 +31,8 @@ class	Channel
         std::vector<client> _opList;
 
 	private:
-		void	broadcastMsg		(std::string msg);
+		void	broadcastMsg		(std::string msg, client & sender);
 		int	addClient		(client & client);
-		client *	retrieveClientById(int id);
 };
 
 #endif

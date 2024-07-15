@@ -1,6 +1,8 @@
 #ifndef IRC_H
 # define IRC_H
 
+#include <string>
+#include ""
 /* Config Section */
 
 #define MAX_CLIENTS 100 // Max allowed amount of clients
@@ -9,5 +11,7 @@
 #define DEBUG       FALSE // Gives extra info
 
 /* -------------- */
+template<typename T>
+client * retrieveClientByNick(T t, std::string name);
 
 #endif
