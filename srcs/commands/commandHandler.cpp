@@ -41,4 +41,9 @@ void	Server::commandHandler(std::string command, client & client)
 		std::cout << "enter INVITE" << std::endl;
 		inviteToChannel(args[2], args[1]);
 	}
+	if (starts_with(command, "NICK"))
+	{
+		std::cout << "enter NICK" << std::endl;
+		setNewNick(client, args[1]);
+	}
 }

@@ -79,6 +79,8 @@ class	Server
 
 		void		inviteToChannel	(std::string ChannelName, std::string nickName);
 
+		void		setNewNick(client & client, std::string newNick);
+
 		void		broadCastMsg	(std::string msg);
 
 		client *	getUser		(userData, std::string);

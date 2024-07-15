@@ -27,6 +27,7 @@ class	client
 
 		std::string	getHostName()const{return _hostName;}
 		std::string	getNickName()const{return _nickName;}
+		void		setNickName(std::string newNick){_nickName = newNick;}
 		std::string	getUserName()const{return _userName;}
 		std::string	getRealName()const{return _realName;}
 		std::string	getIp()const{return _ip;}
