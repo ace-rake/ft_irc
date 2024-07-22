@@ -1,0 +1,238 @@
+MODE ubuntu +i
+
+PING serverhostname
+
+JOIN #hello
+
+TOPIC #hello :hello hi
+
+QUIT :leaving
+
+MODE ubuntu +i
+
+PING serverhostname
+
+JOIN #hello
+
+TOPIC #hello :hello this
+
+MODE ubuntu +i
+
+PING serverhostname
+
+JOIN #hello
+
+PRIVMSG #hello :hi
+
+MODE ubuntu +i
+
+JOIN #hello
+
+PING serverhostname
+
+TOPIC #hello :hello lol
+
+TOPIC #hello :hello test
+
+QUIT :leaving
+
+MODE ubuntu +i
+
+PING serverhostname
+
+JOIN #test
+
+TOPIC #test :test hello
+
+QUIT :leaving
+
+MODE ubuntu +i
+
+PING serverhostname
+
+JOIN #hello
+
+TOPIC #hello :hello world
+
+MODE ubuntu +i
+
+JOIN #hello
+
+PING serverhostname
+
+QUIT :leaving
+
+MODE ubuntu +i
+
+PING serverhostname
+
+JOIN #world
+
+TOPIC #world :hello
+
+TOPIC #world :hello
+
+TOPIC #world :hello
+
+QUIT :leaving
+
+MODE ubuntu +i
+
+PING serverhostname
+
+TOPIC 
+
+JOIN #hello
+
+TOPIC #hello :hello world
+
+QUIT :leaving
+
+MODE ubuntu +i
+
+PING serverhostname
+
+JOIN #test
+
+TOPIC #test :test hello
+
+MODE ubuntu +i
+
+PING serverhostname
+
+JOIN #hello
+
+TOPIC #hello :hello world
+
+MODE ubuntu +i
+
+JOIN #hello
+
+PING serverhostname
+
+MODE ubuntu +i
+
+PING serverhostname
+
+JOIN #test
+
+MODE ubuntu +i
+
+PING serverhostname
+
+JOIN #test
+
+NICK quinten
+
+PRIVMSG #test :hello
+
+PRIVMSG #test :hi
+
+TOPIC #test :test hello
+
+MODE ubuntu +i
+
+JOIN #test
+
+PING serverhostname
+
+TOPIC #test :test hello
+
+MODE ubuntu +i
+
+JOIN #test
+
+PING serverhostname
+
+MODE quinten +i
+
+JOIN #test
+
+PING serverhostname
+
+MODE ubuntu +i
+
+JOIN #test
+
+PING serverhostname
+
+MODE ubuntu +i
+
+JOIN #test
+
+PING serverhostname
+
+MODE ubuntu +i
+
+PING serverhostname
+
+TOPIC 
+
+JOIN #hello
+
+TOPIC #hello :hello quinten
+
+MODE ubuntu +i
+
+PING serverhostname
+
+JOIN #hello
+
+TOPIC #hello :hello world
+
+QUIT :leaving
+
+MODE ubuntu +i
+
+PING serverhostname
+
+JOIN #hello
+
+TOPIC #hello :huhfufh hello
+
+TOPIC #hello :huhfufh hello i
+
+MODE ubuntu +i
+
+PING serverhostname
+
+JOIN #hello
+
+TOPIC #hello :uwhfuiwfh hello
+
+TOPIC #hello :hfyuifh
+
+TOPIC #hello :hello abc
+
+TOPIC #hello :abc
+
+TOPIC #hello :hello abc
+
+MODE ubuntu +i
+
+PING serverhostname
+
+JOIN #hello
+
+TOPIC #hello :hello abc
+
+QUIT :leaving
+
+MODE ubuntu +i
+
+PING serverhostname
+
+JOIN #hello
+
+TOPIC #hello :hello abc
+
+JOIN #test
+
+TOPIC #test :test hello
+
+PRIVMSG #hello :exit
+
+PRIVMSG #hello :exit
+
+QUIT :leaving
+

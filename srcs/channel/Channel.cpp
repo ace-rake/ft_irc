@@ -6,6 +6,7 @@
 // Constructor
 Channel::Channel(std::string name, std::string psw): _channelName(name), _psw(psw)
 {
+    this->_channelTopic = "";
 }
 
 // Destructor
@@ -31,6 +32,15 @@ void	Channel::broadcastMsg(std::string str, client & sender)// Send a msg to all
 		if (_clients[i].getId() != sender.getId())
 			_clients[i].sendMessageToClient(str);
 	}
+}
+
+void    Channel::broadcastMsg(std::string str)
+{
+    for (size_t i = 0; i < _clients.size(); ++i) 
+    {
+        std::cout << "Sending " << str << " to client in channel:" << _channelName << std::endl;
+        _clients[i].sendMessageToClient(str);
+    }
 }
 
 void	Channel::handleJoinRequest(client & client, std::string psw)
@@ -102,4 +112,17 @@ void	Channel::removeIdFromList(int id)
 {
 	if (_inviteList.find(id) != _inviteList.end())
 		_inviteList.erase(id);
+}
+
+void Channel::changeTopic(const std::string& newTopic)
+{
+    this->_channelTopic = newTopic;
+
+    // Notify all clients in the channel about the new topic
+    std::string topicChangeMsg = ":server 332 " + _channelName + " :" + _channelTopic;
+    broadcastMsg(topicChangeMsg);
+
+    // Notify all clients in the channel that the topic has been changed
+    std::string topicNotificationMsg = ":server TOPIC " + _channelName + " :" + _channelTopic;
+    broadcastMsg(topicNotificationMsg);
 }

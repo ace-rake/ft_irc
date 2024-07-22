@@ -23,10 +23,13 @@ class	Channel
 		client *	retrieveClientByNick(const std::string& name);
 		client *	retrieveClientById(int id);
 		bool    clientIsOperator(client client);
+        std::string getTopic()const{return _channelTopic;}
 
 		void	addInviteToList	(int id);
 		bool	isInInviteList	(int id)const;
 		void	removeIdFromList(int id);
+
+        void    changeTopic(const std::string& newTopic);
 
 
 	private:
@@ -35,9 +38,11 @@ class	Channel
 		std::string		_psw;
 		std::vector<client>	_opList;
 		std::set<int>		_inviteList; // List of userId's that were invited
+        std::string     _channelTopic;
 
 	private:
 		void	broadcastMsg		(std::string msg, client & sender);
+        void    broadcastMsg        (std::string str);
 		int	addClient		(client & client);
 };
 
