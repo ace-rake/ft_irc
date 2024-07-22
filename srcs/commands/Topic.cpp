@@ -19,10 +19,10 @@ void    displayTopic(Channel* referencedChannel)
 
 void    changeTopic(Channel* referencedChannel, std::vector<std::string>args)
 {
-    std::string newTopicName = "";
+    std::string newTopicName = args[3];
 
-    for (size_t i = 3; i < args.size(); ++i)
-        newTopicName += args[i] + " ";
+    for (size_t i = 4; i < args.size(); ++i)
+        newTopicName += " " +  args[i];
 
     newTopicName = newTopicName.substr(0, newTopicName.size() - 1);
 
