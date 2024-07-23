@@ -11,10 +11,9 @@ Channel* findChannelByNameTopic(const std::string& channelName, std::vector<Chan
     return NULL;
 }
 
-void    topicHandler(std::vector<std::string> args, std::vector<Channel> &channels, client &sender)
+void    topicHandler(std::vector<std::string> args, std::vector<Channel>& channels, client& sender)
 {
-    // extra checks for when using raw IRC commands
-    if (args.size() < 2)
+    if (args.size() < 3)
     {
         std::cerr << "Error: Not enough parameters for TOPIC command." << std::endl;
         
