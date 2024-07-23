@@ -506,3 +506,23 @@ QUIT :leaving
 
 QUIT :leaving
 
+MODE ubuntu +i
+
+PING serverhostname
+
+TOPIC 
+
+TOPIC hello
+
+MODE ubuntu +i
+
+PING serverhostname
+
+JOIN #hello
+
+TOPIC hello
+
+QUIT :leaving
+
+QUIT :leaving
+
