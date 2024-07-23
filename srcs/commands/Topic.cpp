@@ -1,5 +1,4 @@
 #include "../irc.h"
-#include <vector>
 #include <iostream>
 
 Channel* findChannelByNameTopic(const std::string& channelName, std::vector<Channel>& channels)
@@ -12,44 +11,43 @@ Channel* findChannelByNameTopic(const std::string& channelName, std::vector<Chan
     return NULL;
 }
 
-void    displayTopic(Channel* referencedChannel)
+void    topicHandler(std::vector<std::string> args, std::vector<Channel> &channels, client &sender)
 {
-    std::cout << "Topic: " << referencedChannel->getTopic() << std::endl;
-}
-
-void    changeTopic(Channel* referencedChannel, std::vector<std::string>args)
-{
-    std::string newTopicName = "";
-
-    for (size_t i = 3; i < args.size(); ++i)
-        newTopicName += args[i] + " ";
-
-    newTopicName = newTopicName.substr(0, newTopicName.size() - 1);
-
-    referencedChannel->changeTopic(newTopicName);
-    displayTopic(referencedChannel);
-}
-
-void    topicHandler(std::vector<std::string> args, std::vector<Channel>& channels)
-{
-    if (args.size() < 3)
+    // extra checks for when using raw IRC commands
+    if (args.size() < 2)
     {
         std::cerr << "Error: Not enough parameters for TOPIC command." << std::endl;
+        
+        std::string clientMessage = ":server 416 " + sender.getNickName() + " TOPIC :Not enough parameters";
+
+        sender.sendMessageToClient(clientMessage);
         return;
     }
 
-    std::string channelName = "#" + args[2].substr(1);
-    std::cout << channelName << std::endl;
-    Channel*    wantedChannel = findChannelByNameTopic(channelName, channels);
+    std::string channelName = args[1];
 
+    if (channelName[0] != '#')
+        channelName = "#" + channelName;
+
+    std::cout << "ChannelName: " << channelName << std::endl;
+    Channel*    wantedChannel = findChannelByNameTopic(channelName, channels);
     if (!wantedChannel)
     {
-        std::cerr << "Error: Channel does not exist." << std::endl;
+        std::cerr << "Error: No channel found for TOPIC command." << std::endl;
+        sender.sendMessageToClient("TOPIC: No channel found with this name");
         return;
     }
-
-    if (args.size() == 3)
-        displayTopic(wantedChannel);
     else
-        changeTopic(wantedChannel, args);
+    {
+        if (!wantedChannel->isInClientList(sender))
+        {
+            std::cerr << "Error: Sender is not in the right channel for TOPIC command" << std::endl;
+
+            std::string clientMessage = ":server 442 " + sender.getNickName() + " " + wantedChannel->getName() + " :You're not on that channel";
+
+            sender.sendMessageToClient(clientMessage);
+
+            return;
+        }
+    }
 }

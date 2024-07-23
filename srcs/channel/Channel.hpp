@@ -30,6 +30,8 @@ class	Channel
 		void	removeIdFromList(int id);
 
         void    changeTopic(const std::string& newTopic);
+        bool    isInClientList  (client client);
+        
 
 
 	private:

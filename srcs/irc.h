@@ -20,6 +20,6 @@ client * retrieveClientByNick(T t, std::string name);
 
 // Kick.cpp
 void    kickHandler(std::vector<std::string> args, client &executor, std::vector<Channel>& channels);
-void    topicHandler(std::vector<std::string> args, std::vector<Channel>& channels);
+void    topicHandler(std::vector<std::string> args, std::vector<Channel>& channels, client &sender);
 
 #endif

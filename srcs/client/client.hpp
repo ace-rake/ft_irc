@@ -5,6 +5,7 @@
 #include <ostream>
 #include <string>
 #include <sys/poll.h>
+#include <vector>
 
 // Custom class: client
 class	client

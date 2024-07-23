@@ -1,6 +1,7 @@
 #include "Channel.hpp"
 #include <iostream>
 #include <sys/socket.h>
+#include <vector>
 #include "../irc.h"
 
 // Constructor
@@ -106,6 +107,14 @@ void	Channel::addInviteToList(int id)
 bool	Channel::isInInviteList(int id)const
 {
 	return (_inviteList.find(id) != _inviteList.end());
+}
+
+bool    Channel::isInClientList(client findClient)
+{
+    for (std::vector<client>::iterator it = _clients.begin(); it != _clients.end(); it++)
+        if (it->getId() == findClient.getId())
+            return true;
+    return false;
 }
 
 void	Channel::removeIdFromList(int id)

@@ -54,6 +54,6 @@ void	Server::commandHandler(std::string command, client & client)
     if (starts_with(command, "TOPIC "))
     {
         std::cout << "enter TOPIC" << std::endl;
-        topicHandler(args, _channels);
+        topicHandler(args, _channels, client);
     }
 }
