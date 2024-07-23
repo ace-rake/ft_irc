@@ -18,8 +18,11 @@ std::vector<std::string> split(std::string str);
 template<typename T>
 client * retrieveClientByNick(T t, std::string name);
 
+Channel* findChannelByName(const std::string& channelName, std::vector<Channel>& channels);
+
 // Kick.cpp
 void    kickHandler(std::vector<std::string> args, client &executor, std::vector<Channel>& channels);
 void    topicHandler(std::vector<std::string> args, std::vector<Channel>& channels, client &sender);
+void    partHandler(std::vector<std::string> args, std::vector<Channel>& channels, client &sender);
 
 #endif

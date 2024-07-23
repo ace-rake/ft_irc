@@ -526,3 +526,95 @@ QUIT :leaving
 
 QUIT :leaving
 
+MODE ubuntu +i
+
+PING serverhostname
+
+JOIN #hello
+
+JOIN #general
+
+JOIN #test
+
+MODE ubuntu +i
+
+PING serverhostname
+
+JOIN #hello
+
+JOIN #general
+
+JOIN #main
+
+QUIT :leaving
+
+MODE ubuntu +i
+
+PING serverhostname
+
+JOIN #hello
+
+JOIN #general
+
+JOIN #main
+
+QUIT :leaving
+
+MODE ubuntu +i
+
+PING serverhostname
+
+JOIN #hello
+
+PART #hello :hello
+
+PART #hello
+
+TOPIC #hello :hello world
+
+TOPIC hello world
+
+TOPIC hello
+
+QUIT :leaving
+
+MODE ubuntu +i
+
+PING serverhostname
+
+JOIN #hello
+
+PART #hello :hello
+
+MODE ubuntu +i
+
+PING serverhostname
+
+JOIN #hello
+
+PART #hello :hello
+
+PART #hello :this
+
+QUIT :leaving
+
+MODE ubuntu +i
+
+JOIN #hello
+
+PART #hello :hello
+
+PING serverhostname
+
+MODE ubuntu +i
+
+JOIN #hello
+
+PART #hello
+
+PING serverhostname
+
+PART #hello :hello
+
+QUIT :leaving
+

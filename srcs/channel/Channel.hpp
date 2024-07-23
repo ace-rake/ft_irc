@@ -6,6 +6,9 @@
 #include <string>
 #include <vector>
 #include "../client/client.hpp"
+
+class   client;
+
 class	Channel
 {
 	public:
@@ -31,6 +34,8 @@ class	Channel
 
         void    changeTopic(const std::string& newTopic);
         bool    isInClientList  (client client);
+		void	broadcastMsg		(std::string msg, client & sender);
+        void    broadcastMsg        (std::string str);
         
 
 
@@ -43,8 +48,6 @@ class	Channel
         std::string     _channelTopic;
 
 	private:
-		void	broadcastMsg		(std::string msg, client & sender);
-        void    broadcastMsg        (std::string str);
 		int	addClient		(client & client);
 };
 

@@ -53,6 +53,7 @@ void	Channel::handleJoinRequest(client & client, std::string psw)
 	if (_psw.compare(psw) != 0 && !_psw.empty() && !isInInviteList(client.getId()))
 		return ;// Cannot Join
 	addClient(client);
+    client.addToClientChannelList(this);
 }
 
 int	Channel::addClient(client & client)
