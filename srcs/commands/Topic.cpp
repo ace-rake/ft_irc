@@ -22,14 +22,14 @@ static Channel*    getChannel(std::vector<std::string> args, std::vector<Channel
     return (findChannelByNameTopic(channelName, channels));
 }
 
-void    changeTopic(Channel* referencedChannel, std::vector<std::string>args)
+void    changeTopic(Channel* referencedChannel, std::vector<std::string>args, Client& sender)
 {
     std::string newTopicName = args[3];
 
     for (size_t i = 4; i < args.size(); ++i)
         newTopicName += " " +  args[i];
 
-    referencedChannel->changeTopic(newTopicName);
+    referencedChannel->changeTopic(newTopicName, sender);
 }
 
 void    topicNoChannelFound(Client& sender)
@@ -58,5 +58,5 @@ void    topicHandler(std::vector<std::string> args, std::vector<Channel> &channe
         return ((void)topicUserNotInChannel(sender, wantedChannel));
 
     if (args.size() > 2)
-        changeTopic(wantedChannel, args);
+        changeTopic(wantedChannel, args, sender);
 }
