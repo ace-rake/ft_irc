@@ -164,6 +164,11 @@ client*	Server::getUser(userData field, std::string data)
 			funcptr = &client::getNickName;
 			break;
 		}
+		case (USER):
+		{
+			funcptr = &client::getUserName;
+			break;
+		}
 		default:
 			return (NULL);
 	}
