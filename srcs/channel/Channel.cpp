@@ -16,7 +16,7 @@ Channel::~Channel(void)
 	std::cout << "Channel:\tdestroying object\n";
 }
 
-void	Channel::sendMsgToAll(std::vector<std::string> args, client& sender)
+void	Channel::sendMsgToAll(std::vector<std::string> args, Client& sender)
 {
 	// Msg start from args[2].1;
 	std::string msg = ":" + sender.getNickName() + "!" + sender.getUserName() + "@" + sender.getHostName() + " PRIVMSG " + _channelName + " " + args[2];
@@ -25,7 +25,7 @@ void	Channel::sendMsgToAll(std::vector<std::string> args, client& sender)
 	broadcastMsg(msg, sender);
 }
 
-void	Channel::broadcastMsg(std::string str, client & sender)// Send a msg to all members of a channel, except to the sender
+void	Channel::broadcastMsg(std::string str, Client & sender)// Send a msg to all members of a channel, except to the sender
 {
 	for (int i = 0; i < _clients.size(); ++i)
 	{
@@ -44,7 +44,7 @@ void    Channel::broadcastMsg(std::string str)
     }
 }
 
-void	Channel::handleJoinRequest(client & client, std::string psw)
+void	Channel::handleJoinRequest(Client & client, std::string psw)
 {
 	if (retrieveClientById(client.getId()) != NULL)
 		return ;// Client already in channel
@@ -56,7 +56,7 @@ void	Channel::handleJoinRequest(client & client, std::string psw)
     client.addToClientChannelList(this);
 }
 
-int	Channel::addClient(client & client)
+int	Channel::addClient(Client & client)
 {
 	if (retrieveClientById(client.getId()) != NULL)
 		return 1;// Client already in channel
@@ -66,42 +66,42 @@ int	Channel::addClient(client & client)
 	return 0;
 }
 
-int	Channel::deleteClient(client c)
+int	Channel::deleteClient(Client c)
 {
-	std::vector<client>::const_iterator it = findClient(c);
+	std::vector<Client>::const_iterator it = findClient(c);
 	if (it != _clients.end())
 		_clients.erase(it);
 	return (0);
 }
 
-client* Channel::retrieveClientByNick(const std::string& name)
+Client* Channel::retrieveClientByNick(const std::string& name)
 {
-    for (std::vector<client>::iterator it = _clients.begin(); it != _clients.end(); ++it) {
+    for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); ++it) {
         if (it->getNickName() == name)
             return &(*it);
     }
     return NULL;
 }
 
-client * Channel::retrieveClientById(int id)
+Client * Channel::retrieveClientById(int id)
 {
-	for (std::vector<client>::iterator it = _clients.begin(); it != _clients.end(); it++)
+	for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); it++)
 		if (it->getId() == id)
 			return &(*it);
 	return NULL;
 }
 
-std::vector<client>::const_iterator	Channel::findClient(const client & findClient)const
+std::vector<Client>::const_iterator	Channel::findClient(const Client & findClient)const
 {
-	for (std::vector<client>::const_iterator it = _clients.begin(); it < _clients.end(); ++it)
+	for (std::vector<Client>::const_iterator it = _clients.begin(); it < _clients.end(); ++it)
 		if (*it == findClient)
 			return it;
 	return _clients.end();
 }
 
-bool    Channel::clientIsOperator(client findClient)
+bool    Channel::clientIsOperator(Client findClient)
 {
-	for (std::vector<client>::iterator it = _opList.begin(); it != _opList.end(); it++)
+	for (std::vector<Client>::iterator it = _opList.begin(); it != _opList.end(); it++)
         if (it->getId() == findClient.getId())
             return true;
     return false;
@@ -118,9 +118,9 @@ bool	Channel::isInInviteList(int id)const
 	return (_inviteList.find(id) != _inviteList.end());
 }
 
-bool    Channel::isInClientList(client findClient)
+bool    Channel::isInClientList(Client findClient)
 {
-    for (std::vector<client>::iterator it = _clients.begin(); it != _clients.end(); it++)
+    for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); it++)
         if (it->getId() == findClient.getId())
             return true;
     return false;

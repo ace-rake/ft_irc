@@ -5,7 +5,7 @@
 
 #include <string>
 #include <vector>
-#include "client/client.hpp"
+#include "client/Client.hpp"
 #include "channel/Channel.hpp"
 #define MAX_CLIENTS 100 // Max allowed amount of clients
 #define PORT        6667 // 6667 is the most used port for irc
@@ -16,13 +16,13 @@
 
 std::vector<std::string> split(std::string str);
 template<typename T>
-client * retrieveClientByNick(T t, std::string name);
+Client * retrieveClientByNick(T t, std::string name);
 
 Channel* findChannelByName(const std::string& channelName, std::vector<Channel>& channels);
 
 // Kick.cpp
-void    kickHandler(std::vector<std::string> args, client &executor, std::vector<Channel>& channels);
-void    topicHandler(std::vector<std::string> args, std::vector<Channel>& channels, client &sender);
-void    partHandler(std::vector<std::string> args, std::vector<Channel>& channels, client &sender);
+void    kickHandler(std::vector<std::string> args, Client &executor, std::vector<Channel>& channels);
+void    topicHandler(std::vector<std::string> args, std::vector<Channel>& channels, Client &sender);
+void    partHandler(std::vector<std::string> args, std::vector<Channel>& channels, Client &sender);
 
 #endif

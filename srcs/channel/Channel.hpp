@@ -5,9 +5,9 @@
 #include <set>
 #include <string>
 #include <vector>
-#include "../client/client.hpp"
+#include "../client/Client.hpp"
 
-class   client;
+class   Client;
 
 class	Channel
 {
@@ -19,14 +19,14 @@ class	Channel
 		~Channel	(void);
 
 		std::string getName()const{return _channelName;}
-		void	handleJoinRequest	(client & client, std::string psw = "");
-		void	sendMsgToAll		(std::vector<std::string> args, client& client);
-		std::vector<client> getClients(){return _clients;}
-		int	deleteClient		(client client);
-		client *	retrieveClientByNick(const std::string& name);
-		client *	retrieveClientById(int id);
-		std::vector<client>::const_iterator	findClient(const client & client)const;
-		bool    clientIsOperator(client client);
+		void	handleJoinRequest	(Client & client, std::string psw = "");
+		void	sendMsgToAll		(std::vector<std::string> args, Client& client);
+		std::vector<Client> getClients(){return _clients;}
+		int	deleteClient		(Client client);
+		Client *	retrieveClientByNick(const std::string& name);
+		Client *	retrieveClientById(int id);
+		std::vector<Client>::const_iterator	findClient(const Client & client)const;
+		bool    clientIsOperator(Client client);
         std::string getTopic()const{return _channelTopic;}
 
 		void	addInviteToList	(int id);
@@ -34,8 +34,8 @@ class	Channel
 		void	removeIdFromList(int id);
 
         void    changeTopic(const std::string& newTopic);
-        bool    isInClientList  (client client);
-		void	broadcastMsg		(std::string msg, client & sender);
+        bool    isInClientList  (Client client);
+		void	broadcastMsg		(std::string msg, Client & sender);
         void    broadcastMsg        (std::string str);
         
 
@@ -43,14 +43,14 @@ class	Channel
 
 	private:
 		std::string		_channelName;
-		std::vector<client>	_clients;
+		std::vector<Client>	_clients;
 		std::string		_psw;
-		std::vector<client>	_opList;
+		std::vector<Client>	_opList;
 		std::set<int>		_inviteList; // List of userId's that were invited
         std::string     _channelTopic;
 
 	private:
-		int	addClient		(client & client);
+		int	addClient		(Client & client);
 };
 
 #endif

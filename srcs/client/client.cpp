@@ -1,4 +1,4 @@
-#include "client.hpp"
+#include "Client.hpp"
 #include <algorithm>
 #include <arpa/inet.h>
 #include <cstdlib>
@@ -12,7 +12,7 @@
 #include <iostream>
 
 // Constructor
-client::client()
+Client::Client()
 {
 	static int id = 0;
 	_server_fd = -1;
@@ -21,21 +21,21 @@ client::client()
 }
 
 // Destructor
-client::~client(void)
+Client::~Client(void)
 {
 }
 
-void	client::send_message(std::string str)
+void	Client::send_message(std::string str)
 {
 	send(_server_fd, str.c_str(), str.size(), 0);
 }
 
-struct pollfd &	client::getFd()const
+struct pollfd &	Client::getFd()const
 {
 	return *_client_fd;
 }
 
-void	client::setFd(struct pollfd * fd)
+void	Client::setFd(struct pollfd * fd)
 {
 	_client_fd = fd;
 }
@@ -51,7 +51,7 @@ std::vector<std::string> split(std::string str)
 	return words;
 }
 
-void	client::create(std::string userData)
+void	Client::create(std::string userData)
 {
 	//CAP LS 
 	//NICK vdenisse 
@@ -88,30 +88,30 @@ void	client::create(std::string userData)
 }
 //FUCK
 
-void    client::sendMessageToClient(std::string message) const
+void    Client::sendMessageToClient(std::string message) const
 {
     std::string buffer = message + "\r\n";
     if (send(this->getFd().fd, buffer.c_str(), buffer.size(), 0) < 0)
         throw std::runtime_error("Error while sending message to the client");
 }
 
-void    client::addToClientChannelList(Channel* channel)
+void    Client::addToClientChannelList(Channel* channel)
 {
     removeFromClientChannelList(channel);
     _channelNames.push_back(channel->getName());
 }
 
-void    client::removeFromClientChannelList(Channel* channel)
+void    Client::removeFromClientChannelList(Channel* channel)
 {
     _channelNames.erase(std::remove(_channelNames.begin(), _channelNames.end(), channel->getName()), _channelNames.end());
 }
 
-const bool client::operator==(const client & other)const
+const bool Client::operator==(const Client & other)const
 {
 	return this->_clientId == other._clientId;
 }
 
-std::ostream& operator << (std::ostream &os,const client & client)
+std::ostream& operator << (std::ostream &os,const Client & client)
 {
 
 	os << "Host name " << client.getHostName() << std::endl;

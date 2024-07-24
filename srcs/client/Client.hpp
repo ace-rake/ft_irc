@@ -9,15 +9,15 @@
 
 class   Channel;
 
-// Custom class: client
-class	client
+// Custom class: Client
+class	Client
 {
 	public:
 		// Constructor
-		client	(	void	);
+		Client	(	void	);
 
 		// Destructor
-		~client	(void);
+		~Client	(void);
 
 
 		struct pollfd &	getFd 	(	void	)const;
@@ -26,7 +26,7 @@ class	client
 
 		void	run	(	void	);
 
-		const bool operator == (const client & other)const;
+		const bool operator == (const Client & other)const;
 
 		std::string	getHostName()const{return _hostName;}
 		std::string	getNickName()const{return _nickName;}
@@ -62,6 +62,6 @@ class	client
 		void	receiveClientFd();
 };
 
-std::ostream& operator << (std::ostream& os, const client& client);
+std::ostream& operator << (std::ostream& os, const Client& client);
 
 #endif
