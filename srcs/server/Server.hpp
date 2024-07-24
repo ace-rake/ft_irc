@@ -2,11 +2,22 @@
 # define SERVER_HPP
 
 # include <netinet/in.h>
+#include <arpa/inet.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <netdb.h>
+#include <sys/poll.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+#include <unistd.h>
+#include <stdlib.h>
 #include <sys/poll.h>
 #include <vector>
 #include "../irc.h"
 #include "../channel/Channel.hpp"
-#include "../client/client.hpp"
+#include "../client/Client.hpp"
 
 typedef enum
 {
@@ -28,7 +39,7 @@ class	Server
 		~Server	(void);
 
 		void	run(void);
-		client * getClients(){return _clients;}
+		Client * getClients(){return _clients;}
 
 		// Logging purposes TODO delete this after
 		void logCommand(std::string);
@@ -44,7 +55,7 @@ class	Server
 		struct pollfd &		_server;
 
 		struct pollfd		_fds[MAX_CLIENTS + 1];
-		client			_clients[MAX_CLIENTS];
+		Client			_clients[MAX_CLIENTS];
 
 		std::vector<Channel>	_channels;
 
@@ -52,7 +63,7 @@ class	Server
 	protected:
 		void		idle			(void);
 		void		handleNewConnection	(void);
-		std::string	handleClientMessage	(client & client);
+		std::string	handleClientMessage	(Client & client);
 
 		// ServerIp.cpp
 		bool		findSuitableIp		(struct hostent *host);
@@ -67,26 +78,26 @@ class	Server
 
 		std::string	receiveUserData	(struct pollfd client);
 		std::string	readUserData	(int &fd);
-		void		createNewClient	(client & client);
+		void		createNewClient	(Client & client);
 
 		// Commands
-		void		commandHandler	(std::string command, client & client);
+		void		commandHandler	(std::string command, Client & client);
 		Channel *	findChannel	(std::string name);
-		void		joinHandler	(std::vector<std::string> args, client &client);
-		void		joinChannel	(std::string name, client & client);
-		void		joinChannel	(std::string name, client & client, std::string psw);
+		void		joinHandler	(std::vector<std::string> args, Client &client);
+		void		joinChannel	(std::string name, Client & client);
+		void		joinChannel	(std::string name, Client & client, std::string psw);
 		Channel *	createChannel	(std::string name, std::string psw = "");
 
 		void		inviteToChannel	(std::string ChannelName, std::string nickName);
 
-		void		setNewNick(client & client, std::string newNick);
+		void		setNewNick(Client & client, std::string newNick);
 
-		void		part(const client & client, std::string channel);
+		/* void		part(const client & client, std::string channel); */
 
 		void		broadCastMsg	(std::string msg);
-		void		privateMsg	(std::vector<std::string> args, client & sender);
+		void		privateMsg	(std::vector<std::string> args, Client & sender);
 
-		client *	getUser		(userData, std::string);
+		Client *	getUser		(userData, std::string);
 };
 
 #endif
