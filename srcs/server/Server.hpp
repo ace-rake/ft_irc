@@ -81,6 +81,8 @@ class	Server
 
 		void		setNewNick(client & client, std::string newNick);
 
+		void		part(const client & client, std::string channel);
+
 		void		broadCastMsg	(std::string msg);
 		void		privateMsg	(std::vector<std::string> args, client & sender);
 
