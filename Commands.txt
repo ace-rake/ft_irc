@@ -779,3 +779,137 @@ QUIT :leaving
 
 QUIT :leaving
 
+MODE quinten +i
+
+PING serverhostname
+
+JOIN #hello
+
+JOIN #gen
+
+QUIT :leaving
+
+MODE quinten +i
+
+JOIN #hello
+
+PING serverhostname
+
+TOPIC #hello :hello rawr
+
+MODE quinten +i
+
+PING serverhostname
+
+JOIN #hello
+
+TOPIC #hello :hello quinten
+
+MODE quinten +i
+
+PING serverhostname
+
+JOIN #hellio
+
+TOPIC #hellio :hellio Cool
+
+MODE quinten +i
+
+PING serverhostname
+
+MODE test +i
+
+PING serverhostname
+
+NICK victor
+
+PRIVMSG victor :hola chicka
+
+PRIVMSG quinten :ayo fuck you
+
+PRIVMSG victor :hola
+
+PRIVMSG quinten :how you doin
+
+PRIVMSG quinten :this some good shit
+
+QUIT :leaving
+
+MODE test +i
+
+MODE quinten +i
+
+PING serverhostname
+
+PING serverhostname
+
+JOIN #helo
+
+JOIN #hello
+
+PRIVMSG #hello :hola
+
+NICK victor
+
+PRIVMSG #helo :wowo
+
+PRIVMSG #helo :uwu
+
+JOIN #hello
+
+PRIVMSG #hello :uwu
+
+KICK #hello victor :
+
+PRIVMSG #helo :uwu
+
+JOIN #hello
+
+PRIVMSG #hello :uwu
+
+KICK #hello quinten :
+
+QUIT :leaving
+
+MODE test +i
+
+MODE quinten +i
+
+PING serverhostname
+
+JOIN #hello
+
+PING serverhostname
+
+JOIN #hello
+
+NICK victor
+
+KICK #hello victor :
+
+KICK #hello hu :
+
+KICK #hello quinten :
+
+KICK #hello non :
+
+KICK #hello non :
+
+KICK #hello non :
+
+KICK #hello non :
+
+KICK #hello non :
+
+KICK #hello non :
+
+QUIT :leaving
+
+MODE quinten +i
+
+PING serverhostname
+
+JOIN #hello
+
+KICK #hello hfufh :
+

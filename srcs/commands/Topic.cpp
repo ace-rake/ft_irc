@@ -22,7 +22,7 @@ static Channel*    getChannel(std::vector<std::string> args, std::vector<Channel
     return (findChannelByNameTopic(channelName, channels));
 }
 
-void    changeTopic(Channel* referencedChannel, std::vector<std::string>args, Client& sender)
+void    changeTopic(Channel* referencedChannel, std::vector<std::string>args, Client &sender)
 {
     std::string newTopicName = args[3];
 

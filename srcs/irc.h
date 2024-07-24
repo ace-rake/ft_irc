@@ -29,7 +29,7 @@ Client * retrieveClientByNick(T t, std::string name);
 Channel* findChannelByName(const std::string& channelName, std::vector<Channel>& channels);
 
 // Kick.cpp
-void    kickHandler(std::vector<std::string> args, Client &executor, std::vector<Channel>& channels);
+void    kickHandler(std::vector<std::string> args, Client &sender, std::vector<Channel>& channels);
 void    topicHandler(std::vector<std::string> args, std::vector<Channel>& channels, Client &sender);
 void    partHandler(std::vector<std::string> args, std::vector<Channel>& channels, Client &sender);
 
