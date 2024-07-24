@@ -99,7 +99,11 @@ void    kickHandler(std::vector<std::string> args, Client &sender, std::vector<C
 	if (!wantedChannel)
 		return ((void)kickNoChannelFound(sender));
 
-	std::vector<Client>::iterator  victim = (wantedChannel->findClient(NICK, args[2]));
+	std::vector<Client>::iterator  victim = wantedChannel->findClient(NICK, args[2]);
+	std::vector<Client> clients = wantedChannel->getClients();
+	std::vector<Client>::iterator endIter = clients.end();
+	std::cout << "Victim iterator: " << &(*victim) << ", End iterator: " << &(*endIter) << std::endl;
+
 	if (victim == wantedChannel->getClients().end())
 		return ((void)kickNoVictimFound(sender));
 
