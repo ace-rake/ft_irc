@@ -19,7 +19,7 @@ Channel::~Channel(void)
 
 void	Channel::handleJoinRequest(Client & client, std::string psw)
 {
-	if (findClient(ID, std::to_string(client.getId())) != _clients.end())
+	if (findClient(ID, client.getId()) != _clients.end())
 		return ;// Client already in channel
 	// TODO: Check blacklist
 	// TODO: Check join permission for channel
@@ -31,7 +31,7 @@ void	Channel::handleJoinRequest(Client & client, std::string psw)
 
 int	Channel::addClient(Client & client)
 {
-	if (findClient(ID, std::to_string(client.getId())) != _clients.end())
+	if (findClient(ID, client.getId()) != _clients.end())
 		return 1;// Client already in channel
 	_clients.push_back(client);
     if (_opList.empty())

@@ -1,5 +1,6 @@
 #include "Channel.hpp"
 #include <iostream>
+#include <stdexcept>
 
 int	Channel::deleteClient(Client c)
 {
@@ -65,8 +66,7 @@ std::vector<Client>::iterator	Channel::findClient(userData field, const std::str
 		}
 		default:
 		{
-			std::cerr << "find client default, You need to add your field to the switch case" << std::endl;
-			return _clients.end();
+			throw std::runtime_error("find client default, You need to add your field to the switch case");
 		}
 	}
 	for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); ++it)
