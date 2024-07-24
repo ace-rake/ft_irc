@@ -33,6 +33,20 @@ int	Channel::deleteClient(Client c)
 /* 			return it; */
 /* 	return _clients.end(); */
 /* } */
+std::vector<Client>::iterator	Channel::findClient(userData field, int id)
+{
+	if (field != ID)
+	{
+		std::cerr << "wrong field" << std::endl;
+		return _clients.end();
+	}
+	for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); ++it)
+	{
+		if (it->getId()== id)
+			return it;
+	}
+	return _clients.end();
+}
 
 std::vector<Client>::iterator	Channel::findClient(userData field, const std::string data)
 {

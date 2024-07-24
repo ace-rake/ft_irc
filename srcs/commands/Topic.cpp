@@ -1,5 +1,6 @@
 #include "../irc.h"
 #include <iostream>
+#include "../channel/Channel.hpp"
 
 Channel* findChannelByNameTopic(const std::string& channelName, std::vector<Channel>& channels)
 {
@@ -53,7 +54,7 @@ void    topicHandler(std::vector<std::string> args, std::vector<Channel> &channe
     if (!wantedChannel)
         return ((void)topicNoChannelFound(sender));
 
-    if (wantedChannel->findClient(sender) != wantedChannel->getClients().end())
+    if (wantedChannel->findClient(ID, sender.getId()) == wantedChannel->getClients().end())
         return ((void)topicUserNotInChannel(sender, wantedChannel));
 
     if (args.size() > 2)

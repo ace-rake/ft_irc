@@ -27,6 +27,7 @@ class	Channel
 		/* Client *	retrieveClientById(int id); */
 		/* std::vector<Client>::const_iterator	findClient(const Client & client)const; */
 		std::vector<Client>::iterator	findClient(userData, const std::string);
+		std::vector<Client>::iterator	findClient(userData, int);
 
 		void	handleJoinRequest	(Client & client, std::string psw = "");
 		void	sendMsgToAll		(std::vector<std::string> args, Client& client);
