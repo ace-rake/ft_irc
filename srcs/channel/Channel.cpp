@@ -39,7 +39,7 @@ int	Channel::addClient(Client & client)
 	return 0;
 }
 
-void Channel::changeTopic(const std::string& newTopic)
+void Channel::changeTopic(const std::string& newTopic, Client& sender)
 {
     this->_channelTopic = newTopic;
 
@@ -48,6 +48,6 @@ void Channel::changeTopic(const std::string& newTopic)
     broadcastMsg(topicChangeMsg);
 
     // Notify all clients in the channel that the topic has been changed
-    std::string topicNotificationMsg = ":server TOPIC " + _channelName + " :" + _channelTopic;
+    std::string topicNotificationMsg = ":" + sender.getNickName() + "!" + sender.getUserName() + "@" + sender.getHostName() + " TOPIC " + _channelName + " :" + _channelTopic;
     broadcastMsg(topicNotificationMsg);
 }

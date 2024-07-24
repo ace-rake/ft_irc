@@ -39,7 +39,7 @@ class	Channel
 		bool	isInInviteList	(int id)const;
 		void	removeIdFromList(int id);
 
-		void    changeTopic		(const std::string& newTopic);
+		void    changeTopic		(const std::string& newTopic, Client& client);
 		bool    isInClientList		(Client client);
 		void	broadcastMsg		(std::string msg, Client & sender);
 		void    broadcastMsg		(std::string str);
