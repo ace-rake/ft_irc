@@ -1,9 +1,9 @@
 #include "../server/Server.hpp"
 #include <iostream>
 
-void Server::privateMsg(std::vector<std::string> args, client &sender)
+void Server::privateMsg(std::vector<std::string> args, Client &sender)
 {
-	client * recipient = getUser(NICK, args[1]);
+	Client * recipient = getUser(NICK, args[1]);
 	if (!recipient)
 		return ; // Recipients doesnt exist
 	std::string msg(args[0]);

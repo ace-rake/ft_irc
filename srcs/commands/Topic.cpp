@@ -31,7 +31,7 @@ void    changeTopic(Channel* referencedChannel, std::vector<std::string>args)
     referencedChannel->changeTopic(newTopicName);
 }
 
-void    topicNotEnoughParam(client& sender)
+void    topicNotEnoughParam(Client& sender)
 {
     std::cerr << "Error: Not enough parameters for TOPIC command." << std::endl;
     
@@ -40,13 +40,13 @@ void    topicNotEnoughParam(client& sender)
     sender.sendMessageToClient(clientMessage);
 }
 
-void    topicNoChannelFound(client& sender)
+void    topicNoChannelFound(Client& sender)
 {
     std::cerr << "Error: No channel found for TOPIC command." << std::endl;
     sender.sendMessageToClient("TOPIC: No channel found with this name");
 }
 
-void    topicUserNotInChannel(client& sender, Channel* channel)
+void    topicUserNotInChannel(Client& sender, Channel* channel)
 {
     std::cerr << "Error: Sender is not in the right channel for TOPIC command" << std::endl;
 
@@ -55,21 +55,21 @@ void    topicUserNotInChannel(client& sender, Channel* channel)
     sender.sendMessageToClient(clientMessage);
 }
 
-void    noTopicSet(client& sender, Channel* channel)
+void    noTopicSet(Client& sender, Channel* channel)
 {
     std::string clientMessage = ":server 331 " + sender.getNickName() + " " + channel->getName() + " :No topic is set";
     std::cout << clientMessage << std::endl;
     sender.sendMessageToClient(clientMessage);
 }
 
-void    topicDisplay(client& sender, Channel* channel, std::string topic)
+void    topicDisplay(Client& sender, Channel* channel, std::string topic)
 {
     std::string clientMessage = ":server 332 " + sender.getNickName() + " " + channel->getName() + " :" + topic;
     std::cout << clientMessage << std::endl;
     sender.sendMessageToClient(clientMessage);
 }
 
-void    topicHandler(std::vector<std::string> args, std::vector<Channel>& channels, client& sender)
+void    topicHandler(std::vector<std::string> args, std::vector<Channel>& channels, Client& sender)
 {
     if (args.size() < 2)
         return ((void)topicNotEnoughParam(sender));

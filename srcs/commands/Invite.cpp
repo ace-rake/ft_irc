@@ -1,7 +1,7 @@
 #include "../server/Server.hpp"
 #include <iostream>
 
-static std::string generateMsg(client * client, std::string invitee, std::string channelName)
+static std::string generateMsg(Client * client, std::string invitee, std::string channelName)
 {
 	//:inviting_user_nick!inviting_user_user@inviting_user_host INVITE invitee_nick :#channel
 
@@ -21,7 +21,7 @@ static std::string generateMsg(client * client, std::string invitee, std::string
 void Server::inviteToChannel(std::string channelName, std::string inviteeNick)
 {
 	// Check if invitee exists
-	client * client = getUser(NICK, inviteeNick);
+	Client * client = getUser(NICK, inviteeNick);
 	if (!client)
 	{
 		std::cerr << "No client by such a nick" << std::endl;

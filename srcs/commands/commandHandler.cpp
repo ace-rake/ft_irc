@@ -6,7 +6,7 @@ bool starts_with(const std::string& str, const std::string& cmd) {
 	return str.compare(0, cmd.size(), cmd) == 0;
 }
 
-void	Server::commandHandler(std::string command, client & client)
+void	Server::commandHandler(std::string command, Client & client)
 {
 	std::vector<std::string> args = split(command);
 	std::cout << "enter commandHandler" << std::endl;

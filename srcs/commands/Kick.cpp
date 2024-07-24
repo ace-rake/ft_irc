@@ -1,6 +1,6 @@
 #include <cstddef>
 #include <vector>
-#include "../client/client.hpp"
+#include "../client/Client.hpp"
 #include "../irc.h"
 #include <iostream>
 #include "../channel/Channel.hpp"
@@ -15,7 +15,7 @@ Channel* findChannelByName(const std::string& channelName, std::vector<Channel>&
     return NULL;
 }
 
-void    kickHandler(std::vector<std::string> args, client &executor, std::vector<Channel>& channels)
+void    kickHandler(std::vector<std::string> args, Client &executor, std::vector<Channel>& channels)
 {
     if (args.size() < 3)
     {
@@ -39,7 +39,7 @@ void    kickHandler(std::vector<std::string> args, client &executor, std::vector
         return;
     }
 
-    client  *victim = channel->retrieveClientByNick(victimName);
+    Client  *victim = channel->retrieveClientByNick(victimName);
     if (!victim)
     {
         std::cerr << "Error: Victim not found in the channel." << std::endl;
