@@ -1,6 +1,7 @@
 #include "Channel.hpp"
 #include <iostream>
 #include <stdexcept>
+#include <vector>
 
 int	Channel::deleteClient(Client c)
 {
@@ -8,6 +9,26 @@ int	Channel::deleteClient(Client c)
 	if (it != _clients.end())
 		_clients.erase(it);
 	return (0);
+}
+
+void    Channel::kickUser(Client sender, std::string victimName, std::vector<std::string>args)
+{
+    // still doesnt work tho
+    if (findClient(USER, victimName) == getClients().end())
+    {
+        std::cerr << "Error: Victim is not found in channel" << std::endl;
+        sender.sendMessageToClient("KICK: User doesn't exists in channel");
+        return ;
+    }
+
+    //deleteClient(Client c) -- dont think we have a function for this yet
+
+    std::string kickMessage = ":" + sender.getNickName() + " KICK " + getName() + " " + victimName + " :";
+
+    for (size_t i = 4; i < args.size(); ++i)
+		kickMessage += " " + args[i];
+
+    sender.sendMessageToClient(kickMessage);
 }
 
 /* Client* Channel::retrieveClientByNick(const std::string& name) */

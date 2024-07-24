@@ -44,6 +44,8 @@ class	Channel
 		void	broadcastMsg		(std::string msg, Client & sender);
 		void    broadcastMsg		(std::string str);
 
+        void    kickUser(Client sender, std::string victimName, std::vector<std::string>args);
+
 
 
 

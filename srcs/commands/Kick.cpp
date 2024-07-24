@@ -87,10 +87,10 @@ void    kickNoChannelFound(Client& sender)
 	sender.sendMessageToClient("KICK: No channel found with this name");
 }
 
-void    kickNoVictimFound(Client& sender)
+void    kickNoPerms(Client& sender)
 {
-	std::cerr << "Error: The user trying to be kicked doesn't exist." << std::endl;
-	sender.sendMessageToClient("KICK: User doesn't exist");
+	std::cerr << "Error: Sender doesn't have OP rights." << std::endl;
+	sender.sendMessageToClient("KICK: You don't have the right permissions for this action");
 }
 
 void    kickHandler(std::vector<std::string> args, Client &sender, std::vector<Channel> &channels)
@@ -99,20 +99,8 @@ void    kickHandler(std::vector<std::string> args, Client &sender, std::vector<C
 	if (!wantedChannel)
 		return ((void)kickNoChannelFound(sender));
 
-	std::vector<Client>::iterator  victim = wantedChannel->findClient(NICK, args[2]);
-	std::vector<Client> clients = wantedChannel->getClients();
-	std::vector<Client>::iterator endIter = clients.end();
-	std::cout << "Victim iterator: " << &(*victim) << ", End iterator: " << &(*endIter) << std::endl;
+    if (!wantedChannel->clientIsOperator(sender))
+        return ((void)kickNoPerms(sender));
 
-	if (victim == wantedChannel->getClients().end())
-		return ((void)kickNoVictimFound(sender));
-
-	wantedChannel->deleteClient(*victim);
-
-	std::string kickMessage = ":" + sender.getNickName() + " KICK " + wantedChannel->getName() + " " + victim->getNickName() + " :";
-
-	for (size_t i = 4; i < args.size(); ++i)
-		kickMessage += " " + args[i];
-
-	sender.sendMessageToClient(kickMessage);
+    wantedChannel->kickUser(sender, args[2], args);
 }

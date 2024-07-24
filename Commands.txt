@@ -913,3 +913,41 @@ JOIN #hello
 
 KICK #hello hfufh :
 
+MODE quinten +i
+
+PING serverhostname
+
+JOIN #hello
+
+KICK #hello hello :
+
+KICK #hello lol :
+
+KICK #hello lolwjefuehfuiefh :
+
+QUIT :leaving
+
+MODE quinten +i
+
+PING serverhostname
+
+JOIN #hello
+
+KICK #hello yoyoy :
+
+MODE quinten +i
+
+PING serverhostname
+
+JOIN #hello
+
+KICK #hello hefuhfufe :
+
+MODE quinten +i
+
+PING serverhostname
+
+JOIN #hello
+
+KICK #hello ufSHUIHFF :
+
