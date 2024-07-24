@@ -51,4 +51,9 @@ void	Server::commandHandler(std::string command, client & client)
 		std::cout << "enter NICK" << std::endl;
 		setNewNick(client, args[1]);
 	}
+	if (starts_with(command, "PART"))
+	{
+		std::cout << "enter PART" << std::endl;
+		part(client, args[1]);
+	}
 }
