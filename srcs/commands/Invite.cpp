@@ -40,7 +40,7 @@ void Server::inviteToChannel(std::string channelName, std::string inviteeNick)
 	int clientId = client->getId();
 
 	// Check if invitee is not already in channel
-	if (channel->retrieveClientById(clientId))
+	if (channel->findClient(ID, std::to_string(clientId)) != channel->getClients().end())
 	{
 		std::cerr << "Client already in channel" << std::endl;
 	}

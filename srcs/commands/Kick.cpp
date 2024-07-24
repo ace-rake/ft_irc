@@ -39,7 +39,7 @@ void    kickHandler(std::vector<std::string> args, Client &executor, std::vector
         return;
     }
 
-    Client  *victim = channel->retrieveClientByNick(victimName);
+    Client  *victim = &(*(channel->findClient(NICK, victimName)));
     if (!victim)
     {
         std::cerr << "Error: Victim not found in the channel." << std::endl;

@@ -19,14 +19,6 @@
 #include "../channel/Channel.hpp"
 #include "../client/Client.hpp"
 
-typedef enum
-{
-	USER,
-	NICK,
-	REAL,
-	HOST,
-	IP
-} userData;
 
 // Custom class: Server
 class	Server

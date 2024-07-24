@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include "../client/Client.hpp"
+#include "../irc.h"
 
 class   Client;
 
@@ -22,9 +23,10 @@ class	Channel
 		std::vector<Client> getClients(){return _clients;}
 		std::string getTopic()const{return _channelTopic;}
 
-		Client *	retrieveClientByNick(const std::string& name);
-		Client *	retrieveClientById(int id);
-		std::vector<Client>::const_iterator	findClient(const Client & client)const;
+		/* Client *	retrieveClientByNick(const std::string& name); */
+		/* Client *	retrieveClientById(int id); */
+		/* std::vector<Client>::const_iterator	findClient(const Client & client)const; */
+		std::vector<Client>::iterator	findClient(userData, const std::string);
 
 		void	handleJoinRequest	(Client & client, std::string psw = "");
 		void	sendMsgToAll		(std::vector<std::string> args, Client& client);

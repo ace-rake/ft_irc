@@ -1,35 +1,65 @@
 #include "Channel.hpp"
+#include <iostream>
 
 int	Channel::deleteClient(Client c)
 {
-	std::vector<Client>::const_iterator it = findClient(c);
+	std::vector<Client>::const_iterator it = findClient(USER, c.getUserName());
 	if (it != _clients.end())
 		_clients.erase(it);
 	return (0);
 }
 
-Client* Channel::retrieveClientByNick(const std::string& name)
-{
-    for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); ++it) {
-        if (it->getNickName() == name)
-            return &(*it);
-    }
-    return NULL;
-}
+/* Client* Channel::retrieveClientByNick(const std::string& name) */
+/* { */
+/*     for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); ++it) { */
+/*         if (it->getNickName() == name) */
+/*             return &(*it); */
+/*     } */
+/*     return NULL; */
+/* } */
+/*  */
+/* Client * Channel::retrieveClientById(int id) */
+/* { */
+/* 	for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); it++) */
+/* 		if (it->getId() == id) */
+/* 			return &(*it); */
+/* 	return NULL; */
+/* } */
+/*  */
+/* std::vector<Client>::const_iterator	Channel::findClient(const Client & findClient)const */
+/* { */
+/* 	for (std::vector<Client>::const_iterator it = _clients.begin(); it < _clients.end(); ++it) */
+/* 		if (*it == findClient) */
+/* 			return it; */
+/* 	return _clients.end(); */
+/* } */
 
-Client * Channel::retrieveClientById(int id)
+std::vector<Client>::iterator	Channel::findClient(userData field, const std::string data)
 {
-	for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); it++)
-		if (it->getId() == id)
-			return &(*it);
-	return NULL;
-}
-
-std::vector<Client>::const_iterator	Channel::findClient(const Client & findClient)const
-{
-	for (std::vector<Client>::const_iterator it = _clients.begin(); it < _clients.end(); ++it)
-		if (*it == findClient)
+	
+	std::string (Client::*funcptr)()const;
+	switch (field){
+		case (NICK):
+		{
+			funcptr = &Client::getNickName;
+			break;
+		}
+		case (USER):
+		{
+			funcptr = &Client::getUserName;
+			break;
+		}
+		default:
+		{
+			std::cerr << "find client default, You need to add your field to the switch case" << std::endl;
+			return _clients.end();
+		}
+	}
+	for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); ++it)
+	{
+		if ((*it.*funcptr)() == data)
 			return it;
+	}
 	return _clients.end();
 }
 
