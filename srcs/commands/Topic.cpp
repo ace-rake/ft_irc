@@ -31,15 +31,6 @@ void    changeTopic(Channel* referencedChannel, std::vector<std::string>args)
     referencedChannel->changeTopic(newTopicName);
 }
 
-void    topicNotEnoughParam(Client& sender)
-{
-    std::cerr << "Error: Not enough parameters for TOPIC command." << std::endl;
-    
-    std::string clientMessage = ":server 416 " + sender.getNickName() + " TOPIC :Not enough parameters";
-
-    sender.sendMessageToClient(clientMessage);
-}
-
 void    topicNoChannelFound(Client& sender)
 {
     std::cerr << "Error: No channel found for TOPIC command." << std::endl;
@@ -55,50 +46,16 @@ void    topicUserNotInChannel(Client& sender, Channel* channel)
     sender.sendMessageToClient(clientMessage);
 }
 
-void    noTopicSet(Client& sender, Channel* channel)
+void    topicHandler(std::vector<std::string> args, std::vector<Channel> &channels, Client &sender)
 {
-    std::string clientMessage = ":server 331 " + sender.getNickName() + " " + channel->getName() + " :No topic is set";
-    std::cout << clientMessage << std::endl;
-    sender.sendMessageToClient(clientMessage);
-}
-
-void    topicDisplay(Client& sender, Channel* channel, std::string topic)
-{
-    std::string clientMessage = ":server 332 " + sender.getNickName() + " " + channel->getName() + " :" + topic;
-    std::cout << clientMessage << std::endl;
-    sender.sendMessageToClient(clientMessage);
-}
-
-void    topicHandler(std::vector<std::string> args, std::vector<Channel>& channels, Client& sender)
-{
-    if (args.size() < 2)
-        return ((void)topicNotEnoughParam(sender));
-
     Channel*    wantedChannel = getChannel(args, channels);
 
     if (!wantedChannel)
         return ((void)topicNoChannelFound(sender));
-    else
-    {
-        if (!wantedChannel->isInClientList(sender))
-            return ((void)topicUserNotInChannel(sender, wantedChannel));
-        else
-        {
-            if (args.size() == 2)
-            {
-                std::string currentTopic = wantedChannel->getTopic();
 
-                // this currently doesn't display because we need to send it as a private message in the channel the user is in.
+    if (wantedChannel->findClient(sender) != wantedChannel->getClients().end())
+        return ((void)topicUserNotInChannel(sender, wantedChannel));
 
-                if (currentTopic.empty())
-                    return ((void)noTopicSet(sender, wantedChannel));
-                else
-                    return ((void)topicDisplay(sender, wantedChannel, currentTopic));
-
-                // end
-            }
-            else
-                changeTopic(wantedChannel, args);
-        }
-    }
+    if (args.size() > 2)
+        changeTopic(wantedChannel, args);
 }

@@ -618,3 +618,164 @@ PART #hello :hello
 
 QUIT :leaving
 
+MODE quinten +i
+
+PING serverhostname
+
+JOIN #helloi
+
+PRIVMSG #helloi :hi
+
+QUIT :leaving
+
+MODE quinten +i
+
+PING serverhostname
+
+MODE test +i
+
+PING serverhostname
+
+JOIN #general
+
+PRIVMSG #general :hi
+
+JOIN #general
+PRIVMSG #general :wow
+
+PRIVMSG #general :gh
+
+PRIVMSG #general :wowa
+
+QUIT :leaving
+
+MODE test +i
+
+PING serverhostname
+
+PRIVMSG quinten :test
+
+PRIVMSG quinten :test
+
+MODE quinten +i
+
+PING serverhostname
+
+JOIN #hello
+
+TOPIC #hello :world
+
+MODE quinten +i
+
+PING serverhostname
+
+JOIN #hello
+
+JOIN #general
+
+QUIT :leaving
+
+MODE quinten +i
+
+PING serverhostname
+
+JOIN #hello
+
+MODE quinten +i
+
+PING serverhostname
+
+TOPIC hello
+
+QUIT :leaving
+
+QUIT :leaving
+
+MODE quinten +i
+
+PING serverhostname
+
+JOIN #hello
+
+MODE quinten +i
+
+TOPIC hello
+
+PING serverhostname
+
+TOPIC #hello :hello world
+
+TOPIC hello
+
+JOIN #hello
+
+TOPIC hello
+
+JOIN #general
+
+TOPIC hello
+
+TOPIC hello
+
+TOPIC hello
+
+TOPIC hello
+
+TOPIC hello
+
+TOPIC hello
+
+TOPIC hello
+
+QUIT :leaving
+
+QUIT :leaving
+
+MODE quinten +i
+
+PING serverhostname
+
+TOPIC hello :world
+
+MODE quinten +i
+
+PING serverhostname
+
+JOIN #hello
+
+TOPIC hello :world
+
+MODE quinten +i
+
+PING serverhostname
+
+TOPIC hello :world
+
+MODE quinten +i
+
+PING serverhostname
+
+JOIN #hello
+
+TOPIC hello :world
+
+TOPIC hello :world
+
+TOPIC #hello :hello lol
+
+JOIN #hello
+
+TOPIC #hello :hello lol
+
+JOIN #hello
+
+TOPIC #hello :hello lol
+
+TOPIC hello :lol
+
+JOIN #hello
+
+QUIT :leaving
+
+QUIT :leaving
+
