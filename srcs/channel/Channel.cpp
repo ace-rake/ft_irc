@@ -54,11 +54,11 @@ int	Channel::addClient(client & client)
 	return 0;
 }
 
-int	Channel::deleteClient(client client)
+int	Channel::deleteClient(client c)
 {
-	if (retrieveClientById(client.getId()) == NULL)
-		return 1;// Client not in channel	
-	_clients.erase(_clients.begin());
+	std::vector<client>::const_iterator it = findClient(c);
+	if (it != _clients.end())
+		_clients.erase(it);
 	return (0);
 }
 
@@ -77,6 +77,14 @@ client * Channel::retrieveClientById(int id)
 		if (it->getId() == id)
 			return &(*it);
 	return NULL;
+}
+
+std::vector<client>::const_iterator	Channel::findClient(const client & findClient)const
+{
+	for (std::vector<client>::const_iterator it = _clients.begin(); it < _clients.end(); ++it)
+		if (*it == findClient)
+			return it;
+	return _clients.end();
 }
 
 bool    Channel::clientIsOperator(client findClient)

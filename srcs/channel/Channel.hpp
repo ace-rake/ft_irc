@@ -22,11 +22,13 @@ class	Channel
 		int	deleteClient		(client client);
 		client *	retrieveClientByNick(const std::string& name);
 		client *	retrieveClientById(int id);
+		std::vector<client>::const_iterator	findClient(const client & client)const;
 		bool    clientIsOperator(client client);
 
 		void	addInviteToList	(int id);
 		bool	isInInviteList	(int id)const;
 		void	removeIdFromList(int id);
+
 
 
 	private:
