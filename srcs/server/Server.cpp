@@ -1,6 +1,7 @@
 #include "Server.hpp"
 #include <iostream>
 #include <fstream>
+#include <stdexcept>
 
 // Destructor
 Server::~Server(void)
@@ -20,7 +21,16 @@ void Server::idle()
 				handleNewConnection();
 			for (int i = 0; i < MAX_CLIENTS; ++i)
 				if (_clients[i].getFd().fd != -1 && (_clients[i].getFd().revents & POLLIN))
+				{
+					try
+					{
 					handleClientMessage(_clients[i]);
+					}
+					catch (std::runtime_error &e)
+					{
+						std::cout << e.what() << std::endl;
+					}
+				}
 		}
 	}
 }
