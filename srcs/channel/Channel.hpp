@@ -19,25 +19,28 @@ class	Channel
 		~Channel	(void);
 
 		std::string getName()const{return _channelName;}
-		void	handleJoinRequest	(Client & client, std::string psw = "");
-		void	sendMsgToAll		(std::vector<std::string> args, Client& client);
 		std::vector<Client> getClients(){return _clients;}
-		int	deleteClient		(Client client);
+		std::string getTopic()const{return _channelTopic;}
+
 		Client *	retrieveClientByNick(const std::string& name);
 		Client *	retrieveClientById(int id);
 		std::vector<Client>::const_iterator	findClient(const Client & client)const;
+
+		void	handleJoinRequest	(Client & client, std::string psw = "");
+		void	sendMsgToAll		(std::vector<std::string> args, Client& client);
+		int	deleteClient		(Client client);
 		bool    clientIsOperator(Client client);
-        std::string getTopic()const{return _channelTopic;}
+
 
 		void	addInviteToList	(int id);
 		bool	isInInviteList	(int id)const;
 		void	removeIdFromList(int id);
 
-        void    changeTopic(const std::string& newTopic);
-        bool    isInClientList  (Client client);
+		void    changeTopic		(const std::string& newTopic);
+		bool    isInClientList		(Client client);
 		void	broadcastMsg		(std::string msg, Client & sender);
-        void    broadcastMsg        (std::string str);
-        
+		void    broadcastMsg		(std::string str);
+
 
 
 
@@ -47,7 +50,7 @@ class	Channel
 		std::string		_psw;
 		std::vector<Client>	_opList;
 		std::set<int>		_inviteList; // List of userId's that were invited
-        std::string     _channelTopic;
+		std::string     _channelTopic;
 
 	private:
 		int	addClient		(Client & client);
