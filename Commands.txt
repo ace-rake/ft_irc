@@ -951,3 +951,139 @@ JOIN #hello
 
 KICK #hello ufSHUIHFF :
 
+MODE lpeeters +i
+
+PING serverhostname
+
+QUIT :leaving
+
+MODE lpeeters +i
+
+PING serverhostname
+
+JOIN #hello
+
+KICK #hello dhdrgdrg :
+
+MODE lpeeters +i
+
+PING serverhostname
+
+JOIN #hello
+
+KICK #hello uihuif :
+
+MODE lpeeters +i
+
+PING serverhostname
+
+JOIN #hello
+
+KICK #hello dugduirhg :
+
+QUIT :leaving
+
+MODE lpeeters +i
+
+PING serverhostname
+
+JOIN #hello
+
+KICK #hello sgsgrg :
+
+KICK #hello lpeeters :
+
+MODE lpeeters +i
+
+PING serverhostname
+
+PING serverhostname
+
+MODE lpeeters +i
+
+PING serverhostname
+
+MODE lpeeters +i
+
+PING serverhostname
+
+PING serverhostname
+
+MODE lpeeters +i
+
+PING serverhostname
+
+PING serverhostname
+
+PING serverhostname
+
+MODE lpeeters +i
+
+PING serverhostname
+
+PING serverhostname
+
+PING serverhostname
+
+PING serverhostname
+
+MODE lpeeters +i
+
+PING serverhostname
+
+PING serverhostname
+
+PING serverhostname
+
+PING serverhostname
+
+PING serverhostname
+
+MODE lpeeters +i
+
+PING serverhostname
+
+PING serverhostname
+
+PING serverhostname
+
+PING serverhostname
+
+PING serverhostname
+
+PING serverhostname
+
+MODE lpeeters +i
+
+PING serverhostname
+
+PING serverhostname
+
+PING serverhostname
+
+PING serverhostname
+
+PING serverhostname
+
+PING serverhostname
+
+PING serverhostname
+
+MODE lpeeters +i
+
+PING serverhostname
+
+QUIT :leaving
+
+QUIT :leaving
+
+QUIT :leaving
+
+QUIT :leaving
+
+QUIT :leaving
+
+QUIT :leaving
+
+QUIT :leaving
+

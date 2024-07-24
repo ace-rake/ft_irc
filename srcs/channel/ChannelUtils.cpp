@@ -13,8 +13,7 @@ int	Channel::deleteClient(Client c)
 
 void    Channel::kickUser(Client sender, std::string victimName, std::vector<std::string>args)
 {
-    // still doesnt work tho
-    if (findClient(USER, victimName) == getClients().end())
+    if (findClient(USER, victimName) == _clients.end())
     {
         std::cerr << "Error: Victim is not found in channel" << std::endl;
         sender.sendMessageToClient("KICK: User doesn't exists in channel");
