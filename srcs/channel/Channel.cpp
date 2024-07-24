@@ -1,11 +1,13 @@
 #include "Channel.hpp"
 #include <iostream>
 #include <sys/socket.h>
+#include <vector>
 #include "../irc.h"
 
 // Constructor
 Channel::Channel(std::string name, std::string psw): _channelName(name), _psw(psw)
 {
+    this->_channelTopic = "";
 }
 
 // Destructor
@@ -33,6 +35,15 @@ void	Channel::broadcastMsg(std::string str, client & sender)// Send a msg to all
 	}
 }
 
+void    Channel::broadcastMsg(std::string str)
+{
+    for (size_t i = 0; i < _clients.size(); ++i) 
+    {
+        std::cout << "Sending " << str << " to client in channel:" << _channelName << std::endl;
+        _clients[i].sendMessageToClient(str);
+    }
+}
+
 void	Channel::handleJoinRequest(client & client, std::string psw)
 {
 	if (retrieveClientById(client.getId()) != NULL)
@@ -42,6 +53,7 @@ void	Channel::handleJoinRequest(client & client, std::string psw)
 	if (_psw.compare(psw) != 0 && !_psw.empty() && !isInInviteList(client.getId()))
 		return ;// Cannot Join
 	addClient(client);
+    client.addToClientChannelList(this);
 }
 
 int	Channel::addClient(client & client)
@@ -106,8 +118,29 @@ bool	Channel::isInInviteList(int id)const
 	return (_inviteList.find(id) != _inviteList.end());
 }
 
+bool    Channel::isInClientList(client findClient)
+{
+    for (std::vector<client>::iterator it = _clients.begin(); it != _clients.end(); it++)
+        if (it->getId() == findClient.getId())
+            return true;
+    return false;
+}
+
 void	Channel::removeIdFromList(int id)
 {
 	if (_inviteList.find(id) != _inviteList.end())
 		_inviteList.erase(id);
+}
+
+void Channel::changeTopic(const std::string& newTopic)
+{
+    this->_channelTopic = newTopic;
+
+    // Notify all clients in the channel about the new topic
+    std::string topicChangeMsg = ":server 332 " + _channelName + " :" + _channelTopic;
+    broadcastMsg(topicChangeMsg);
+
+    // Notify all clients in the channel that the topic has been changed
+    std::string topicNotificationMsg = ":server TOPIC " + _channelName + " :" + _channelTopic;
+    broadcastMsg(topicNotificationMsg);
 }

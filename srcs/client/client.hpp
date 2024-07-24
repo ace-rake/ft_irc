@@ -5,6 +5,9 @@
 #include <ostream>
 #include <string>
 #include <sys/poll.h>
+#include <vector>
+
+class   Channel;
 
 // Custom class: client
 class	client
@@ -33,6 +36,9 @@ class	client
 		std::string	getIp()const{return _ip;}
 		int		getId()const{return _clientId;}
 		void		sendMessageToClient(std::string) const;
+        void        addToClientChannelList(Channel* channel);
+        void        removeFromClientChannelList(Channel* channel);
+        void        printClientChannels() const;
 
 	protected:
 		/*_*/;
@@ -48,6 +54,7 @@ class	client
 		std::string 		_nickName;
 		std::string 		_realName;
 		std::string		_ip;//TODO Do we need to get ip from server or client, rn its whatever the initial handshake gives
+        std::vector<std::string>    _channelNames;
 		/*_*/;
 
 		void	idle();

@@ -6,6 +6,9 @@
 #include <string>
 #include <vector>
 #include "../client/client.hpp"
+
+class   client;
+
 class	Channel
 {
 	public:
@@ -24,10 +27,17 @@ class	Channel
 		client *	retrieveClientById(int id);
 		std::vector<client>::const_iterator	findClient(const client & client)const;
 		bool    clientIsOperator(client client);
+        std::string getTopic()const{return _channelTopic;}
 
 		void	addInviteToList	(int id);
 		bool	isInInviteList	(int id)const;
 		void	removeIdFromList(int id);
+
+        void    changeTopic(const std::string& newTopic);
+        bool    isInClientList  (client client);
+		void	broadcastMsg		(std::string msg, client & sender);
+        void    broadcastMsg        (std::string str);
+        
 
 
 
@@ -37,9 +47,9 @@ class	Channel
 		std::string		_psw;
 		std::vector<client>	_opList;
 		std::set<int>		_inviteList; // List of userId's that were invited
+        std::string     _channelTopic;
 
 	private:
-		void	broadcastMsg		(std::string msg, client & sender);
 		int	addClient		(client & client);
 };
 

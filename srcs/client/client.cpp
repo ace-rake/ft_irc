@@ -1,4 +1,5 @@
 #include "client.hpp"
+#include <algorithm>
 #include <arpa/inet.h>
 #include <cstdlib>
 #include <sstream>
@@ -7,6 +8,8 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <vector>
+#include "../channel/Channel.hpp"
+#include <iostream>
 
 // Constructor
 client::client()
@@ -90,6 +93,17 @@ void    client::sendMessageToClient(std::string message) const
     std::string buffer = message + "\r\n";
     if (send(this->getFd().fd, buffer.c_str(), buffer.size(), 0) < 0)
         throw std::runtime_error("Error while sending message to the client");
+}
+
+void    client::addToClientChannelList(Channel* channel)
+{
+    removeFromClientChannelList(channel);
+    _channelNames.push_back(channel->getName());
+}
+
+void    client::removeFromClientChannelList(Channel* channel)
+{
+    _channelNames.erase(std::remove(_channelNames.begin(), _channelNames.end(), channel->getName()), _channelNames.end());
 }
 
 const bool client::operator==(const client & other)const
