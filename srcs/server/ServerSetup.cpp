@@ -71,9 +71,9 @@ void    Server::listenIncomingConnections(void)
 // Setup the server and then goes in idle state
 void    Server::run()
 {
-    createSocket();
+	createSocket();
 
-    setupPolling();
+	setupPolling();
 	
     bindSocketToAddress();
 

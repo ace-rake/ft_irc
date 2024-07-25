@@ -10,6 +10,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
+#include <netdb.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -53,4 +54,31 @@ void    Server::getIpAddress(void)
 
 	if (!findSuitableIp(host))
 		noSuitableIpFound();
+
+	/* TESTING */
+	// works like this as well, but problem is, we never get more than 1 address, despite using addrinfo instead of gethostbyname
+	//struct addrinfo hints, *res, *p;
+	//memset(&hints, 0, sizeof hints); //not allowed, but just testing
+
+	//hints.ai_family = AF_UNSPEC;
+	//hints.ai_socktype = SOCK_STREAM;
+	//getaddrinfo(hostname, "6667", &hints, &res);
+
+	//for (p = res; p != NULL; p = p->ai_next)
+	//{
+		//if (p->ai_family != AF_INET)
+			//continue ;
+
+		//struct sockaddr_in *addr = (struct sockaddr_in *)p->ai_addr;
+		//if (strcmp(inet_ntoa(addr->sin_addr), "127.0.0.1"))
+		////&& bind(this->_server.fd, p->ai_addr, p->ai_addrlen) >= 0)
+		//{
+			//this->_address = *addr;
+			//std::cout << "Using IP address: " << inet_ntoa(addr->sin_addr) << '\n';
+
+			//return (freeaddrinfo(res));
+		//}
+	//}
+	//freeaddrinfo(res);
+	//noSuitableIpFound();
 }

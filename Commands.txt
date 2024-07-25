@@ -1087,3 +1087,51 @@ QUIT :leaving
 
 QUIT :leaving
 
+MODE lpeeters +i
+
+PING serverhostname
+
+QUIT :leaving
+
+MODE lpeeters +i
+
+PING serverhostname
+
+QUIT :leaving
+
+MODE lpeeters +i
+
+PING serverhostname
+
+PRIVMSG hello :test
+
+PRIVMSG lpeeters :test
+
+QUIT :leaving
+
+MODE lpeeters +i
+
+MODE lpeeters +i
+
+PING serverhostname
+
+MODE lpeeters +i
+
+PING serverhostname
+
+die
+
+MODE lpeeters +i
+
+PING serverhostname
+
+PRIVMSG bleh :bleh
+
+MODE lpeeters +i
+
+PING serverhostname
+
+MODE lpeeters +i
+
+PING serverhostname
+
