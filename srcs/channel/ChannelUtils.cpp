@@ -19,21 +19,27 @@ int	Channel::deleteClient(Client c)
 
 void    Channel::kickUser(Client sender, std::string victimName, std::vector<std::string>args)
 {
-    if (findClient(USER, victimName) == _clients.end())
+    if (findClient(NICK, victimName) == _clients.end())
     {
         std::cerr << "Error: Victim is not found in channel" << std::endl;
         sender.sendMessageToClient("KICK: User doesn't exists in channel");
         return ;
     }
 
-    deleteClient(findClient(USER, victimName));// -- dont think we have a function for this yet
+    deleteClient(findClient(NICK, victimName));
 
     std::string kickMessage = ":" + sender.getNickName() + " KICK " + getName() + " " + victimName + " :";
 
     for (size_t i = 4; i < args.size(); ++i)
 		kickMessage += " " + args[i];
 
-    sender.sendMessageToClient(kickMessage);
+    Client  wanted = *findClient(NICK, victimName);
+
+    wanted.sendMessageToClient(kickMessage);
+
+    wanted.sendMessageToClient("You have been kicked from " + getName());
+
+    broadcastMsg(kickMessage);
 }
 
 /* Client* Channel::retrieveClientByNick(const std::string& name) */
