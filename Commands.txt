@@ -1135,3 +1135,17 @@ MODE lpeeters +i
 
 PING serverhostname
 
+MODE ella +i
+
+PING serverhostname
+
+JOIN #test
+
+QUIT :leaving
+
+MODE ella +i
+
+PING serverhostname
+
+JOIN #test
+

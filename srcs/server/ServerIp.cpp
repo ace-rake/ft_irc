@@ -34,6 +34,9 @@ void    Server::noSuitableIpFound(void)
 {
 	this->_address.sin_addr.s_addr = INADDR_ANY;
 	std::cerr << "No suitable IP address found, using 0.0.0.0 instead" << std::endl;
+	//createSocket();
+	//setupPolling();
+	//bindSocketToAddress();
 }
 
 void    Server::getIpAddress(void)
@@ -64,6 +67,7 @@ void    Server::getIpAddress(void)
 	//hints.ai_socktype = SOCK_STREAM;
 	//getaddrinfo(hostname, "6667", &hints, &res);
 
+	//bool valid_ip = false;
 	//for (p = res; p != NULL; p = p->ai_next)
 	//{
 		//if (p->ai_family != AF_INET)
@@ -71,14 +75,26 @@ void    Server::getIpAddress(void)
 
 		//struct sockaddr_in *addr = (struct sockaddr_in *)p->ai_addr;
 		//if (strcmp(inet_ntoa(addr->sin_addr), "127.0.0.1"))
-		////&& bind(this->_server.fd, p->ai_addr, p->ai_addrlen) >= 0)
 		//{
+			//std::cout << "Resovled IP: " << inet_ntoa(addr->sin_addr) << '\n';
+
+			//createSocket();
+			//setupPolling();
+
+			//if (bind(this->_server.fd, p->ai_addr, p->ai_addrlen) < 0)
+				//continue ;
+
+			//valid_ip = true;
+
 			//this->_address = *addr;
 			//std::cout << "Using IP address: " << inet_ntoa(addr->sin_addr) << '\n';
 
-			//return (freeaddrinfo(res));
+			//break ;
 		//}
 	//}
+
 	//freeaddrinfo(res);
-	//noSuitableIpFound();
+
+	//if (!valid_ip)
+		//noSuitableIpFound();
 }
