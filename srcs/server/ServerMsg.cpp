@@ -9,7 +9,7 @@ std::string Server::handleClientMessage(Client & client)
 	if (valread == 0)
 	{
 		close(clientFd);
-		client.clear();
+		clearClient(client);
 		std::cout << "Client disconnected" <<std::endl;
 	}
 	else

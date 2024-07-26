@@ -56,6 +56,7 @@ class	Server
 		void		idle			(void);
 		void		handleNewConnection	(void);
 		std::string	handleClientMessage	(Client & client);
+		void		clearClient		(Client	& client);
 
 		// ServerIp.cpp
 		bool		findSuitableIp		(struct hostent *host);
