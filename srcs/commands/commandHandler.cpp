@@ -26,13 +26,12 @@ void	Server::commandHandler(std::string command, Client & client)
 				channel->sendMsgToAll(args, client);
 			else
 			{
+				throw std::runtime_error("PRIVMSG: Error: Channel doesn't exist");
 				//TODO: Handle channel doesnt exist
 			}
-			// Channel
 		}
 		else
 		{
-			//TODO: Private Message
 			privateMsg(args, client);
 		}
 	}
