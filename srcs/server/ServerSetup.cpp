@@ -49,12 +49,15 @@ void    Server::setupPolling(void)
 
 void    Server::bindSocketToAddress(void)
 {
-
+	begin:
 	if (bind(_server.fd, (struct sockaddr *)&_address, sizeof(_address)) < 0)
 	{
-		perror("bind failed");
-		close(_server.fd);
-		exit(EXIT_FAILURE);
+		std::cout << "bind failed, retrying in a sec" << std::endl;
+		sleep(1);
+		goto begin;
+		/* perror("bind failed"); */
+		/* close(_server.fd); */
+		/* exit(EXIT_FAILURE); */
 	}
 }
 
