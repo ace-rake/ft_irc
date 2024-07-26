@@ -6,7 +6,6 @@
 #include <string>
 #include <sys/poll.h>
 #include <vector>
-
 class   Channel;
 
 // Custom class: Client
@@ -22,6 +21,7 @@ class	Client
 
 		struct pollfd &	getFd 	(	void	)const;
 		void	setFd	(struct pollfd * fd);
+		std::vector<std::string> &	getChannels(){return _channelNames;}
 		void	create(std::string userData);
 
 		void	run	(	void	);
