@@ -33,7 +33,6 @@ void	Client::clear()
 	_nickName = "";
 	_realName = "";
 	_ip = "";
-	//TODO: clear all invites to channels
 	_channelNames.clear();
 }
 

@@ -75,3 +75,17 @@ void	Server::createNewClient(Client & client)
 	client.sendMessageToClient("Anotha one");
 	broadCastMsg("Fuck you");
 }
+
+void	Server::clearClient(Client & client)
+{
+	std::vector<std::string>::iterator it = client.getChannels().end();
+	for (;it != client.getChannels().end(); ++it)
+	{
+		Channel * channel = getChannel(*it);
+		if (!channel)
+			throw std::runtime_error("Server::clearClient: Error: client is in nonexistent channel");
+		channel->removeIdFromList(client.getId());
+		channel->deleteClient(client);
+	}
+	client.clear();
+}
