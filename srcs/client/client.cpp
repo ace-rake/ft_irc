@@ -25,6 +25,18 @@ Client::~Client(void)
 {
 }
 
+void	Client::clear()
+{
+	_client_fd->fd = -1;
+	_hostName = "";
+	_userName = "";
+	_nickName = "";
+	_realName = "";
+	_ip = "";
+	//TODO: clear all invites to channels
+	_channelNames.clear();
+}
+
 void	Client::send_message(std::string str)
 {
 	send(_server_fd, str.c_str(), str.size(), 0);
@@ -60,7 +72,7 @@ void	Client::create(std::string userData)
 	std::vector<std::string> words = split(userData);	
 
 	while (words.front().compare("NICK") != 0)
-		words.erase(words.begin()); //TODO check if these can delete things we dont wanna delete
+		words.erase(words.begin());
 	words.erase(words.begin());
 	_nickName = *words.begin();
 
