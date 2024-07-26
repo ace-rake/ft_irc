@@ -67,6 +67,13 @@ void	Server::createNewClient(Client & client)
 {
 	std::string userData = receiveUserData(client.getFd());
 	client.create(userData);
+	if (nickInUse(client.getNickName(), client.getId()))
+	{
+		std::cerr << "Server::createNewClient: Error: Nick in use" << std::endl;
+		nickInUseError(client);
+		client.clear();
+		return ;
+	}
 	std::cout << "create user\n" << client << std::endl;
 
 	// Welcome handshake
