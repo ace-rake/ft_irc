@@ -28,18 +28,22 @@ void    Channel::kickUser(Client sender, std::string victimName, std::vector<std
 
     deleteClient(findClient(NICK, victimName));
 
-    std::string kickMessage = ":" + sender.getNickName() + " KICK " + getName() + " " + victimName + " :";
+    std::string kickMessageToClient = ":" + sender.getNickName() + " KICK " + getName() + " " + victimName;
+    
+    std::string kickMessage;
 
-    for (size_t i = 4; i < args.size(); ++i)
+    for (size_t i = 3; i < args.size(); ++i)
 		kickMessage += " " + args[i];
+
+    kickMessageToClient += kickMessage;
 
     Client  wanted = *findClient(NICK, victimName);
 
-    wanted.sendMessageToClient(kickMessage);
+    wanted.sendMessageToClient(kickMessageToClient);
 
-    wanted.sendMessageToClient("You have been kicked from " + getName());
+    wanted.sendMessageToClient("You have been kicked from " + getName() + " for the reason" + kickMessage);
 
-    broadcastMsg(kickMessage);
+    broadcastMsg(kickMessageToClient);
 }
 
 /* Client* Channel::retrieveClientByNick(const std::string& name) */
