@@ -10,6 +10,14 @@
 
 class   Client;
 
+typedef struct s_settings
+{
+	bool		inviteOnly;
+	bool		plebsCanChangeTopic;
+	unsigned short	userLimit;
+	std::string	creator;
+}		t_settings;
+
 class	Channel
 {
 	public:
@@ -56,7 +64,8 @@ class	Channel
 		std::string		_psw;
 		std::vector<Client>	_opList;
 		std::set<int>		_inviteList; // List of userId's that were invited
-		std::string     _channelTopic;
+		std::string		_channelTopic;
+		t_settings		_settings;
 
 	private:
 		int	addClient		(Client & client);
