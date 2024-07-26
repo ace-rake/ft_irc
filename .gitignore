@@ -31,7 +31,7 @@
 *.out
 *.app
 
-commands.txt
+Commands.txt
 
 #this is some cmake shit
 CMakeLists.txt.user
