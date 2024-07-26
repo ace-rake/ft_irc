@@ -26,7 +26,7 @@ class	Client
 
 		void	run	(	void	);
 
-		const bool operator == (const Client & other)const;
+		bool operator == (const Client & other)const;
 
 		std::string	getHostName()const{return _hostName;}
 		std::string	getNickName()const{return _nickName;}

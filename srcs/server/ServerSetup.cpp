@@ -49,16 +49,26 @@ void    Server::setupPolling(void)
 
 void    Server::bindSocketToAddress(void)
 {
-	begin:
-	if (bind(_server.fd, (struct sockaddr *)&_address, sizeof(_address)) < 0)
+	size_t timeout = 0;
+	while (bind(_server.fd, (struct sockaddr *)&_address, sizeof(_address)) < 0)
 	{
-		std::cout << "bind failed, retrying in a sec" << std::endl;
+		if (!timeout)
+		{
+			std::cerr << "Bind failed for 0.0.0.0\nRetrying to bind " << inet_ntoa(this->_fall_back_address.sin_addr) <<  " (this may take a while)\n";
+			this->_address = this->_fall_back_address;
+		}
+
+		else if (timeout > 179)
+		{
+			std::cerr << "Error: Unable to bind: Timeout\n";
+			close(this->_server.fd);
+			exit(EXIT_FAILURE);
+		}
+
 		sleep(1);
-		goto begin;
-		/* perror("bind failed"); */
-		/* close(_server.fd); */
-		/* exit(EXIT_FAILURE); */
+		timeout++;
 	}
+	std::cout << "Successfully bound to " << inet_ntoa(this->_address.sin_addr) << '\n';
 }
 
 void    Server::listenIncomingConnections(void)
@@ -74,14 +84,7 @@ void    Server::listenIncomingConnections(void)
 // Setup the server and then goes in idle state
 void    Server::run()
 {
-	createSocket();
-
-	setupPolling();
-	
-    bindSocketToAddress();
-
     listenIncomingConnections();
-
 	std::cout << "Server listening on port " << PORT << std::endl;
 
 	idle();

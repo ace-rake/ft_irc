@@ -43,6 +43,7 @@ class	Server
 	protected:
 		int			_server_socket;
 		struct sockaddr_in	_address;
+		struct sockaddr_in	_fall_back_address;
 		int			_addrlen;
 		struct pollfd &		_server;
 
@@ -59,7 +60,7 @@ class	Server
 		void		clearClient		(Client	& client);
 
 		// ServerIp.cpp
-		bool		findSuitableIp		(struct hostent *host);
+		bool		findSuitableIp		(struct addrinfo *res);
 		void		noSuitableIpFound	(void);
 		void		getIpAddress		(void);
 

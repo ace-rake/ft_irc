@@ -117,7 +117,7 @@ void    Client::removeFromClientChannelList(Channel* channel)
     _channelNames.erase(std::remove(_channelNames.begin(), _channelNames.end(), channel->getName()), _channelNames.end());
 }
 
-const bool Client::operator==(const Client & other)const
+bool Client::operator==(const Client & other)const
 {
 	return this->_clientId == other._clientId;
 }
