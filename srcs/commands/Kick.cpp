@@ -83,24 +83,36 @@ static Channel*    getChannelKick(std::vector<std::string> args, std::vector<Cha
 
 void    kickNoChannelFound(Client& sender)
 {
-	std::cerr << "Error: No channel found for KICK command." << std::endl;
-	sender.sendMessageToClient("KICK: No channel found with this name");
+    std::cerr << "Error: No channel found for KICK command." << std::endl;
+    sender.sendMessageToClient("403 " + sender.getNickName() + " " + "No channel found with this name");
 }
 
 void    kickNoPerms(Client& sender)
 {
-	std::cerr << "Error: Sender doesn't have OP rights." << std::endl;
-	sender.sendMessageToClient("KICK: You don't have the right permissions for this action");
+    std::cerr << "Error: Sender doesn't have OP rights." << std::endl;
+    sender.sendMessageToClient("482 " + sender.getNickName() + " " + "You're not channel operator");
 }
 
-void    kickHandler(std::vector<std::string> args, Client &sender, std::vector<Channel> &channels)
+void    kickNoVictim(Client& sender)
 {
-	Channel*    wantedChannel = getChannelKick(args, channels);
-	if (!wantedChannel)
-		return ((void)kickNoChannelFound(sender));
+    std::cerr << "Error: No victim specified." << std::endl;
+    sender.sendMessageToClient("461 " + sender.getNickName() + " KICK :Not enough parameters");
+}
 
-    if (!wantedChannel->clientIsOperator(sender))
-        return ((void)kickNoPerms(sender));
+void    kickHandler(std::vector<std::string> args, Client& sender, std::vector<Channel>& channels)
+{
+    if (args.size() < 2) {
+        return kickNoVictim(sender);
+    }
+
+    Channel* wantedChannel = getChannelKick(args, channels);
+    if (!wantedChannel) {
+        return kickNoChannelFound(sender);
+    }
+
+    if (!wantedChannel->clientIsOperator(sender)) {
+        return kickNoPerms(sender);
+    }
 
     wantedChannel->kickUser(sender, args[2], args);
 }
