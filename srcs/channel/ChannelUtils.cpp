@@ -3,11 +3,17 @@
 #include <stdexcept>
 #include <vector>
 
+int	Channel::deleteClient(std::vector<Client>::iterator client)
+{
+	_clients.erase(client);
+	return (0);
+}
+
 int	Channel::deleteClient(Client c)
 {
-	std::vector<Client>::const_iterator it = findClient(USER, c.getUserName());
+	std::vector<Client>::iterator it = findClient(USER, c.getUserName());
 	if (it != _clients.end())
-		_clients.erase(it);
+		deleteClient(it);
 	return (0);
 }
 
@@ -20,7 +26,7 @@ void    Channel::kickUser(Client sender, std::string victimName, std::vector<std
         return ;
     }
 
-    //deleteClient(Client c) -- dont think we have a function for this yet
+    deleteClient(*findClient(USER, victimName));// -- dont think we have a function for this yet
 
     std::string kickMessage = ":" + sender.getNickName() + " KICK " + getName() + " " + victimName + " :";
 

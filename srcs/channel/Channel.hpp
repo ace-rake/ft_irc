@@ -32,6 +32,7 @@ class	Channel
 		void	handleJoinRequest	(Client & client, std::string psw = "");
 		void	sendMsgToAll		(std::vector<std::string> args, Client& client);
 		int	deleteClient		(Client client);
+		int	deleteClient		(std::vector<Client>::iterator);
 		bool    clientIsOperator(Client client);
 
 
