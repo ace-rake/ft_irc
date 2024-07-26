@@ -33,7 +33,6 @@ void Server::idle()
 	}
 }
 
-
 Client*	Server::getUser(userData field, std::string data)
 {
 	std::string (Client::*funcptr)()const;
@@ -60,6 +59,20 @@ Client*	Server::getUser(userData field, std::string data)
 	return NULL;
 }
 
+Channel *	Server::getChannel(std::string name)
+{
+	std::vector<Channel>::iterator it = _channels.begin();
+
+	for (;it != _channels.end(); it++)
+	{
+		if (it->getName().compare(name) == 0)
+		{
+			return &*it;
+		}
+	}
+	return NULL;
+}
+
 
 void	Server::logCommand(std::string str)
 {
@@ -68,4 +81,3 @@ void	Server::logCommand(std::string str)
 	out << str << std::endl;;
 	out.close();
 }
-

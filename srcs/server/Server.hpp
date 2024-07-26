@@ -90,6 +90,7 @@ class	Server
 		void		privateMsg	(std::vector<std::string> args, Client & sender);
 
 		Client *	getUser		(userData, std::string);
+		Channel *	getChannel(std::string name);
 };
 
 #endif
