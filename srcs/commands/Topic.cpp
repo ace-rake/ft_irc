@@ -51,13 +51,19 @@ void    topicUserNotOperator(Client& sender, Channel* channel)
 {
     std::cerr << "Error: Sender does not have operator privileges for TOPIC command." << std::endl;
 
-    std::string clientMessage = ":server 482 " + sender.getNickName() + " " + channel->getName() + " :You're not channel operator";
+    std::string clientMessage = "You are not an channel operator";
 
     sender.sendMessageToClient(clientMessage);
 }
 
 void    topicHandler(std::vector<std::string> args, std::vector<Channel> &channels, Client &sender)
 {
+    try {
+        Channel* wantedChannel = getChannel(args, channels);
+    } catch (const std::exception& e) {
+        return ((void)topicNoChannelFound(sender));
+    }
+
     Channel*    wantedChannel = getChannel(args, channels);
 
     if (!wantedChannel)
