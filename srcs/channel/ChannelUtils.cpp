@@ -26,7 +26,7 @@ void    Channel::kickUser(Client sender, std::string victimName, std::vector<std
         return ;
     }
 
-    deleteClient(*findClient(USER, victimName));// -- dont think we have a function for this yet
+    deleteClient(findClient(USER, victimName));// -- dont think we have a function for this yet
 
     std::string kickMessage = ":" + sender.getNickName() + " KICK " + getName() + " " + victimName + " :";
 

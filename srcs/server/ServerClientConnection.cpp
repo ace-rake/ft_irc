@@ -15,7 +15,6 @@ void Server::handleNewConnection()
 		}
 }
 
-//TODO delete client at some point
 std::string	Server::receiveUserData(struct pollfd client)
 {
 	std::string buffer;
