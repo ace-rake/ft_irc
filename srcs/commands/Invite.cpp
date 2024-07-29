@@ -1,16 +1,16 @@
 #include "../server/Server.hpp"
 #include <iostream>
 
-static std::string generateMsg(Client * client, std::string invitee, std::string channelName)
+static std::string generateMsg(Client & client, std::string invitee, std::string channelName)
 {
 	//:inviting_user_nick!inviting_user_user@inviting_user_host INVITE invitee_nick :#channel
 
 	std::string msg = ":"; 
-	msg += client->getNickName();
+	msg += client.getNickName();// This is what the invitee sees as who has invited them
 	msg += "!";
-	msg += client->getUserName();
+	msg += client.getUserName();
 	msg += "@";
-	msg += client->getHostName();
+	msg += client.getHostName();
 	msg += " INVITE ";
 	msg += invitee;
 	msg += " :";
@@ -18,7 +18,7 @@ static std::string generateMsg(Client * client, std::string invitee, std::string
 	return msg;
 }
 
-void Server::inviteToChannel(std::string channelName, std::string inviteeNick)
+void Server::inviteToChannel(std::string channelName, std::string inviteeNick, Client & sender)
 {
 	// Check if invitee exists
 	Client * client = getUser(NICK, inviteeNick);
@@ -56,6 +56,6 @@ void Server::inviteToChannel(std::string channelName, std::string inviteeNick)
 	channel->addInviteToList(clientId);
 
 	// send invitee msg to let them know they are invited
-	std::string msg = generateMsg(client, inviteeNick, channelName);
+	std::string msg = generateMsg(sender, inviteeNick, channelName);
 	client->sendMessageToClient(msg);
 }

@@ -10,6 +10,7 @@
 
 #define ERR_INVITEONLYCHAN 473
 #define ERR_WRONGCHANKEY 475
+#define ERR_CHANNELISFULL 471
 
 class   Client;
 
@@ -17,6 +18,7 @@ typedef struct s_settings
 {
 	bool		inviteOnly;
 	bool		plebsCanChangeTopic;
+	unsigned short	userAmount;
 	unsigned short	userLimit;
 	std::string	creator;
 }		t_settings;
@@ -43,9 +45,10 @@ class	Channel
 		void	handleJoinRequest	(Client & client, std::string psw = "");
 		void	inviteOnlyErr		(Client & client);
 		void	wrongPswErr		(Client & client);
+		void	isFullErr		(Client & client);
 
 		void	sendMsgToAll		(std::vector<std::string> args, Client& client);
-		int	deleteClient		(Client client);
+		int	deleteClient		(Client & client);
 		int	deleteClient		(std::vector<Client>::iterator);
 		bool    clientIsOperator(Client client);
 
@@ -61,7 +64,7 @@ class	Channel
 
         void    kickUser(Client sender, std::string victimName, std::vector<std::string>args);
 
-
+		bool	isFull			()const;
 
 
 	private:

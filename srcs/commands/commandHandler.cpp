@@ -43,7 +43,7 @@ void	Server::commandHandler(std::string command, Client & client)
 	if (starts_with(command, "INVITE"))
 	{
 		std::cout << "enter INVITE" << std::endl;
-		inviteToChannel(args[2], args[1]);
+		inviteToChannel(args[2], args[1], client);
 	}
 	if (starts_with(command, "NICK"))
 	{

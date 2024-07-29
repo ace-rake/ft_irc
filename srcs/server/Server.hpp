@@ -82,7 +82,7 @@ class	Server
 		void		joinChannel	(std::string name, Client & client, std::string psw);
 		Channel *	createChannel	(std::string name, std::string psw = "");
 
-		void		inviteToChannel	(std::string ChannelName, std::string nickName);
+		void		inviteToChannel	(std::string ChannelName, std::string nickName, Client & sender);
 
 		bool		nickInUse(std::string, int)const;
 		void		setNewNick(Client & client, std::string newNick);
