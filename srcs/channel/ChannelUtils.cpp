@@ -9,7 +9,7 @@ int	Channel::deleteClient(std::vector<Client>::iterator client)
 	return (0);
 }
 
-int	Channel::deleteClient(Client c)
+int	Channel::deleteClient(Client & c)
 {
 	std::vector<Client>::iterator it = findClient(USER, c.getUserName());
 	if (it != _clients.end())

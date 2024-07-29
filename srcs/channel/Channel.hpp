@@ -48,7 +48,7 @@ class	Channel
 		void	isFullErr		(Client & client);
 
 		void	sendMsgToAll		(std::vector<std::string> args, Client& client);
-		int	deleteClient		(Client client);
+		int	deleteClient		(Client & client);
 		int	deleteClient		(std::vector<Client>::iterator);
 		bool    clientIsOperator(Client client);
 
