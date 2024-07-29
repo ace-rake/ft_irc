@@ -13,7 +13,12 @@ int	Channel::deleteClient(Client c)
 {
 	std::vector<Client>::iterator it = findClient(USER, c.getUserName());
 	if (it != _clients.end())
+    {   
+        std::string partMessage = ":" + c.getNickName() + " PART " + _channelName;
+        broadcastMsg(partMessage, c);
+
 		deleteClient(it);
+    }
 	return (0);
 }
 

@@ -58,6 +58,6 @@ void	Server::commandHandler(std::string command, Client & client)
     if (starts_with(command, "PART "))
     {
         std::cout << "enter PART" << std::endl;
-        /* partHandler(args, _channels, client); */
+        partHandler(args, _channels, client);
     }
 }
