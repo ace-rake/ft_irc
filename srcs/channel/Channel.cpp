@@ -13,6 +13,7 @@ Channel::Channel(std::string name, std::string psw): _channelName(name), _psw(ps
     _settings.inviteOnly = false;
     _settings.plebsCanChangeTopic = false;
     _settings.userLimit = MAX_CLIENTS;
+    _settings.userAmount = 0;
 }
 
 // Destructor
@@ -26,7 +27,8 @@ void	Channel::handleJoinRequest(Client & client, std::string psw)
 	if (findClient(ID, client.getId()) != _clients.end())
 		return ;// Client already in channel
 	// TODO: Check blacklist
-	
+	if (isFull())
+		return (void) isFullErr(client);
 	if (isInInviteList(client.getId())) // Check if invited
 		return (void) addClient(client);
 	if (_settings.inviteOnly)
@@ -53,6 +55,12 @@ void	Channel::wrongPswErr(Client & client)
 	client.sendMessageToClient(errMsg);
 }
 
+void	Channel::isFullErr(Client & client)
+{
+	std::string errMsg = baseError(_channelName, client, ERR_CHANNELISFULL) + " (+l)";
+	client.sendMessageToClient(errMsg);
+}
+
 int	Channel::addClient(Client & client)
 {
 	if (findClient(ID, client.getId()) != _clients.end())
@@ -61,6 +69,7 @@ int	Channel::addClient(Client & client)
 	if (_opList.empty())
 		_opList.push_back(client);
 	client.addToClientChannelList(this);
+	_settings.userAmount++;
 	return 0;
 }
 

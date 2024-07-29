@@ -14,6 +14,8 @@ int	Channel::deleteClient(Client c)
 	std::vector<Client>::iterator it = findClient(USER, c.getUserName());
 	if (it != _clients.end())
 		deleteClient(it);
+	_settings.userAmount--;
+	// TODO: check if last user has left
 	return (0);
 }
 
@@ -119,4 +121,11 @@ bool    Channel::clientIsOperator(Client findClient)
         if (it->getId() == findClient.getId())
             return true;
     return false;
+}
+
+bool	Channel::isFull()const
+{
+	if (_settings.userAmount >= _settings.userLimit)
+		return true;
+	return false;
 }
