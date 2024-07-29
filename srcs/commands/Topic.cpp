@@ -72,7 +72,7 @@ void    topicHandler(std::vector<std::string> args, std::vector<Channel> &channe
     if (wantedChannel->findClient(ID, sender.getId()) == wantedChannel->getClients().end())
         return ((void)topicUserNotInChannel(sender, wantedChannel));
 
-    if (!wantedChannel->clientIsOperator(sender))
+    if (!wantedChannel->clientIsOperator(sender) && !wantedChannel->everyoneCanChangeTopic())
         return ((void)topicUserNotOperator(sender, wantedChannel));
 
     if (args.size() > 2)

@@ -31,5 +31,6 @@ Channel* findChannelByName(const std::string& channelName, std::vector<Channel>&
 void    kickHandler(std::vector<std::string> args, Client &sender, std::vector<Channel>& channels);
 void    topicHandler(std::vector<std::string> args, std::vector<Channel>& channels, Client &sender);
 void    partHandler(std::vector<std::string> args, std::vector<Channel>& channels, Client &sender);
+void    modeHandler(std::vector<std::string> args, Client &sender, std::vector<Channel>& channels);
 
 #endif

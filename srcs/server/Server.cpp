@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <stdexcept>
+#include "../channel/Channel.hpp"
 
 // Destructor
 Server::~Server(void)
@@ -85,4 +86,6 @@ void	Server::logCommand(std::string str)
 void    Server::shutdown(void)
 {
     std::cout << "Server is shutting down..." << std::endl;
+
+
 }

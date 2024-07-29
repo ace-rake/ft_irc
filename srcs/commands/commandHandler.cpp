@@ -55,6 +55,11 @@ void	Server::commandHandler(std::string command, Client & client)
         std::cout << "enter TOPIC" << std::endl;
         topicHandler(args, _channels, client);
     }
+    if (starts_with(command, "MODE"))
+    {
+        std::cout << "enter MODE" << std::endl;
+        modeHandler(args, client, _channels);
+    }
     /*
     if (starts_with(command, "PART "))
     {

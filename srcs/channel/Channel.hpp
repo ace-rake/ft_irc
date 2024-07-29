@@ -66,6 +66,22 @@ class	Channel
 
 		bool	isFull			()const;
 
+        void    setInviteOnly();
+        void    removeInviteOnly();
+
+        void    setPassword(std::string psw);
+        void    removePassword();
+
+        void    setTopicOperatorOnly();
+        void    removeTopicOperatorOnly();
+
+        void    setUserLimit(int amount);
+        void    removeUserLimit();
+
+        void    makeClientOperator(Client & client);
+        void    removeClientOperator(Client & client);
+
+        bool    everyoneCanChangeTopic();
 
 	private:
 		std::string		_channelName;
