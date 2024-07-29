@@ -81,3 +81,8 @@ void	Server::logCommand(std::string str)
 	out << str << std::endl;;
 	out.close();
 }
+
+void    Server::shutdown(void)
+{
+    std::cout << "Server is shutting down..." << std::endl;
+}

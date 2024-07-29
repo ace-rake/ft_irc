@@ -25,7 +25,7 @@ class	Server
 {
 	public:
 		// Constructor
-		Server	(void);
+		Server	(char **av);
 
 		// Destructor
 		~Server	(void);
@@ -35,6 +35,8 @@ class	Server
 
 		// Logging purposes TODO delete this after
 		void logCommand(std::string);
+
+        void    shutdown(void);
 
 
 	protected:
@@ -46,6 +48,7 @@ class	Server
 		struct sockaddr_in	_fall_back_address;
 		int			_addrlen;
 		struct pollfd &		_server;
+        std::string         _serverPassword;
 
 		struct pollfd		_fds[MAX_CLIENTS + 1];
 		Client			_clients[MAX_CLIENTS];
@@ -62,7 +65,7 @@ class	Server
 		// ServerIp.cpp
 		bool		findSuitableIp		(struct addrinfo *res);
 		void		noSuitableIpFound	(void);
-		void		getIpAddress		(void);
+		void		getIpAddress		(const std::string& port);
 
 		// ServerSetup.cpp
 		void        createSocket		(void);

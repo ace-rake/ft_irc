@@ -6,6 +6,7 @@
 #include <cstring>
 #include <iostream>
 #include <netdb.h>
+#include <string>
 #include <sys/poll.h>
 #include <sys/socket.h>
 #include <sys/types.h>
@@ -15,14 +16,22 @@
 #include <stdlib.h>
 
 // Constructor
-Server::Server(void): _server(_fds[0])
+Server::Server(char **av): _server(_fds[0])
 {
 	_addrlen = sizeof(_address);
 	_address.sin_family = AF_INET;
 	_address.sin_addr.s_addr = INADDR_ANY;
-	_address.sin_port = htons(PORT);
+    unsigned short port = std::atoi(av[1]);
+    if (port == 0 || port > 65535) {
+        std::cerr << "Invalid port number. Should be between 1 and 65535.\n";
+        exit(EXIT_FAILURE);
+    }
+    _address.sin_port = htons(port);
+    _serverPassword = av[2];
 
-	getIpAddress(); // Gets the first available ip address
+    std::cout << "Port provided: " << port << std::endl; // Print the port number provided
+
+	getIpAddress(std::to_string(port)); // Gets the first available ip address
 }
 
 void    Server::createSocket(void)
@@ -82,10 +91,10 @@ void    Server::listenIncomingConnections(void)
 }
 
 // Setup the server and then goes in idle state
-void    Server::run()
+void    Server::run(void)
 {
     listenIncomingConnections();
-	std::cout << "Server listening on port " << PORT << std::endl;
+	std::cout << "Server listening on port " << ntohs(_address.sin_port) << std::endl;
 
 	idle();
 }
