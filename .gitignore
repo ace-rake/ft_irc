@@ -32,6 +32,7 @@
 *.app
 
 Commands.txt
+gdb.txt
 
 #this is some cmake shit
 CMakeLists.txt.user
