@@ -48,7 +48,7 @@ void    partUserNotInChannel(Client& sender, Channel* channel)
 
 void    partNoChannelFound(Client& sender)
 {
-    std::cerr << "Error: No channel found for KICK command." << std::endl;
+    std::cerr << "Error: No channel found for PART command." << std::endl;
     sender.sendMessageToClient("403 " + sender.getNickName() + " " + "No channel found with this name");
 }
 
@@ -58,17 +58,6 @@ void    leaveChannel(Channel& channel, Client& sender)
         return ((void)partUserNotInChannel(sender, &channel));
     std::cout << "Client " << sender.getNickName() << " parts from channel " << channel.getName() << std::endl;
 
-    std::string partMessage = ":";
-    partMessage += sender.getNickName() + "!";
-    partMessage += sender.getUserName() + "@";
-    partMessage += sender.getHostName();
-    partMessage += " PART ";
-    partMessage += channel.getName();
-    partMessage += " :Reason\r\n";
-
-
-    sender.sendMessageToClient(partMessage);
-	std::cout << "DEBUG" << partMessage << std::endl;
     channel.deleteClient(sender);
 }
 
