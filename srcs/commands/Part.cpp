@@ -46,6 +46,24 @@ void    partUserNotInChannel(Client& sender, Channel* channel)
     sender.sendMessageToClient(clientMessage);
 }
 
+void    partNoChannelFound(Client& sender)
+{
+    std::cerr << "Error: No channel found for KICK command." << std::endl;
+    sender.sendMessageToClient("403 " + sender.getNickName() + " " + "No channel found with this name");
+}
+
+void    leaveChannel(Channel& channel, Client& sender)
+{
+    if (channel.findClient(ID, sender.getId()) == channel.getClients().end())
+        return ((void)partUserNotInChannel(sender, &channel));
+    std::cout << "Client " << sender.getNickName() << " parts from channel " << channel.getName() << std::endl;
+
+    std::string partMessage = ":" + sender.getNickName() + " PART " + channel.getName();
+    sender.sendMessageToClient(partMessage);
+
+    channel.deleteClient(sender);
+}
+
 void    partHandler(std::vector<std::string> args, std::vector<Channel> &channels, Client &sender)
 {
 
@@ -54,20 +72,9 @@ void    partHandler(std::vector<std::string> args, std::vector<Channel> &channel
         Channel*    wantedChannel = getChannel(args[1], channels);
         
         if (!wantedChannel)
-        {
-            std::cout << "Channel " << args[1] << " not found" << std::endl;
-        }
+            partNoChannelFound(sender);
         else
-        {
-            if (wantedChannel->findClient(ID, sender.getId()) == wantedChannel->getClients().end())
-                return ((void)partUserNotInChannel(sender, wantedChannel));
-            std::cout << "Client " << sender.getNickName() << " parts from channel " << wantedChannel->getName() << std::endl;
-
-            std::string partMessage = ":" + sender.getNickName() + " PART " + wantedChannel->getName();
-            sender.sendMessageToClient(partMessage);
-            
-            wantedChannel->deleteClient(sender);
-        }
+            leaveChannel(*wantedChannel, sender);
     }
 
 
@@ -82,19 +89,8 @@ void    partHandler(std::vector<std::string> args, std::vector<Channel> &channel
         Channel*    wantedChannel = getChannel(channelName, channels);
 
         if (!wantedChannel)
-        {
-            std::cout << "Channel " << channelName << " not found" << std::endl;
-        }
+            partNoChannelFound(sender);
         else
-        {
-            if (wantedChannel->findClient(ID, sender.getId()) == wantedChannel->getClients().end())
-                return ((void)partUserNotInChannel(sender, wantedChannel));
-            std::cout << "Client " << sender.getNickName() << " parts from channel " << wantedChannel->getName() << std::endl;
-
-            std::string partMessage = ":" + sender.getNickName() + " PART " + wantedChannel->getName();
-            sender.sendMessageToClient(partMessage);
-            
-            wantedChannel->deleteClient(sender);
-        }
+            leaveChannel(*wantedChannel, sender);
     }
 }
