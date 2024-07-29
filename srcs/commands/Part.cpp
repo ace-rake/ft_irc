@@ -58,9 +58,17 @@ void    leaveChannel(Channel& channel, Client& sender)
         return ((void)partUserNotInChannel(sender, &channel));
     std::cout << "Client " << sender.getNickName() << " parts from channel " << channel.getName() << std::endl;
 
-    std::string partMessage = ":" + sender.getNickName() + " PART " + channel.getName();
-    sender.sendMessageToClient(partMessage);
+    std::string partMessage = ":";
+    partMessage += sender.getNickName() + "!";
+    partMessage += sender.getUserName() + "@";
+    partMessage += sender.getHostName();
+    partMessage += " PART ";
+    partMessage += channel.getName();
+    partMessage += " :Reason\r\n";
 
+
+    sender.sendMessageToClient(partMessage);
+	std::cout << "DEBUG" << partMessage << std::endl;
     channel.deleteClient(sender);
 }
 
@@ -77,17 +85,16 @@ void    partHandler(std::vector<std::string> args, std::vector<Channel> &channel
             leaveChannel(*wantedChannel, sender);
     }
 
-
     if (args.size() < 3)
         return ;
     
     std::vector<std::string>    channelsToPart = channelSplit(args[2]);
-
+    
     for (std::vector<std::string>::iterator it = channelsToPart.begin(); it != channelsToPart.end(); ++it)
     {
         const std::string&  channelName = *it;
         Channel*    wantedChannel = getChannel(channelName, channels);
-
+    
         if (!wantedChannel)
             partNoChannelFound(sender);
         else
