@@ -8,6 +8,9 @@
 #include "../client/Client.hpp"
 #include "../irc.h"
 
+#define ERR_INVITEONLYCHAN 473
+#define ERR_WRONGCHANKEY 475
+
 class   Client;
 
 typedef struct s_settings
@@ -38,6 +41,9 @@ class	Channel
 		std::vector<Client>::iterator	findClient(userData, int);
 
 		void	handleJoinRequest	(Client & client, std::string psw = "");
+		void	inviteOnlyErr		(Client & client);
+		void	wrongPswErr		(Client & client);
+
 		void	sendMsgToAll		(std::vector<std::string> args, Client& client);
 		int	deleteClient		(Client client);
 		int	deleteClient		(std::vector<Client>::iterator);

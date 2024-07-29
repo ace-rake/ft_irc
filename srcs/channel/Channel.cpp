@@ -5,10 +5,14 @@
 #include <vector>
 #include "../irc.h"
 
+
 // Constructor
 Channel::Channel(std::string name, std::string psw): _channelName(name), _psw(psw)
 {
     this->_channelTopic = "";
+    _settings.inviteOnly = false;
+    _settings.plebsCanChangeTopic = false;
+    _settings.userLimit = MAX_CLIENTS;
 }
 
 // Destructor
@@ -22,11 +26,31 @@ void	Channel::handleJoinRequest(Client & client, std::string psw)
 	if (findClient(ID, client.getId()) != _clients.end())
 		return ;// Client already in channel
 	// TODO: Check blacklist
-	// TODO: Check join permission for channel
-	if (_psw.compare(psw) != 0 && !_psw.empty() && !isInInviteList(client.getId()))
-		return ;// Cannot Join
+	
+	if (isInInviteList(client.getId())) // Check if invited
+		return (void) addClient(client);
+	if (_settings.inviteOnly)
+		return (void) inviteOnlyErr(client) ;// Cannot join
+	if (_psw.compare(psw) != 0 && !_psw.empty()) // Check psw
+		return (void) wrongPswErr(client);// Cannot Join
 	addClient(client);
-    client.addToClientChannelList(this);
+}
+
+static std::string baseError(std::string channelName, Client client, int errCode)
+{
+	return std::to_string(errCode) + " " + client.getNickName() + " " + channelName + " :Cannot join channel";
+}
+
+void	Channel::inviteOnlyErr(Client & client)
+{
+	std::string errMsg = baseError(_channelName, client, ERR_INVITEONLYCHAN) + " (+i)";
+	client.sendMessageToClient(errMsg);
+}
+
+void	Channel::wrongPswErr(Client & client)
+{
+	std::string errMsg = baseError(_channelName, client, ERR_WRONGCHANKEY) + " (+k)";
+	client.sendMessageToClient(errMsg);
 }
 
 int	Channel::addClient(Client & client)
@@ -34,8 +58,9 @@ int	Channel::addClient(Client & client)
 	if (findClient(ID, client.getId()) != _clients.end())
 		return 1;// Client already in channel
 	_clients.push_back(client);
-    if (_opList.empty())
-        _opList.push_back(client);
+	if (_opList.empty())
+		_opList.push_back(client);
+	client.addToClientChannelList(this);
 	return 0;
 }
 
