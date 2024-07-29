@@ -9,12 +9,11 @@ int	Channel::deleteClient(std::vector<Client>::iterator client)
 	return (0);
 }
 
-int Channel::deleteClient(Client &c)
+int	Channel::deleteClient(Client & c)
 {
-    std::vector<Client>::iterator it = findClient(USER, c.getUserName());
-    if (it != _clients.end())
-    {
-        // Prepare the part message before removing the client.
+	std::vector<Client>::iterator it = findClient(USER, c.getUserName());
+	if (it != _clients.end())
+    {   
         std::string partMessage = ":";
         partMessage += c.getNickName() + "!";
         partMessage += c.getUserName() + "@";
@@ -22,17 +21,13 @@ int Channel::deleteClient(Client &c)
         partMessage += " PART ";
         partMessage += getName();
         partMessage += " :Reason";
-
-        // Remove the client first.
-        _clients.erase(it);
-        _settings.userAmount--;
-
-        // Then broadcast the part message to the remaining clients.
         broadcastMsg(partMessage);
 
-        // TODO: check if last user has left and perform necessary cleanup.
+		deleteClient(it);
+	    _settings.userAmount--;
+	    // TODO: check if last user has left
     }
-    return (0);
+	return (0);
 }
 
 void    Channel::kickUser(Client sender, std::string victimName, std::vector<std::string>args)

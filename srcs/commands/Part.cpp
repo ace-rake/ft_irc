@@ -1,3 +1,4 @@
+/*
 #include "../server/Server.hpp"
 #include <vector>
 #include <string>
@@ -90,3 +91,4 @@ void    partHandler(std::vector<std::string> args, std::vector<Channel> &channel
             leaveChannel(*wantedChannel, sender);
     }
 }
+*/
