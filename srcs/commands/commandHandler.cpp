@@ -33,7 +33,13 @@ void	Server::commandHandler(std::string command, Client & client)
 	if (starts_with(command, "NICK"))
 	{
 		std::cout << "enter NICK" << std::endl;
-		setNewNick(client, args[1]);
+		if (args.size() < 2)
+		{
+			std::cerr << "Not enough parameters" << std::endl;
+			client.sendMessageToClient("Not enough parameters");
+		}
+		else
+			setNewNick(client, args[1]);
 		command.erase(0, command.find("\r\n") + 2);
 		args = split(command);
 	}
@@ -97,18 +103,6 @@ void	Server::commandHandler(std::string command, Client & client)
 	{
 		std::cout << "enter INVITE" << std::endl;
 		inviteToChannel(args[2], args[1], client);
-	}
-    if (starts_with(command, "TOPIC "))
-	if (starts_with(command, "NICK"))
-	{
-		std::cout << "enter NICK" << std::endl;
-        if (args.size() < 2)
-        {
-            std::cerr << "Not enough parameters" << std::endl;
-            client.sendMessageToClient("Not enough parameters");
-        }
-        else
-		    setNewNick(client, args[1]);
 	}
     if (starts_with(command, "TOPIC"))
     {
