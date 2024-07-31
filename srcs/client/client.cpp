@@ -54,6 +54,7 @@ bool	Client::isValid()
 
 void	Client::setUserData(std::vector<std::string> args)
 {
+	(void)args;
 	_hostName = "vdenisse";
 	_userName = "vdenisse";
 	_realName = "vdenisse";
