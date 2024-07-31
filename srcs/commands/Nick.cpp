@@ -34,8 +34,6 @@ bool	Server::nickInUse(std::string nickToCheck, int clientId)const
 
 void	Server::setNewNick(Client & client, std::string newNick)
 {
-	/* :old_nick NICK new_nick */
-
 	if (nickInUse(newNick, client.getId()))
 	{
 		std::cerr << "Server::setNewNick: Error: Nick already in use" << std::endl;

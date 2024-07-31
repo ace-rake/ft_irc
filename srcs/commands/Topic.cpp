@@ -49,8 +49,18 @@ void    topicUserNotOperator(Client& sender)
     sender.sendMessageToClient(clientMessage);
 }
 
+void    topicNotEnoughArguments(Client& sender)
+{
+    std::cerr << "Error: Not enough command parameters for TOPIC command." << std::endl;
+
+    sender.sendMessageToClient("Not enough parameters");
+} 
+
 void    topicHandler(std::vector<std::string> args, std::vector<Channel> &channels, Client &sender)
 {
+    if (args.size() < 2)
+        return ((void)topicNotEnoughArguments(sender));
+
     Channel*    wantedChannel = findChannelByNameTopic(args[1], channels);
 
     if (!wantedChannel)

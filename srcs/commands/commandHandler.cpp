@@ -26,6 +26,7 @@ void	Server::commandHandler(std::string command, Client & client)
 				channel->sendMsgToAll(args, client);
 			else
 			{
+                client.sendMessageToClient("PRIVMSG: Channel doesn't exist");
 				throw std::runtime_error("PRIVMSG: Error: Channel doesn't exist");
 				//TODO: Handle channel doesnt exist
 			}
@@ -48,9 +49,15 @@ void	Server::commandHandler(std::string command, Client & client)
 	if (starts_with(command, "NICK"))
 	{
 		std::cout << "enter NICK" << std::endl;
-		setNewNick(client, args[1]);
+        if (args.size() < 2)
+        {
+            std::cerr << "Not enough parameters" << std::endl;
+            client.sendMessageToClient("Not enough parameters");
+        }
+        else
+		    setNewNick(client, args[1]);
 	}
-    if (starts_with(command, "TOPIC "))
+    if (starts_with(command, "TOPIC"))
     {
         std::cout << "enter TOPIC" << std::endl;
         topicHandler(args, _channels, client);

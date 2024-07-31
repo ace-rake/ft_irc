@@ -10,7 +10,7 @@ void Server::handleNewConnection()
 			_clients[i].getFd().fd = new_connection;
 			_clients[i].getFd().events = POLLIN;
 			std::cout << "Client connected with fd " << new_connection << std::endl;
-			createNewClient(_clients[i]);
+			//createNewClient(_clients[i]);
 			break;
 		}
 }
