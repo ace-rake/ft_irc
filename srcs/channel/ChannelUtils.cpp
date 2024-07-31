@@ -35,7 +35,7 @@ void    Channel::kickUser(Client sender, std::string victimName, std::vector<std
     if (findClient(NICK, victimName) == _clients.end())
     {
         std::cerr << "Error: Victim is not found in channel" << std::endl;
-        sender.sendMessageToClient("441 " + sender.getNickName() + " " + victimName + " " + getName() + " :They aren't on that channel");
+        sender.sendMessageToClient("The person you are trying to kick can't be found");
         return ;
     }
 
