@@ -17,7 +17,7 @@
 #include <sstream>
 
 // Constructor
-Server::Server(char **av): _server(_fds[0])
+Server::Server(char **av, int argc): _server(_fds[0])
 {
 	_addrlen = sizeof(_address);
 	_address.sin_family = AF_INET;
@@ -28,7 +28,10 @@ Server::Server(char **av): _server(_fds[0])
         exit(EXIT_FAILURE);
     }
     _address.sin_port = htons(port);
-    _serverPassword = av[2];
+    if (argc == 3)
+	    _serverPassword = av[2];
+    else
+	    _serverPassword.clear();
 
     std::cout << "Port provided: " << port << std::endl; // Print the port number provided
 

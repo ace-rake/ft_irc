@@ -10,6 +10,58 @@ void	Server::commandHandler(std::string command, Client & client)
 {
 	std::vector<std::string> args = split(command);
 	std::cout << "enter commandHandler" << std::endl;
+	std::cout << "Command to handle\n" << command << std::endl;
+	if (starts_with(command,"CAP LS"))
+	{
+		command.erase(0, command.find("\r\n") + 2);
+		args = split(command);
+	}
+	if (starts_with(command, "PASS "))
+	{
+		std::cout << "enter PASS" << std::endl;
+		if (args.size() == 2)
+		{
+			if (args[1].compare(_serverPassword) == 0)
+				client.setPsw(true);
+		}
+		else
+			std::cerr << "Wrong amount of args" << std::endl;
+		command.erase(0, command.find("\r\n") + 2);
+		args = split(command);
+	}
+
+	if (starts_with(command, "NICK"))
+	{
+		std::cout << "enter NICK" << std::endl;
+		setNewNick(client, args[1]);
+		command.erase(0, command.find("\r\n") + 2);
+		args = split(command);
+	}
+	// check nick and psw
+	if (client.getNickName().empty() || !client.getPsw())
+	{
+		std::cerr << "Client nick and psw not correct" << std::endl;
+		return ;
+	}
+	
+	if (starts_with(command, "USER "))
+	{
+		std::cout << "enter USER" << std::endl;
+		client.setUserData(args);
+		// TODO: If all OK send handshake
+		std::string welcomeMessage = ":serverhostname 001 " + client.getNickName() + " :Welcome to the IRC network, " + client.getNickName() + "!\r\n";
+		client.sendMessageToClient(welcomeMessage);
+	}
+
+	// TODO: Check if user is valid
+	if (!client.isValid())
+	{
+		std::cerr << "Client invalid" << std::endl;
+		return ;
+	}
+	else
+		std::cerr << "Client valid" << std::endl;
+
 	if (starts_with(command, "JOIN "))
 	{
 		std::cout << "enter JOIN" << std::endl;
@@ -45,11 +97,6 @@ void	Server::commandHandler(std::string command, Client & client)
 		std::cout << "enter INVITE" << std::endl;
 		inviteToChannel(args[2], args[1], client);
 	}
-	if (starts_with(command, "NICK"))
-	{
-		std::cout << "enter NICK" << std::endl;
-		setNewNick(client, args[1]);
-	}
     if (starts_with(command, "TOPIC "))
     {
         std::cout << "enter TOPIC" << std::endl;
@@ -67,4 +114,5 @@ void	Server::commandHandler(std::string command, Client & client)
         partHandler(args, _channels, client);
     }
     */
+    	
 }

@@ -9,8 +9,10 @@ void Server::handleNewConnection()
 		{
 			_clients[i].getFd().fd = new_connection;
 			_clients[i].getFd().events = POLLIN;
+			if (_serverPassword.empty())
+				_clients[i].setPsw(true);
 			std::cout << "Client connected with fd " << new_connection << std::endl;
-			createNewClient(_clients[i]);
+			/* createNewClient(_clients[i]); */
 			break;
 		}
 }
@@ -65,7 +67,8 @@ std::string Server::readUserData(int &fd)
 
 int	Server::requestPsw(Client & client)
 {
-	
+	if (_serverPassword.empty())
+		return (0);
 	std::string msg = "NOTICE AUTH :*** Password required";
 	client.sendMessageToClient(msg);
 	return (0);
@@ -83,6 +86,9 @@ void	Server::createNewClient(Client & client)
 		return ;
 	}
 	std::cout << "create user\n" << client << std::endl;
+
+	// Password request
+	requestPsw(client);
 
 	// Welcome handshake
 	std::string welcomeMessage = ":serverhostname 001 " + client.getNickName() + " :Welcome to the IRC network, " + client.getNickName() + "!\r\n";

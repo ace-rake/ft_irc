@@ -33,7 +33,36 @@ void	Client::clear()
 	_nickName = "";
 	_realName = "";
 	_ip = "";
+	_psw = false;
 	_channelNames.clear();
+}
+
+bool	Client::isValid()
+{	
+	if (_nickName.empty())
+		return false;
+	if (_hostName.empty())
+		return false;
+	if (_realName.empty())
+		return false;
+	if (_userName.empty())
+		return false;
+	if (_ip.empty())
+		return false;
+	return _psw;
+}
+
+void	Client::setUserData(std::vector<std::string> args)
+{
+	_hostName = "vdenisse";
+	_userName = "vdenisse";
+	_realName = "vdenisse";
+	_ip = "0.0.0.0";
+}
+
+void	Client::setPsw(bool wow)
+{
+	_psw = wow;
 }
 
 void	Client::send_message(std::string str)

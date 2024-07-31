@@ -40,7 +40,12 @@ class	Client
 		void		removeFromClientChannelList(Channel* channel);
 		void		printClientChannels() const;
 
+		void		setUserData(std::vector<std::string> args);
+		void		setPsw(bool);
+		bool		getPsw(void){return _psw;}
+
 		void		clear();// Clear client object when client leaves
+		bool 		isValid();// Check if all necessary data for client is present
 
 	protected:
 		/*_*/;
@@ -57,6 +62,7 @@ class	Client
 		std::string 		_realName;
 		std::string		_ip;//TODO Do we need to get ip from server or client, rn its whatever the initial handshake gives
 		std::vector<std::string>    _channelNames;
+		bool			_psw;
 		/*_*/;
 
 		void	idle();
