@@ -11,7 +11,7 @@ void	Server::commandHandler(std::string command, Client & client)
 	std::vector<std::string> args = split(command);
 	std::cout << "enter commandHandler" << std::endl;
 	std::cout << "Command to handle\n" << command << std::endl;
-	if (starts_with(command,"CAP LS"))
+	if (starts_with(command,"CAP LS") || starts_with(command, "QUOTE "))
 	{
 		command.erase(0, command.find("\r\n") + 2);
 		args = split(command);
@@ -19,13 +19,16 @@ void	Server::commandHandler(std::string command, Client & client)
 	if (starts_with(command, "PASS "))
 	{
 		std::cout << "enter PASS" << std::endl;
-		if (args.size() == 2)
+		if (args.size() >= 2)
 		{
 			if (args[1].compare(_serverPassword) == 0)
 				client.setPsw(true);
 		}
 		else
+		{
 			std::cerr << "Wrong amount of args" << std::endl;
+			client.sendMessageToClient("Not enough parameters");
+		}
 		command.erase(0, command.find("\r\n") + 2);
 		args = split(command);
 	}
@@ -52,9 +55,9 @@ void	Server::commandHandler(std::string command, Client & client)
 	
 	if (starts_with(command, "USER "))
 	{
+		//TODO: Actually handle the args
 		std::cout << "enter USER" << std::endl;
 		client.setUserData(args);
-		// TODO: If all OK send handshake
 		std::string welcomeMessage = ":serverhostname 001 " + client.getNickName() + " :Welcome to the IRC network, " + client.getNickName() + "!\r\n";
 		client.sendMessageToClient(welcomeMessage);
 	}
