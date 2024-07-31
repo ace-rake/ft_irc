@@ -9,7 +9,7 @@
 int main() {
 	int sock = 0;
 	struct sockaddr_in serv_addr;
-	char buffer[1024] = {0};
+	//char buffer[1024] = {0}; //Unused variable
 
 	// Creating socket file descriptor
 	if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
