@@ -50,20 +50,17 @@ void    Channel::removeUserLimit()
     _settings.userLimit = MAX_CLIENTS;
 }
 
-void    Channel::makeClientOperator(Client & client)
+void    Channel::makeClientOperator(Client& victim)
 {
-    _opList.push_back(client);
+    this->_opList.push_back(victim);
 }
 
-void    Channel::removeClientOperator(Client & client)
+void    Channel::removeClientOperator(Client& victim)
 {
-    std::cout << "Remove user if he exists" << std::endl;
+	this->_opList.erase(Channel::findClient(ID, victim.getId()));
 }
 
 bool    Channel::everyoneCanChangeTopic()
 {
-    if (_settings.plebsCanChangeTopic == true)
-        return true;
-    else
-        return false;
+    return (this->_settings.plebsCanChangeTopic);
 }
