@@ -41,6 +41,7 @@ class	Channel
 		/* std::vector<Client>::const_iterator	findClient(const Client & client)const; */
 		std::vector<Client>::iterator	findClient(userData, const std::string);
 		std::vector<Client>::iterator	findClient(userData, int);
+		std::vector<Client>::iterator	findOperator(userData, const std::string);
 
 		void	handleJoinRequest	(Client & client, std::string psw = "");
 		void	inviteOnlyErr		(Client & client);

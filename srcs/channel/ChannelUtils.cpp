@@ -126,6 +126,34 @@ std::vector<Client>::iterator	Channel::findClient(userData field, const std::str
 	return _clients.end();
 }
 
+std::vector<Client>::iterator	Channel::findOperator(userData field, const std::string data)
+{
+	
+	std::string (Client::*funcptr)()const;
+	switch (field){
+		case (NICK):
+		{
+			funcptr = &Client::getNickName;
+			break;
+		}
+		case (USER):
+		{
+			funcptr = &Client::getUserName;
+			break;
+		}
+		default:
+		{
+			throw std::runtime_error("find client default, You need to add your field to the switch case");
+		}
+	}
+	for (std::vector<Client>::iterator it = _opList.begin(); it != _opList.end(); ++it)
+	{
+		if ((*it.*funcptr)() == data)
+			return it;
+	}
+	return _opList.end();
+}
+
 bool    Channel::clientIsOperator(Client findClient)
 {
 	for (std::vector<Client>::iterator it = _opList.begin(); it != _opList.end(); it++)

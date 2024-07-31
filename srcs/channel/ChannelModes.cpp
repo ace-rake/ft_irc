@@ -57,7 +57,8 @@ void    Channel::makeClientOperator(Client& victim)
 
 void    Channel::removeClientOperator(Client& victim)
 {
-	this->_opList.erase(Channel::findClient(ID, victim.getId()));
+    if (findOperator(NICK, victim.getNickName()) != _opList.end())
+	    this->_opList.erase(Channel::findOperator(NICK, victim.getNickName()));
 }
 
 bool    Channel::everyoneCanChangeTopic()

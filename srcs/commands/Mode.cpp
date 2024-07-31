@@ -64,4 +64,13 @@ void    modeHandler(std::vector<std::string> args, Client &sender, std::vector<C
         } catch (const std::exception& e) {
             std::cout << "User doesnt exist in channel or is not given";
         }
+    else if (args[2] == "-o")
+        try {
+            Client  wanted = *wantedChannel->findOperator(NICK, args[3]);
+            wantedChannel->removeClientOperator(wanted);
+        } catch (const std::exception& e) {
+            std::cout << "User doesnt exist in channel or is not given";
+        }
+    else
+        std::cout << "Flag isn't implemented for MODE command" << std::endl;
 }
