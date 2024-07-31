@@ -28,8 +28,8 @@ void	Server::joinChannel(std::string name, Client & client, std::string psw)
 
 Channel *	Server::createChannel	(std::string name, std::string psw)
 {
-	Channel * new_channel = new Channel(name, psw);
-	_channels.push_back(*new_channel);
+	Channel new_channel = Channel(name, psw);
+	_channels.push_back(new_channel);
 	return findChannel(name);
 }
 

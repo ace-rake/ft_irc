@@ -93,7 +93,7 @@ void	Server::createNewClient(Client & client)
 
 void	Server::clearClient(Client & client)
 {
-	std::vector<std::string>::iterator it = client.getChannels().end();
+	std::vector<std::string>::iterator it = client.getChannels().begin();
 	for (;it != client.getChannels().end(); ++it)
 	{
 		Channel * channel = getChannel(*it);

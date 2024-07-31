@@ -33,7 +33,6 @@ void	Client::clear()
 	_nickName = "";
 	_realName = "";
 	_ip = "";
-	_channelNames.clear();
 }
 
 void	Client::send_message(std::string str)
@@ -104,17 +103,6 @@ void    Client::sendMessageToClient(std::string message) const
     std::string buffer = message + "\r\n";
     if (send(this->getFd().fd, buffer.c_str(), buffer.size(), 0) < 0)
         throw std::runtime_error("Error while sending message to the client");
-}
-
-void    Client::addToClientChannelList(Channel* channel)
-{
-    removeFromClientChannelList(channel);
-    _channelNames.push_back(channel->getName());
-}
-
-void    Client::removeFromClientChannelList(Channel* channel)
-{
-    _channelNames.erase(std::remove(_channelNames.begin(), _channelNames.end(), channel->getName()), _channelNames.end());
 }
 
 bool Client::operator==(const Client & other)const

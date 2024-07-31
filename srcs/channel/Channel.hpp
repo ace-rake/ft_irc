@@ -33,7 +33,8 @@ class	Channel
 		~Channel	(void);
 
 		std::string getName()const{return _channelName;}
-		std::vector<Client> getClients(){return _clients;}
+		std::vector<Client>& getClients(){return _clients;}
+		std::vector<Client>& getOperators(){return _opList;}
 		std::string getTopic()const{return _channelTopic;}
 
 		/* Client *	retrieveClientByNick(const std::string& name); */

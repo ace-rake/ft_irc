@@ -72,7 +72,6 @@ int	Channel::addClient(Client & client)
 	_clients.push_back(client);
 	if (_opList.empty())
 		_opList.push_back(client);
-	client.addToClientChannelList(this);
 	_settings.userAmount++;
 	return 0;
 }

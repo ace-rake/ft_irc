@@ -42,9 +42,6 @@ class	Client
 
 		void		clear();// Clear client object when client leaves
 
-	protected:
-		/*_*/;
-
 	private:
 		int			_server_fd;
 		struct pollfd *		_client_fd;

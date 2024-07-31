@@ -25,33 +25,29 @@ class	Server
 {
 	public:
 		// Constructor
-		Server	(char **av);
+		Server(char **av);
 
 		// Destructor
-		~Server	(void);
+		~Server(void);
 
 		void	run(void);
-		Client * getClients(){return _clients;}
+		Client*	getClients(){return _clients;}
 
 		// Logging purposes TODO delete this after
-		void logCommand(std::string);
+		void	logCommand(std::string);
 
         void    shutdown(void);
 
-
 	protected:
-		/*_*/;
+		int						_server_socket;
+		struct sockaddr_in		_address;
+		struct sockaddr_in		_fall_back_address;
+		int						_addrlen;
+		struct pollfd&			_server;
+        std::string				_serverPassword;
 
-	protected:
-		int			_server_socket;
-		struct sockaddr_in	_address;
-		struct sockaddr_in	_fall_back_address;
-		int			_addrlen;
-		struct pollfd &		_server;
-        std::string         _serverPassword;
-
-		struct pollfd		_fds[MAX_CLIENTS + 1];
-		Client			_clients[MAX_CLIENTS];
+		struct pollfd			_fds[MAX_CLIENTS + 1];
+		Client					_clients[MAX_CLIENTS];
 
 		std::vector<Channel>	_channels;
 
@@ -103,4 +99,3 @@ class	Server
 };
 
 #endif
-
