@@ -12,23 +12,16 @@ Channel* findChannelByNameTopic(const std::string& channelName, std::vector<Chan
     return NULL;
 }
 
-static Channel*    getChannel(std::vector<std::string> args, std::vector<Channel>& channels)
-{
-    std::string channelName = args[1];
-
-    if (channelName[0] != '#')
-        channelName = "#" + channelName;
-
-    return (findChannelByNameTopic(channelName, channels));
-}
-
 void    changeTopic(Channel* referencedChannel, std::vector<std::string>args, Client &sender)
 {
-    std::string newTopicName = args[3];
+    std::string newTopicName = args[2];
 
-    for (size_t i = 4; i < args.size(); ++i)
+    for (size_t i = 3; i < args.size(); ++i)
         newTopicName += " " +  args[i];
 
+    if (!newTopicName.empty() && newTopicName[0] == ':') 
+        newTopicName.erase(0, 1);
+    
     referencedChannel->changeTopic(newTopicName, sender);
 }
 
@@ -58,13 +51,7 @@ void    topicUserNotOperator(Client& sender, Channel* channel)
 
 void    topicHandler(std::vector<std::string> args, std::vector<Channel> &channels, Client &sender)
 {
-    try {
-        Channel* wantedChannel = getChannel(args, channels);
-    } catch (const std::exception& e) {
-        return ((void)topicNoChannelFound(sender));
-    }
-
-    Channel*    wantedChannel = getChannel(args, channels);
+    Channel*    wantedChannel = findChannelByNameTopic(args[1], channels);
 
     if (!wantedChannel)
         return ((void)topicNoChannelFound(sender));
