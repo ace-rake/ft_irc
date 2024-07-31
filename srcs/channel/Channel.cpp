@@ -1,6 +1,7 @@
 #include "Channel.hpp"
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <sys/socket.h>
 #include <vector>
 #include "../irc.h"
@@ -40,7 +41,10 @@ void	Channel::handleJoinRequest(Client & client, std::string psw)
 
 static std::string baseError(std::string channelName, Client client, int errCode)
 {
-	return std::to_string(errCode) + " " + client.getNickName() + " " + channelName + " :Cannot join channel";
+	std::stringstream converter;
+	converter << errCode;
+
+	return (converter.str() + ' ' + client.getNickName() + ' ' + channelName + " :Cannot join channel");
 }
 
 void	Channel::inviteOnlyErr(Client & client)

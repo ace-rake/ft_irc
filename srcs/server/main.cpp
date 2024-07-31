@@ -4,7 +4,7 @@
 #include <iostream>
 #include <unistd.h>
 
-Server  *serverInstance = nullptr;
+Server* serverInstance = NULL;
 
 void    signalHandler(int signal)
 {

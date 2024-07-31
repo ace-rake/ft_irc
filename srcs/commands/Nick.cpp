@@ -1,5 +1,6 @@
 #include "../server/Server.hpp"
 #include <iostream>
+#include <sstream>
 
 #define ERR_NICKINUSE 443
 
@@ -10,7 +11,10 @@ void	Server::nickInUseError(Client & client)
 
 void	Server::nickInUseError(Client & client, std::string nickName)
 {
-	std::string errorMessage = ":" + std::string("server_name") + " " + std::to_string(ERR_NICKINUSE) + " * " + nickName + " :Nickname is already in use\r\n";
+	std::stringstream converter;
+	converter << ERR_NICKINUSE;
+
+	std::string errorMessage = ":" + std::string("server_name") + " " + converter.str() + " * " + nickName + " :Nickname is already in use\r\n";
 	client.sendMessageToClient(errorMessage);
 }
 

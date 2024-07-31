@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sstream>
 
 // Constructor
 Server::Server(char **av): _server(_fds[0])
@@ -31,7 +32,10 @@ Server::Server(char **av): _server(_fds[0])
 
     std::cout << "Port provided: " << port << std::endl; // Print the port number provided
 
-	getIpAddress(std::to_string(port)); // Gets the first available ip address
+	std::stringstream converter;
+	converter << port;
+
+	getIpAddress(converter.str()); // Gets the first available ip address
 }
 
 void    Server::createSocket(void)
