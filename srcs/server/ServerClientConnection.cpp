@@ -63,6 +63,14 @@ std::string Server::readUserData(int &fd)
 	return ("");
 }
 
+int	Server::requestPsw(Client & client)
+{
+	
+	std::string msg = "NOTICE AUTH :*** Password required";
+	client.sendMessageToClient(msg);
+	return (0);
+}
+
 void	Server::createNewClient(Client & client)
 {
 	std::string userData = receiveUserData(client.getFd());

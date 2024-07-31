@@ -61,6 +61,7 @@ class	Server
 		void		handleNewConnection	(void);
 		std::string	handleClientMessage	(Client & client);
 		void		clearClient		(Client	& client);
+		int		requestPsw		(Client & client);
 
 		// ServerIp.cpp
 		bool		findSuitableIp		(struct addrinfo *res);
