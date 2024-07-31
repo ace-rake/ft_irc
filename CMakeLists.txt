@@ -17,12 +17,12 @@ FILE(GLOB mock_srcs srcs/mock/* ${shared_srcs})
            
            
 # Add linker flags globally
-add_link_options(-g -std=c++98)
+add_link_options(-g -Wall -Werror -Wextra -std=c++98)
            
            
            
 # Add compiler flags globally
-add_compile_options(-g -O0 -std=c++98)
+add_compile_options(-g -O0 -Wall -Werror -Wextra -std=c++98)
            
            
            

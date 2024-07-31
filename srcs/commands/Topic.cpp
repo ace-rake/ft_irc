@@ -40,7 +40,7 @@ void    topicUserNotInChannel(Client& sender, Channel* channel)
     sender.sendMessageToClient(clientMessage);
 }
 
-void    topicUserNotOperator(Client& sender, Channel* channel)
+void    topicUserNotOperator(Client& sender)
 {
     std::cerr << "Error: Sender does not have operator privileges for TOPIC command." << std::endl;
 
@@ -60,7 +60,7 @@ void    topicHandler(std::vector<std::string> args, std::vector<Channel> &channe
         return ((void)topicUserNotInChannel(sender, wantedChannel));
 
     if (!wantedChannel->clientIsOperator(sender) && !wantedChannel->everyoneCanChangeTopic())
-        return ((void)topicUserNotOperator(sender, wantedChannel));
+        return ((void)topicUserNotOperator(sender));
 
     if (args.size() > 2)
         changeTopic(wantedChannel, args, sender);
