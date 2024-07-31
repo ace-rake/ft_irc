@@ -21,10 +21,12 @@ void    signalHandler(int signal)
 
 int main(int ac, char **av)
 {
-    if (ac < 3)
-		std::cout << "Invalid program call. Should be ./ircserv <port> <password>\n";
-
-	Server server(av);
+    if (ac < 2 || ac > 3)
+    {
+        std::cout << "Invalid program call. Should be ./ircserv <port> <password(optional)>" << std::endl;
+        return (0);
+    }
+	Server server(av, ac);
     serverInstance = &server;
 
     std::signal(SIGINT, signalHandler);

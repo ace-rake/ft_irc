@@ -25,7 +25,7 @@ class	Server
 {
 	public:
 		// Constructor
-		Server(char **av);
+		Server	(char **av, int argc);
 
 		// Destructor
 		~Server(void);
