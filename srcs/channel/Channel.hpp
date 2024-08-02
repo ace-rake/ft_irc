@@ -68,20 +68,20 @@ class	Channel
 
 		bool	isFull			()const;
 
-        void    setInviteOnly();
-        void    removeInviteOnly();
+        void    setInviteOnly(Client &sender);
+        void    removeInviteOnly(Client &sender);
 
-        void    setPassword(std::string psw);
-        void    removePassword();
+        void    setPassword(std::string psw, Client &sender);
+        void    removePassword(Client &sender);
 
-        void    setTopicOperatorOnly();
-        void    removeTopicOperatorOnly();
+        void    setTopicOperatorOnly(Client &sender);
+        void    removeTopicOperatorOnly(Client &sender);
 
-        void    setUserLimit(int amount);
-        void    removeUserLimit();
+        void    setUserLimit(int amount, Client &sender);
+        void    removeUserLimit(Client &sender);
 
-        void    makeClientOperator(Client & client);
-        void    removeClientOperator(Client & client);
+        void    makeClientOperator(Client & client, Client &sender);
+        void    removeClientOperator(Client & client, Client &sender);
 
         bool    everyoneCanChangeTopic();
 
