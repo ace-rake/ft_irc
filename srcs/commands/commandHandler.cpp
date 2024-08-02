@@ -29,6 +29,7 @@ static bool validate_client(Client& client)
 
 // TODO: Fix info messages
 // TODO: Also inform user of anything that went wrong
+// TODO: Fix invalid reads, segfaults, etc. when not enough arguments
 void	Server::commandHandler(std::string command, Client & client)
 {
 	std::vector<std::string> args = split(command);
@@ -82,10 +83,13 @@ void	Server::commandHandler(std::string command, Client & client)
 			return ;
 	}
 
-	//TODO: Fix segfault with too few arguments
 	//TODO: Actually handle the args
 	if (starts_with(command, "USER "))
 	{
+		// Check argument count
+		if (args.size() < 5)
+			return (std::cerr << "Incomplete command: USER\n", void());
+
 		// Check password
 	    if (!client.getPsw())
 			return (std::cerr << "Client password incorrect\n", void());
@@ -157,6 +161,9 @@ void	Server::commandHandler(std::string command, Client & client)
 		if (!validate_client(client))
 			return ;
 
+		if (args.size() < 3)
+			return (std::cerr << "Incomplete command: INVITE\n", void());
+
 		std::cout << "enter INVITE" << std::endl;
 		inviteToChannel(args[2], args[1], client);
 	}
@@ -179,10 +186,7 @@ void	Server::commandHandler(std::string command, Client & client)
         modeHandler(args, client, _channels);
     }
 
-	else if (starts_with(command, "QUIT "))
-        std::cout << "Client disconnecting\n";
-
-    else
+	else if (!starts_with(command, "PING ") && !starts_with(command, "QUIT "))
     {
 		std::string message = "Command not found: " + command;
         std::cout << message << '\n';

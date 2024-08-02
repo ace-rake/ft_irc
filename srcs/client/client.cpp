@@ -18,6 +18,7 @@ Client::Client()
 	_server_fd = -1;
 	_client_fd = NULL;
 	_clientId = id++;
+	_psw = false;
 }
 
 // Destructor
@@ -90,6 +91,7 @@ std::vector<std::string> split(std::string str)
 	return words;
 }
 
+// TODO: Nicknames appear to have a space in front of them in irssi, perhaps normal?
 void	Client::create(std::string userData)
 {
 	//CAP LS 
@@ -98,7 +100,7 @@ void	Client::create(std::string userData)
 	//     (user)   host     server     realname
 	std::vector<std::string> words = split(userData);	
 
-	while (words.front().compare("NICK") != 0)
+	while (words.front().compare("NICK ") != 0)
 		words.erase(words.begin());
 	words.erase(words.begin());
 	_nickName = *words.begin();
@@ -118,14 +120,13 @@ void	Client::create(std::string userData)
 	words.erase(words.begin());
 	while (!words.empty())
 	{
-		realName += " ";
+		realName += ' ';
 		realName += *words.begin();
 		words.erase(words.begin());
 	}
 	realName.erase(0, 1);
 	_realName = realName;
 }
-//FUCK
 
 void    Client::sendMessageToClient(std::string message) const
 {
