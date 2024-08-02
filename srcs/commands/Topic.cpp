@@ -25,6 +25,26 @@ void    changeTopic(Channel* referencedChannel, std::vector<std::string>args, Cl
     referencedChannel->changeTopic(newTopicName, sender);
 }
 
+void displayTopic(Channel* referencedChannel, Client &sender)
+{
+    std::string topic = referencedChannel->getTopic();
+    std::string channelName = referencedChannel->getName();
+    std::string nickName = sender.getNickName();
+
+    if (topic.empty())
+    {
+        std::string noTopicMessage = ":server_name 331 " + nickName + " " + channelName + " :No topic is set";
+        sender.sendMessageToClient(noTopicMessage);
+        std::cout << "No topic is set for channel: " << channelName << std::endl;
+    }
+    else
+    {
+        std::string topicMessage = ":server_name 332 " + nickName + " " + channelName + " :" + topic;
+        sender.sendMessageToClient(topicMessage);
+        std::cout << "Display Topic: " << topic << " for channel: " << channelName << std::endl;
+    }
+}
+
 void    topicNoChannelFound(Client& sender)
 {
     std::cerr << "Error: No channel found for TOPIC command." << std::endl;
@@ -74,4 +94,6 @@ void    topicHandler(std::vector<std::string> args, std::vector<Channel> &channe
 
     if (args.size() > 2)
         changeTopic(wantedChannel, args, sender);
+    else
+        displayTopic(wantedChannel, sender);
 }

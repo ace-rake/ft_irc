@@ -33,7 +33,7 @@ void	Server::commandHandler(std::string command, Client & client)
 		args = split(command);
 	}
 
-	if (starts_with(command, "NICK"))
+    else if (starts_with(command, "NICK"))
 	{
 		std::cout << "enter NICK" << std::endl;
 		if (args.size() < 2)
@@ -47,13 +47,13 @@ void	Server::commandHandler(std::string command, Client & client)
 		args = split(command);
 	}
 	// check nick and psw
-	if (client.getNickName().empty() || !client.getPsw())
+    else if (client.getNickName().empty() || !client.getPsw())
 	{
 		std::cerr << "Client nick and psw not correct" << std::endl;
 		return ;
 	}
 	
-	if (starts_with(command, "USER "))
+    else if (starts_with(command, "USER "))
 	{
 		//TODO: Actually handle the args
 		std::cout << "enter USER" << std::endl;
@@ -71,12 +71,12 @@ void	Server::commandHandler(std::string command, Client & client)
 	else
 		std::cerr << "Client valid" << std::endl;
 
-	if (starts_with(command, "JOIN "))
+    if (starts_with(command, "JOIN "))
 	{
 		std::cout << "enter JOIN" << std::endl;
 		joinHandler(args, client);
 	}
-	if (starts_with(command, "PRIVMSG "))
+    else if (starts_with(command, "PRIVMSG "))
 	{
 		std::cout << "Enter PRIVMSG" << std::endl;
 		if (args[1].at(0) == '#')
@@ -97,25 +97,30 @@ void	Server::commandHandler(std::string command, Client & client)
 			privateMsg(args, client);
 		}
 	}
-	if (starts_with(command, "KICK "))
+    else if (starts_with(command, "KICK "))
 	{
 		std::cout << "enter KICK" << std::endl;
 		kickHandler(args, client, _channels);
 	}
-	if (starts_with(command, "INVITE"))
+    else if (starts_with(command, "INVITE"))
 	{
 		std::cout << "enter INVITE" << std::endl;
 		inviteToChannel(args[2], args[1], client);
 	}
-    if (starts_with(command, "TOPIC"))
+    else if (starts_with(command, "TOPIC"))
     {
         std::cout << "enter TOPIC" << std::endl;
         topicHandler(args, _channels, client);
     }
-    if (starts_with(command, "MODE"))
+    else if (starts_with(command, "MODE"))
     {
         std::cout << "enter MODE" << std::endl;
         modeHandler(args, client, _channels);
+    }
+    else
+    {
+        std::cout << "Command not found" << std::endl;
+        client.sendMessageToClient("Command not found");
     }
     /*
     if (starts_with(command, "PART "))
