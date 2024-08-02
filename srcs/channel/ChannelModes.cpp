@@ -2,6 +2,7 @@
 #include "./Channel.hpp"
 #include <iostream>
 #include <string>
+#include <sstream>
 
 void    Channel::setInviteOnly(Client &sender)
 {
@@ -55,7 +56,11 @@ void    Channel::setUserLimit(int amount, Client &sender)
 {
     _settings.userLimit = amount;
     std::cout << "Set channel " << getName() << " user limit to " << _settings.userLimit << std::endl;
-    sender.sendMessageToClient("You get the user limit for " + getName() + " to " + std::to_string(amount));
+
+	std::stringstream converter;
+	converter << amount;
+
+    sender.sendMessageToClient("You get the user limit for " + getName() + " to " + converter.str());
 }
 
 void    Channel::removeUserLimit(Client &sender)
