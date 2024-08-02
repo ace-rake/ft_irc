@@ -84,7 +84,10 @@ void	Server::commandHandler(std::string command, Client & client)
 			std::cout << "test: " << client.getNickName() << std::endl;
 			Channel * channel = findChannel(args[1]);
 			if (channel)
-				channel->sendMsgToAll(args, client);
+                if (channel->findClient(ID, client.getId()) == channel->getClients().end())
+                    client.sendMessageToClient("PRIVMSG: User not in channel");
+                else
+				    channel->sendMsgToAll(args, client);
 			else
 			{
                 client.sendMessageToClient("PRIVMSG: Channel doesn't exist");

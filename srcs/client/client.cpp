@@ -53,11 +53,10 @@ bool	Client::isValid()
 
 void	Client::setUserData(std::vector<std::string> args)
 {
-	(void)args;
-	_hostName = "vdenisse";
-	_userName = "vdenisse";
-	_realName = "vdenisse";
-	_ip = "0.0.0.0";
+	_hostName = args[1];
+	_userName = args[2];
+	_realName = args[4];
+	_ip = args[3];
 }
 
 void	Client::setPsw(bool wow)
