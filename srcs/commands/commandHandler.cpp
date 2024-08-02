@@ -60,10 +60,11 @@ void	Server::commandHandler(std::string command, Client & client)
 		command.erase(0, command.find("\r\n") + 2);
 		args = split(command);
 
-		return ;
+		if (!starts_with(command, "NICK "))
+			return ;
 	}
 
-    else if (starts_with(command, "NICK "))
+    if (starts_with(command, "NICK "))
 	{
 		std::cout << "enter NICK" << std::endl;
 		if (args.size() < 2)
@@ -77,12 +78,13 @@ void	Server::commandHandler(std::string command, Client & client)
 		command.erase(0, command.find("\r\n") + 2);
 		args = split(command);
 
-		return ;
+		if (!starts_with(command, "USER "))
+			return ;
 	}
 
 	//TODO: Fix segfault with too few arguments
 	//TODO: Actually handle the args
-	else if (starts_with(command, "USER "))
+	if (starts_with(command, "USER "))
 	{
 		// Check password
 	    if (!client.getPsw())
@@ -97,8 +99,6 @@ void	Server::commandHandler(std::string command, Client & client)
 
 		std::string welcomeMessage = ":serverhostname 001 " + client.getNickName() + " :Welcome to the IRC network, " + client.getNickName() + "!\r\n";
 		client.sendMessageToClient(welcomeMessage);
-
-		return ;
 	}
 
 	else if (starts_with(command, "JOIN "))
@@ -179,10 +179,14 @@ void	Server::commandHandler(std::string command, Client & client)
         modeHandler(args, client, _channels);
     }
 
+	else if (starts_with(command, "QUIT "))
+        std::cout << "Client disconnecting\n";
+
     else
     {
-        std::cout << "Command not found" << std::endl;
-        client.sendMessageToClient("Command not found");
+		std::string message = "Command not found: " + command;
+        std::cout << message << '\n';
+        client.sendMessageToClient(message);
     }
 }
     /*
