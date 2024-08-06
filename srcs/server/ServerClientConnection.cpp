@@ -1,5 +1,6 @@
 #include "Server.hpp"
 #include <iostream>
+#include <sys/socket.h>
 
 void Server::handleNewConnection()
 {
@@ -13,8 +14,10 @@ void Server::handleNewConnection()
 				_clients[i].setPsw(true);
 			std::cout << "Client connected with fd " << new_connection << std::endl;
 			/* createNewClient(_clients[i]); */
-			break;
+			 return ;
 		}
+	std::string msg = "NOTICE AUTH :*** User limit reached\r\n";
+	send(new_connection, msg.c_str(), msg.size(), 0);
 }
 
 std::string	Server::receiveUserData(struct pollfd client)
