@@ -37,13 +37,13 @@ void	Server::commandHandler(std::string command, Client & client)
 	std::cout << "enter commandHandler" << std::endl;
 	std::cout << "Command to handle\n" << command << std::endl;
 
-	if (starts_with(command,"CAP LS") || starts_with(command, "QUOTE "))
+	if (starts_with(command,"CAP LS") || starts_with(command, "QUOTE"))
 	{
 		command.erase(0, command.find("\r\n") + 2);
 		args = split(command);
 	}
 
-	if (starts_with(command, "PASS "))
+	if (starts_with(command, "PASS"))
 	{
 		std::cout << "enter PASS" << std::endl;
 		if (args.size() >= 2)
@@ -61,11 +61,11 @@ void	Server::commandHandler(std::string command, Client & client)
 		command.erase(0, command.find("\r\n") + 2);
 		args = split(command);
 
-		if (!starts_with(command, "NICK "))
+		if (!starts_with(command, "NICK"))
 			return ;
 	}
 
-    if (starts_with(command, "NICK "))
+    if (starts_with(command, "NICK"))
 	{
 		std::cout << "enter NICK" << std::endl;
 		if (args.size() < 2)
@@ -84,7 +84,7 @@ void	Server::commandHandler(std::string command, Client & client)
 	}
 
 	//TODO: Actually handle the args
-	if (starts_with(command, "USER "))
+	if (starts_with(command, "USER"))
 	{
 		// Check argument count
 		if (args.size() < 5)
@@ -105,7 +105,7 @@ void	Server::commandHandler(std::string command, Client & client)
 		client.sendMessageToClient(welcomeMessage);
 	}
 
-	else if (starts_with(command, "JOIN "))
+	else if (starts_with(command, "JOIN"))
 	{
 		if (!validate_client(client))
 			return ;
@@ -114,8 +114,15 @@ void	Server::commandHandler(std::string command, Client & client)
 		joinHandler(args, client);
 	}
 
-    else if (starts_with(command, "PRIVMSG "))
+    else if (starts_with(command, "PRIVMSG"))
 	{
+        if (args.size() < 3)
+        {
+            std::cerr << "Error: No victim specified." << std::endl;
+            client.sendMessageToClient("461 " + client.getNickName() + " PRIVMSG :Not enough parameters");
+            return ;
+        }
+
 		if (!validate_client(client))
 			return ;
 
@@ -147,7 +154,7 @@ void	Server::commandHandler(std::string command, Client & client)
 		}
 	}
 
-    else if (starts_with(command, "KICK "))
+    else if (starts_with(command, "KICK"))
 	{
 		if (!validate_client(client))
 			return ;
@@ -156,7 +163,7 @@ void	Server::commandHandler(std::string command, Client & client)
 		kickHandler(args, client, _channels);
 	}
 
-    else if (starts_with(command, "INVITE "))
+    else if (starts_with(command, "INVITE"))
 	{
 		if (!validate_client(client))
 			return ;
@@ -168,7 +175,7 @@ void	Server::commandHandler(std::string command, Client & client)
 		inviteToChannel(args[2], args[1], client);
 	}
 
-    else if (starts_with(command, "TOPIC "))
+    else if (starts_with(command, "TOPIC"))
     {
 		if (!validate_client(client))
 			return ;
@@ -177,7 +184,7 @@ void	Server::commandHandler(std::string command, Client & client)
         topicHandler(args, _channels, client);
     }
 
-    else if (starts_with(command, "MODE "))
+    else if (starts_with(command, "MODE"))
     {
 		if (!validate_client(client))
 			return ;
@@ -186,7 +193,7 @@ void	Server::commandHandler(std::string command, Client & client)
         modeHandler(args, client, _channels);
     }
 
-	else if (!starts_with(command, "PING ") && !starts_with(command, "QUIT "))
+	else if (!starts_with(command, "PING") && !starts_with(command, "QUIT"))
     {
 		std::string message = "Command not found: " + command;
         std::cout << message << '\n';

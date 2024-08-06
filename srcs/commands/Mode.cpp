@@ -16,9 +16,10 @@ Channel* findChannelByNameMode(const std::string& channelName, std::vector<Chann
 
 void    modeHandler(std::vector<std::string> args, Client &sender, std::vector<Channel> &channels)
 {
-    if (args.size() < 2)
+    if (args.size() < 3)
     {
         std::cout << "Not enough parameters for MODE command" << std::endl;
+        sender.sendMessageToClient("416 " + sender.getNickName() + " MODE :Not enough parameters");
         return ;
     }
 
@@ -26,19 +27,23 @@ void    modeHandler(std::vector<std::string> args, Client &sender, std::vector<C
 
     if (!wantedChannel)
     {
-        std::cout << "Channel not found" << std::endl;
+        std::cerr << "Error: No channel found for MODE command." << std::endl;
+        sender.sendMessageToClient("403 " + sender.getNickName() + " " + "No channel found with this name");
         return ;
     }
 
     if (wantedChannel->findClient(ID, sender.getId()) == wantedChannel->getClients().end())
     {
-        std::cout << "You are not in this channel" << std::endl;
+        std::cerr << "Error: Sender is not in the right channel for MODE command" << std::endl;
+        std::string clientMessage = ":server 442 " + sender.getNickName() + " " + wantedChannel->getName() + " :You're not on that channel";
+        sender.sendMessageToClient(clientMessage);
         return ;
     }
 
     if (!wantedChannel->clientIsOperator(sender))
     {
-        std::cout << "You are not a operator for this channel" << std::endl;
+        std::cerr << "Error: Sender doesn't have OP rights." << std::endl;
+        sender.sendMessageToClient("482 " + sender.getNickName() + " " + "You're not channel operator");
         return ;
     }
 

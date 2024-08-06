@@ -1,8 +1,20 @@
 #include "../server/Server.hpp"
+#include <iostream>
 
+void    joinNotEnoughArguments(Client& sender)
+{
+    std::cerr << "Error: No victim specified." << std::endl;
+    sender.sendMessageToClient("461 " + sender.getNickName() + " JOIN :Not enough parameters");
+} 
 
 void	Server::joinHandler(std::vector<std::string> args, Client & client)
 {
+    if (args.size() < 2)
+    {
+        joinNotEnoughArguments(client);
+        return ;
+    }
+
 	if (args.size() == 2)
 		joinChannel(args[1], client);
 	else

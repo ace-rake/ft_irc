@@ -47,8 +47,8 @@ void displayTopic(Channel* referencedChannel, Client &sender)
 
 void    topicNoChannelFound(Client& sender)
 {
-    std::cerr << "Error: No channel found for TOPIC command." << std::endl;
-    sender.sendMessageToClient("TOPIC: No channel found with this name");
+    std::cerr << "Error: No channel found for KICK command." << std::endl;
+    sender.sendMessageToClient("403 " + sender.getNickName() + " " + "No channel found with this name");
 }
 
 void    topicUserNotInChannel(Client& sender, Channel* channel)
@@ -62,18 +62,14 @@ void    topicUserNotInChannel(Client& sender, Channel* channel)
 
 void    topicUserNotOperator(Client& sender)
 {
-    std::cerr << "Error: Sender does not have operator privileges for TOPIC command." << std::endl;
-
-    std::string clientMessage = "You are not an channel operator";
-
-    sender.sendMessageToClient(clientMessage);
+    std::cerr << "Error: Sender doesn't have OP rights." << std::endl;
+    sender.sendMessageToClient("482 " + sender.getNickName() + " " + "You're not channel operator");
 }
 
 void    topicNotEnoughArguments(Client& sender)
 {
-    std::cerr << "Error: Not enough command parameters for TOPIC command." << std::endl;
-
-    sender.sendMessageToClient("Not enough parameters");
+    std::cerr << "Error: No victim specified." << std::endl;
+    sender.sendMessageToClient("461 " + sender.getNickName() + " TOPIC :Not enough parameters");
 } 
 
 void    topicHandler(std::vector<std::string> args, std::vector<Channel> &channels, Client &sender)
