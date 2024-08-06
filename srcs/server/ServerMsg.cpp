@@ -17,7 +17,7 @@ std::string Server::handleClientMessage(Client & client)
 		buffer[valread] = '\0';
 		std::string msg(buffer);
 		std::cout << "Received from " << clientFd << ":\t" << msg << std::endl;
-		logCommand(msg);
+		/* logCommand(msg); */ //This is for logging commands
 		try{
 			commandHandler(msg, client);
 		}
