@@ -1,5 +1,4 @@
 #include "Client.hpp"
-#include <algorithm>
 #include <arpa/inet.h>
 #include <cstdlib>
 #include <sstream>
