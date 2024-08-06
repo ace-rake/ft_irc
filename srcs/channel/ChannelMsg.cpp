@@ -10,13 +10,16 @@ void	Channel::sendMsgToAll(std::vector<std::string> args, Client& sender)
 	broadcastMsg(msg, sender);
 }
 
-void	Channel::broadcastMsg(std::string str, Client & sender)// Send a msg to all members of a channel, except to the sender
+// Send a msg to all members of a channel, except to the sender
+void	Channel::broadcastMsg(std::string str, Client & sender)
 {
 	for (size_t i = 0; i < _clients.size(); ++i)
 	{
-		std::cout << "Sending " << str << " to client in channel:" << _channelName << std::endl;
 		if (_clients[i].getId() != sender.getId())
+		{
+			std::cout << "Sending " << str << " to client in channel:" << _channelName << std::endl;
 			_clients[i].sendMessageToClient(str);
+		}
 	}
 }
 

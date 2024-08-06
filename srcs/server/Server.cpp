@@ -12,14 +12,12 @@ Server::~Server(void)
 
 void Server::idle()
 {
-	int retval = 1;
-	while (retval > 0)
+	this->_running = true;
+	while (this->_running)
 	{
 		try
 		{
-			retval = poll(_fds, MAX_CLIENTS, -1);
-
-			if (retval > 0)
+			if (poll(_fds, MAX_CLIENTS, -1) > 0)
 			{
 				if (_server.revents & POLLIN)
 					handleNewConnection();
@@ -27,6 +25,11 @@ void Server::idle()
 				for (int i = 0; i < MAX_CLIENTS; ++i)
 					if (_clients[i].getFd().fd != -1 && (_clients[i].getFd().revents & POLLIN))
 						handleClientMessage(_clients[i]);
+			}
+
+			else
+			{
+				this->_running = false;
 			}
 		}
 
@@ -81,8 +84,9 @@ void	Server::logCommand(std::string str)
 
 void    Server::shutdown(void)
 {
-    std::cout << "Shutting down server...\n";
+	std::cout << "Shutting down server..." << std::endl;
 
-	for (std::vector<Channel>::iterator it = this->_channels.begin(); it != this->_channels.end(); it++)
-		delete &*it;
+	this->_running = false;
 }
+	//for (std::vector<Channel>::iterator it = this->_channels.begin(); it != this->_channels.end(); it++)
+		//it->Channel::~Channel();

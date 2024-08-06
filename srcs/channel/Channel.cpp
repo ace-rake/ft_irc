@@ -20,7 +20,8 @@ Channel::Channel(std::string name, std::string psw): _channelName(name), _psw(ps
 // Destructor
 Channel::~Channel(void)
 {
-	std::cout << "Channel:\tdestroying object\n";
+	// Commented out because it was really cluttering the server's output
+	//std::cout << "Channel:\tdestroying object\n";
 }
 
 void	Channel::handleJoinRequest(Client & client, std::string psw)

@@ -15,8 +15,6 @@ void    signalHandler(int signal)
 
 	if (serverInstance)
 		serverInstance->shutdown();
-
-    exit(EXIT_SUCCESS);
 }
 
 int main(int ac, char **av)
@@ -24,8 +22,9 @@ int main(int ac, char **av)
     if (ac < 2 || ac > 3)
     {
         std::cout << "Invalid program call. Should be ./ircserv <port> <password(optional)>" << std::endl;
-        return (0);
+        return (1);
     }
+
 	Server server(av, ac);
     serverInstance = &server;
 

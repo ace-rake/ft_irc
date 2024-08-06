@@ -22,20 +22,18 @@ static bool validate_client(Client& client)
 	if (!client.isValid())
 		return (std::cerr << "Client invalid\n", false);
 
-	// Else user is valid
-	else
-		return (std::cout << "Client valid\n", true);
+	return (true);
 }
+	// Else user is valid
+	//else
+		//return (std::cout << "Client valid\n", true);
 
-// TODO: Fix info messages
-// TODO: Also inform user of anything that went wrong
-// TODO: Fix invalid reads, segfaults, etc. when not enough arguments
 void	Server::commandHandler(std::string command, Client & client)
 {
 	std::vector<std::string> args = split(command);
 
-	std::cout << "enter commandHandler" << std::endl;
-	std::cout << "Command to handle\n" << command << std::endl;
+	//std::cout << "enter commandHandler" << std::endl;
+	//std::cout << "Command to handle\n" << command << std::endl;
 
 	if (starts_with(command,"CAP LS") || starts_with(command, "QUOTE"))
 	{
@@ -45,7 +43,7 @@ void	Server::commandHandler(std::string command, Client & client)
 
 	if (starts_with(command, "PASS"))
 	{
-		std::cout << "enter PASS" << std::endl;
+		//std::cout << "enter PASS" << std::endl;
 		if (args.size() >= 2)
 		{
 			if (args[1].compare(_serverPassword) == 0)
@@ -72,7 +70,7 @@ void	Server::commandHandler(std::string command, Client & client)
 
     if (starts_with(command, "NICK"))
 	{
-		std::cout << "enter NICK" << std::endl;
+		//std::cout << "enter NICK" << std::endl;
 		if (args.size() < 2)
 		{
 			std::cerr << "Not enough parameters" << std::endl;
@@ -88,7 +86,6 @@ void	Server::commandHandler(std::string command, Client & client)
 			return ;
 	}
 
-	//TODO: Actually handle the args
 	if (starts_with(command, "USER"))
 	{
 		// Check argument count
@@ -106,7 +103,7 @@ void	Server::commandHandler(std::string command, Client & client)
     	if (client.getNickName().empty())
 			return (std::cerr << "Client nickname incorrect\n", void());
 
-		std::cout << "enter USER" << std::endl;
+		//std::cout << "enter USER" << std::endl;
 		client.setUserData(args);
 
 		std::string welcomeMessage = ":serverhostname 001 " + client.getNickName() + " :Welcome to the IRC network, " + client.getNickName() + "!\r\n";
@@ -118,7 +115,7 @@ void	Server::commandHandler(std::string command, Client & client)
 		if (!validate_client(client))
 			return ;
 
-		std::cout << "enter JOIN" << std::endl;
+		//std::cout << "enter JOIN" << std::endl;
 		joinHandler(args, client);
 	}
 
@@ -134,10 +131,10 @@ void	Server::commandHandler(std::string command, Client & client)
 		if (!validate_client(client))
 			return ;
 
-		std::cout << "Enter PRIVMSG" << std::endl;
+		//std::cout << "Enter PRIVMSG" << std::endl;
 		if (args[1].at(0) == '#')
 		{
-			std::cout << "test: " << client.getNickName() << std::endl;
+			//std::cout << "test: " << client.getNickName() << std::endl;
 
 			Channel * channel = findChannel(args[1]);
 			if (channel)
@@ -152,7 +149,6 @@ void	Server::commandHandler(std::string command, Client & client)
 			{
                 client.sendMessageToClient("PRIVMSG: Channel doesn't exist");
 				throw std::runtime_error("PRIVMSG: Error: Channel doesn't exist");
-				//TODO: Handle channel doesnt exist
 			}
 		}
 
@@ -167,7 +163,7 @@ void	Server::commandHandler(std::string command, Client & client)
 		if (!validate_client(client))
 			return ;
 
-		std::cout << "enter KICK" << std::endl;
+		//std::cout << "enter KICK" << std::endl;
 		kickHandler(args, client, _channels);
 	}
 
@@ -182,7 +178,7 @@ void	Server::commandHandler(std::string command, Client & client)
 			return (std::cerr << "Incomplete command: INVITE\n", void());
         }
 
-		std::cout << "enter INVITE" << std::endl;
+		//std::cout << "enter INVITE" << std::endl;
 		inviteToChannel(args[2], args[1], client);
 	}
 
@@ -191,7 +187,7 @@ void	Server::commandHandler(std::string command, Client & client)
 		if (!validate_client(client))
 			return ;
 
-        std::cout << "enter TOPIC" << std::endl;
+        //std::cout << "enter TOPIC" << std::endl;
         topicHandler(args, _channels, client);
     }
 
@@ -200,15 +196,14 @@ void	Server::commandHandler(std::string command, Client & client)
 		if (!validate_client(client))
 			return ;
 
-        std::cout << "enter MODE" << std::endl;
+        //std::cout << "enter MODE" << std::endl;
         modeHandler(args, client, _channels);
     }
 
 	else if (!starts_with(command, "PING") && !starts_with(command, "QUIT"))
     {
-		std::string message = "Command not found: " + command;
-        std::cout << message << '\n';
-        client.sendMessageToClient(message);
+        std::cerr << "Error: Command not found: " << command << std::endl;
+        client.sendMessageToClient("Command not found: " + command);
     }
 }
     /*

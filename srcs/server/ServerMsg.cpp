@@ -5,29 +5,34 @@ std::string Server::handleClientMessage(Client & client)
 {
 	char buffer[BUFFER_SIZE];
 	int clientFd = client.getFd().fd;
-	int valread = recv(clientFd, buffer, BUFFER_SIZE, 0);
-	if (valread == 0)
-	{
-		close(clientFd);
-		clearClient(client);
-		std::cout << "Client disconnected" <<std::endl;
-	}
-	else
+
+	if (int valread = recv(clientFd, buffer, BUFFER_SIZE, 0))
 	{
 		buffer[valread] = '\0';
 		std::string msg(buffer);
+
 		std::cout << "Received from " << clientFd << ":\t" << msg << std::endl;
 		/* logCommand(msg); */ //This is for logging commands
-		try{
+
+		try
+		{
 			commandHandler(msg, client);
 		}
+
 		catch (std::runtime_error &e)
 		{
-			std::cout << e.what();
+			std::cout << e.what() << std::endl;
 		}
+
 		return msg;
 	}
-	return ("");
+
+	close(clientFd);
+	clearClient(client);
+
+	std::cout << "Client disconnected" << std::endl;
+
+	return (std::string());
 }
 
 void	Server::broadCastMsg(std::string msg)
@@ -37,5 +42,4 @@ void	Server::broadCastMsg(std::string msg)
 		std::cout << "sending msg..." << std::endl;
 		_clients[i].sendMessageToClient(msg);
 	}
-
 }

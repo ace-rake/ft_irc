@@ -39,6 +39,7 @@ class	Server
         void    shutdown(void);
 
 	protected:
+		bool					_running;
 		int						_server_socket;
 		struct sockaddr_in		_address;
 		struct sockaddr_in		_fall_back_address;
