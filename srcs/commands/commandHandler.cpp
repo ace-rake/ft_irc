@@ -49,13 +49,18 @@ void	Server::commandHandler(std::string command, Client & client)
 		if (args.size() >= 2)
 		{
 			if (args[1].compare(_serverPassword) == 0)
+            {
 				client.setPsw(true);
+                client.sendMessageToClient("The password you entered is correct");
+            }
+            else
+                client.sendMessageToClient("Wrong password entered");
 		}
 
 		else
 		{
 			std::cerr << "Wrong amount of args" << std::endl;
-			client.sendMessageToClient("Not enough parameters");
+            client.sendMessageToClient("461 " + client.getNickName() + " PASS :Not enough parameters");
 		}
 
 		command.erase(0, command.find("\r\n") + 2);
@@ -71,7 +76,7 @@ void	Server::commandHandler(std::string command, Client & client)
 		if (args.size() < 2)
 		{
 			std::cerr << "Not enough parameters" << std::endl;
-			client.sendMessageToClient("Not enough parameters");
+            client.sendMessageToClient("461 " + client.getNickName() + " NICK :Not enough parameters");
 		}
 		else
 			setNewNick(client, args[1]);
@@ -88,7 +93,10 @@ void	Server::commandHandler(std::string command, Client & client)
 	{
 		// Check argument count
 		if (args.size() < 5)
+        {
+            client.sendMessageToClient("461 " + client.getNickName() + " USER :Not enough parameters");
 			return (std::cerr << "Incomplete command: USER\n", void());
+        }
 
 		// Check password
 	    if (!client.getPsw())
@@ -118,7 +126,7 @@ void	Server::commandHandler(std::string command, Client & client)
 	{
         if (args.size() < 3)
         {
-            std::cerr << "Error: No victim specified." << std::endl;
+            std::cerr << "Error: No enough parameters." << std::endl;
             client.sendMessageToClient("461 " + client.getNickName() + " PRIVMSG :Not enough parameters");
             return ;
         }
@@ -169,7 +177,10 @@ void	Server::commandHandler(std::string command, Client & client)
 			return ;
 
 		if (args.size() < 3)
+        {
+            client.sendMessageToClient("461 " + client.getNickName() + " INVITE :Not enough parameters");
 			return (std::cerr << "Incomplete command: INVITE\n", void());
+        }
 
 		std::cout << "enter INVITE" << std::endl;
 		inviteToChannel(args[2], args[1], client);

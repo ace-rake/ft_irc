@@ -19,7 +19,7 @@ void    modeHandler(std::vector<std::string> args, Client &sender, std::vector<C
     if (args.size() < 3)
     {
         std::cout << "Not enough parameters for MODE command" << std::endl;
-        sender.sendMessageToClient("416 " + sender.getNickName() + " MODE :Not enough parameters");
+        sender.sendMessageToClient("461 " + sender.getNickName() + " MODE :Not enough parameters");
         return ;
     }
 
