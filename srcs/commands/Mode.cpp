@@ -23,6 +23,9 @@ void    modeHandler(std::vector<std::string> args, Client &sender, std::vector<C
         return ;
     }
 
+    if (sender.getNickName() == args[1])
+        return ;
+
     Channel*    wantedChannel = findChannelByNameMode(args[1], channels);
 
     if (!wantedChannel)
