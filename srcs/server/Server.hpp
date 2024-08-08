@@ -2,22 +2,22 @@
 # define SERVER_HPP
 
 # include <netinet/in.h>
-#include <arpa/inet.h>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <netdb.h>
-#include <sys/poll.h>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <netinet/in.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <sys/poll.h>
-#include <vector>
-#include "../irc.h"
-#include "../channel/Channel.hpp"
-#include "../client/Client.hpp"
+# include <arpa/inet.h>
+# include <cstdio>
+# include <cstdlib>
+# include <cstring>
+# include <netdb.h>
+# include <sys/poll.h>
+# include <sys/socket.h>
+# include <sys/types.h>
+# include <netinet/in.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <errno.h>
+# include <vector>
+# include "../irc.h"
+# include "../channel/Channel.hpp"
+# include "../client/Client.hpp"
 
 
 // Custom class: Server
@@ -33,8 +33,8 @@ class	Server
 		void	run(void);
 		Client*	getClients(){return _clients;}
 
-		// Logging purposes TODO delete this after
-		void	logCommand(std::string);
+		// Logging purposes
+		//void	logCommand(std::string);
 
         void    shutdown(void);
 
@@ -63,7 +63,7 @@ class	Server
 		// ServerIp.cpp
 		bool		findSuitableIp		(struct addrinfo *res);
 		void		noSuitableIpFound	(void);
-		void		getIpAddress		(const std::string& port);
+		void		getIpAddress		(const char* port);
 
 		// ServerSetup.cpp
 		void        createSocket		(void);

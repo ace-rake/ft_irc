@@ -36,7 +36,7 @@ void	Server::setNewNick(Client & client, std::string newNick)
 {
 	if (nickInUse(newNick, client.getId()))
 	{
-		std::cerr << "Server::setNewNick: Error: Nick already in use" << std::endl;
+		std::cerr << "Error: Nick already in use" << std::endl;
 		nickInUseError(client, newNick);
 		return ;
 	}

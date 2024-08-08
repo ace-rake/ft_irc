@@ -20,33 +20,39 @@
 Server::Server(char **av, int argc): _server(_fds[0])
 {
 	_addrlen = sizeof(_address);
+
 	_address.sin_family = AF_INET;
 	_address.sin_addr.s_addr = INADDR_ANY;
-    unsigned short port = std::atoi(av[1]);
-    if (port == 0 || port > 65535) {
-        std::cerr << "Invalid port number. Should be between 1 and 65535.\n";
-        exit(EXIT_FAILURE);
+
+    int port = std::atoi(av[1]);
+    if (1 > port || port > 65535)
+	{
+		errno = EINVAL;
+
+        perror("Error: Port number");
+		std::cerr << "Info: Should be between 1 and 65535\n";
+
+        exit(errno);
     }
+
     _address.sin_port = htons(port);
+
+    std::cout << "Port provided: " << port << std::endl; // Print the port number provided
+
+	getIpAddress(av[1]); // Gets the first available ip address
+
     if (argc == 3)
 	    _serverPassword = av[2];
     else
 	    _serverPassword.clear();
-
-    std::cout << "Port provided: " << port << std::endl; // Print the port number provided
-
-	std::stringstream converter;
-	converter << port;
-
-	getIpAddress(converter.str()); // Gets the first available ip address
 }
 
 void    Server::createSocket(void)
 {
     if ((_server.fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
 	{
-		perror("Socket creation failed");
-		exit(EXIT_FAILURE);
+		perror("Error: Socket creation failed");
+		exit(errno);
 	}
 }
 
@@ -65,8 +71,8 @@ void    Server::setupPolling(void)
 
 void    Server::bindSocketToAddress(void)
 {
-	size_t timeout = 0;
-	while (bind(_server.fd, (struct sockaddr *)&_address, sizeof(_address)) < 0)
+	uint8_t timeout = 0;
+	while (bind(_server.fd, reinterpret_cast<struct sockaddr*>(&_address), sizeof(_address)) < 0)
 	{
 		if (!timeout)
 		{
@@ -74,26 +80,30 @@ void    Server::bindSocketToAddress(void)
 			this->_address = this->_fall_back_address;
 		}
 
-		else if (timeout > 179)
+		else if (timeout > 35)
 		{
-			std::cerr << "Error: Unable to bind: Timeout\n";
+			errno = ETIMEDOUT;
+			perror("Error: Unable to bind");
+
 			close(this->_server.fd);
-			exit(EXIT_FAILURE);
+			exit(errno);
 		}
 
-		sleep(1);
+		sleep(5);
 		timeout++;
 	}
-	std::cout << "Successfully bound to " << inet_ntoa(this->_address.sin_addr) << '\n';
+
+	std::cout << "Using IP address: " << inet_ntoa(this->_address.sin_addr) << '\n';
 }
 
 void    Server::listenIncomingConnections(void)
 {
 	if (listen(_server.fd, 1) < 0)
 	{
-		perror("listen");
+		perror("Error: Listening to incoming connections");
+
 		close(_server.fd);
-		exit(EXIT_FAILURE);
+		exit(errno);
 	}
 }
 

@@ -25,7 +25,6 @@ int	Channel::deleteClient(Client & c)
 
 		deleteClient(it);
 	    _settings.userAmount--;
-	    // TODO: check if last user has left
     }
 	return (0);
 }
@@ -59,30 +58,6 @@ void    Channel::kickUser(Client sender, std::string victimName, std::vector<std
     deleteClient(findClient(NICK, victimName));
 }
 
-/* Client* Channel::retrieveClientByNick(const std::string& name) */
-/* { */
-/*     for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); ++it) { */
-/*         if (it->getNickName() == name) */
-/*             return &(*it); */
-/*     } */
-/*     return NULL; */
-/* } */
-/*  */
-/* Client * Channel::retrieveClientById(int id) */
-/* { */
-/* 	for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); it++) */
-/* 		if (it->getId() == id) */
-/* 			return &(*it); */
-/* 	return NULL; */
-/* } */
-/*  */
-/* std::vector<Client>::const_iterator	Channel::findClient(const Client & findClient)const */
-/* { */
-/* 	for (std::vector<Client>::const_iterator it = _clients.begin(); it < _clients.end(); ++it) */
-/* 		if (*it == findClient) */
-/* 			return it; */
-/* 	return _clients.end(); */
-/* } */
 std::vector<Client>::iterator	Channel::findClient(userData field, int id)
 {
 	if (field != ID)
@@ -168,3 +143,27 @@ bool	Channel::isFull()const
 		return true;
 	return false;
 }
+/* Client* Channel::retrieveClientByNick(const std::string& name) */
+/* { */
+/*     for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); ++it) { */
+/*         if (it->getNickName() == name) */
+/*             return &(*it); */
+/*     } */
+/*     return NULL; */
+/* } */
+/*  */
+/* Client * Channel::retrieveClientById(int id) */
+/* { */
+/* 	for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); it++) */
+/* 		if (it->getId() == id) */
+/* 			return &(*it); */
+/* 	return NULL; */
+/* } */
+/*  */
+/* std::vector<Client>::const_iterator	Channel::findClient(const Client & findClient)const */
+/* { */
+/* 	for (std::vector<Client>::const_iterator it = _clients.begin(); it < _clients.end(); ++it) */
+/* 		if (*it == findClient) */
+/* 			return it; */
+/* 	return _clients.end(); */
+/* } */

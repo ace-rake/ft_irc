@@ -56,13 +56,13 @@ void Server::noSuitableIpFound(void)
     bindSocketToAddress();
 }
 
-void Server::getIpAddress(const std::string& port)
+void Server::getIpAddress(const char* port)
 {
     char hostname[256];
     if (gethostname(hostname, sizeof(hostname)))
     {
-        perror("gethostname");
-        exit(EXIT_FAILURE);
+        perror("Error: Fetching host name");
+        exit(errno);
     }
 
     struct addrinfo hints, *res;
@@ -71,10 +71,10 @@ void Server::getIpAddress(const std::string& port)
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
 
-    if (int status = getaddrinfo(hostname, port.c_str(), &hints, &res))
+    if (int status = getaddrinfo(hostname, port, &hints, &res))
     {
-        std::cerr << "Error: getaddrinfo: " << gai_strerror(status) << '\n';
-        exit(EXIT_FAILURE);
+        std::cerr << "Error: Fetching address info: " << gai_strerror(status) << '\n';
+        exit(status);
     }
 
     if (!findSuitableIp(res))

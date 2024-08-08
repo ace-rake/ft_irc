@@ -3,8 +3,6 @@
 
 static std::string generateMsg(Client & client, std::string invitee, std::string channelName)
 {
-	//:inviting_user_nick!inviting_user_user@inviting_user_host INVITE invitee_nick :#channel
-
 	std::string msg = ":"; 
 	msg += client.getNickName();// This is what the invitee sees as who has invited them
 	msg += "!";

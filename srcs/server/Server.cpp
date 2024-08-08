@@ -73,20 +73,16 @@ Channel *	Server::getChannel(std::string name)
 	return NULL;
 }
 
-
-void	Server::logCommand(std::string str)
-{
-	std::ofstream out;
-	out.open("Commands.txt", std::ios_base::app);
-	out << str << std::endl;;
-	out.close();
-}
-
 void    Server::shutdown(void)
 {
 	std::cout << "Shutting down server..." << std::endl;
 
 	this->_running = false;
 }
-	//for (std::vector<Channel>::iterator it = this->_channels.begin(); it != this->_channels.end(); it++)
-		//it->Channel::~Channel();
+//void	Server::logCommand(std::string str)
+//{
+	//std::ofstream out;
+	//out.open("Commands.txt", std::ios_base::app);
+	//out << str << std::endl;;
+	//out.close();
+//}

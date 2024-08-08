@@ -28,7 +28,6 @@ void	Channel::handleJoinRequest(Client & client, std::string psw)
 {
 	if (findClient(ID, client.getId()) != _clients.end())
 		return ;// Client already in channel
-	// TODO: Check blacklist
 	if (isFull())
 		return (void) isFullErr(client);
 	if (isInInviteList(client.getId())) // Check if invited

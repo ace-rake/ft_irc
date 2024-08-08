@@ -77,29 +77,6 @@ int	Server::requestPsw(Client & client)
 	return (0);
 }
 
-void	Server::createNewClient(Client & client)
-{
-	std::string userData = receiveUserData(client.getFd());
-	client.create(userData);
-	if (nickInUse(client.getNickName(), client.getId()))
-	{
-		std::cerr << "Server::createNewClient: Error: Nick in use" << std::endl;
-		nickInUseError(client);
-		client.clear();
-		return ;
-	}
-	std::cout << "create user\n" << client << std::endl;
-
-	// Password request
-	requestPsw(client);
-
-	// Welcome handshake
-	std::string welcomeMessage = ":serverhostname 001 " + client.getNickName() + " :Welcome to the IRC network, " + client.getNickName() + "!\r\n";
-	client.sendMessageToClient(welcomeMessage);
-	client.sendMessageToClient("Anotha one");
-	broadCastMsg("Fuck you");
-}
-
 void	Server::clearClient(Client & client)
 {
 	std::vector<std::string>::iterator it = client.getChannels().begin();
@@ -113,3 +90,23 @@ void	Server::clearClient(Client & client)
 	}
 	client.clear();
 }
+//void	Server::createNewClient(Client & client)
+//{
+	//std::string userData = receiveUserData(client.getFd());
+	//client.create(userData);
+	//if (nickInUse(client.getNickName(), client.getId()))
+	//{
+		//std::cerr << "Server::createNewClient: Error: Nick in use" << std::endl;
+		//nickInUseError(client);
+		//client.clear();
+		//return ;
+	//}
+	//std::cout << "create user\n" << client << std::endl;
+
+	//// Password request
+	//requestPsw(client);
+
+	//// Welcome handshake
+	//std::string welcomeMessage = ":serverhostname 001 " + client.getNickName() + " :Welcome to the IRC network, " + client.getNickName() + "!\r\n";
+	//client.sendMessageToClient(welcomeMessage);
+//}

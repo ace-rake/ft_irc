@@ -21,15 +21,18 @@ int main(int ac, char **av)
 {
     if (ac < 2 || ac > 3)
     {
-        std::cout << "Invalid program call. Should be ./ircserv <port> <password(optional)>" << std::endl;
+        std::cout << "Invalid program call. Should be ./ircserv <port> [password]\n";
         return (1);
     }
 
 	Server server(av, ac);
     serverInstance = &server;
 
-    std::signal(SIGINT, signalHandler);
-    std::signal(SIGQUIT, signalHandler);
+	std::signal(SIGINT, signalHandler);
+	std::signal(SIGQUIT, signalHandler);
 
 	server.run();
+
+	if (errno && errno != EINTR)
+		return (errno);
 }

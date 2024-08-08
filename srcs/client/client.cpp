@@ -90,13 +90,8 @@ std::vector<std::string> split(std::string str)
 	return words;
 }
 
-// TODO: Nicknames appear to have a space in front of them in irssi, perhaps normal?
 void	Client::create(std::string userData)
 {
-	//CAP LS 
-	//NICK vdenisse 
-	//USER vdenisse vdenisse 10.12.4.5 :Victor Denissen
-	//     (user)   host     server     realname
 	std::vector<std::string> words = split(userData);	
 
 	while (words.front().compare("NICK ") != 0)
