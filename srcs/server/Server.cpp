@@ -81,8 +81,8 @@ void    Server::shutdown(void)
 }
 //void	Server::logCommand(std::string str)
 //{
-	//std::ofstream out;
-	//out.open("Commands.txt", std::ios_base::app);
-	//out << str << std::endl;;
-	//out.close();
+//std::ofstream out;
+//out.open("Commands.txt", std::ios_base::app);
+//out << str << std::endl;;
+//out.close();
 //}

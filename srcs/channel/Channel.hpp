@@ -64,26 +64,26 @@ class	Channel
 		void	broadcastMsg		(std::string msg, Client & sender);
 		void    broadcastMsg		(std::string str);
 
-        void    kickUser(Client sender, std::string victimName, std::vector<std::string>args);
+		void    kickUser(Client sender, std::string victimName, std::vector<std::string>args);
 
 		bool	isFull			()const;
 
-        void    setInviteOnly(Client &sender);
-        void    removeInviteOnly(Client &sender);
+		void    setInviteOnly(Client &sender);
+		void    removeInviteOnly(Client &sender);
 
-        void    setPassword(std::string psw, Client &sender);
-        void    removePassword(Client &sender);
+		void    setPassword(std::string psw, Client &sender);
+		void    removePassword(Client &sender);
 
-        void    setTopicOperatorOnly(Client &sender);
-        void    removeTopicOperatorOnly(Client &sender);
+		void    setTopicOperatorOnly(Client &sender);
+		void    removeTopicOperatorOnly(Client &sender);
 
-        void    setUserLimit(int amount, Client &sender);
-        void    removeUserLimit(Client &sender);
+		void    setUserLimit(int amount, Client &sender);
+		void    removeUserLimit(Client &sender);
 
-        void    makeClientOperator(Client & client, Client &sender);
-        void    removeClientOperator(Client & client, Client &sender);
+		void    makeClientOperator(Client & client, Client &sender);
+		void    removeClientOperator(Client & client, Client &sender);
 
-        bool    everyoneCanChangeTopic();
+		bool    everyoneCanChangeTopic();
 
 	private:
 		std::string		_channelName;

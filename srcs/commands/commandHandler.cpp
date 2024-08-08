@@ -11,11 +11,11 @@ bool starts_with(const std::string& str, const std::string& cmd)
 static bool validate_client(Client& client)
 {
 	// Check password
-    if (!client.getPsw())
+	if (!client.getPsw())
 		return (std::cerr << "Client password incorrect\n", false);
 
 	// Check nickname
-    if (client.getNickName().empty())
+	if (client.getNickName().empty())
 		return (std::cerr << "Client nickname incorrect\n", false);
 
 	// Check if user is invalid
@@ -40,18 +40,18 @@ void	Server::commandHandler(std::string command, Client & client)
 		if (args.size() >= 2)
 		{
 			if (args[1].compare(_serverPassword) == 0)
-            {
+			{
 				client.setPsw(true);
-                client.sendMessageToClient("The password you entered is correct");
-            }
-            else
-                client.sendMessageToClient("Wrong password entered");
+				client.sendMessageToClient("The password you entered is correct");
+			}
+			else
+				client.sendMessageToClient("Wrong password entered");
 		}
 
 		else
 		{
 			std::cerr << "Wrong amount of args" << std::endl;
-            client.sendMessageToClient("461 " + client.getNickName() + " PASS :Not enough parameters");
+			client.sendMessageToClient("461 " + client.getNickName() + " PASS :Not enough parameters");
 		}
 
 		command.erase(0, command.find("\r\n") + 2);
@@ -61,12 +61,12 @@ void	Server::commandHandler(std::string command, Client & client)
 			return ;
 	}
 
-    if (starts_with(command, "NICK"))
+	if (starts_with(command, "NICK"))
 	{
 		if (args.size() < 2)
 		{
 			std::cerr << "Not enough parameters" << std::endl;
-            client.sendMessageToClient("461 " + client.getNickName() + " NICK :Not enough parameters");
+			client.sendMessageToClient("461 " + client.getNickName() + " NICK :Not enough parameters");
 		}
 		else
 			setNewNick(client, args[1]);
@@ -82,17 +82,17 @@ void	Server::commandHandler(std::string command, Client & client)
 	{
 		// Check argument count
 		if (args.size() < 5)
-        {
-            client.sendMessageToClient("461 " + client.getNickName() + " USER :Not enough parameters");
+		{
+			client.sendMessageToClient("461 " + client.getNickName() + " USER :Not enough parameters");
 			return (std::cerr << "Incomplete command: USER\n", void());
-        }
+		}
 
 		// Check password
-	    if (!client.getPsw())
+		if (!client.getPsw())
 			return (std::cerr << "Client password incorrect\n", void());
 
 		// Check nickname
-    	if (client.getNickName().empty())
+		if (client.getNickName().empty())
 			return (std::cerr << "Client nickname incorrect\n", void());
 
 		client.setUserData(args);
@@ -109,14 +109,14 @@ void	Server::commandHandler(std::string command, Client & client)
 		joinHandler(args, client);
 	}
 
-    else if (starts_with(command, "PRIVMSG"))
+	else if (starts_with(command, "PRIVMSG"))
 	{
-        if (args.size() < 3)
-        {
-            std::cerr << "Error: No enough parameters." << std::endl;
-            client.sendMessageToClient("461 " + client.getNickName() + " PRIVMSG :Not enough parameters");
-            return ;
-        }
+		if (args.size() < 3)
+		{
+			std::cerr << "Error: No enough parameters." << std::endl;
+			client.sendMessageToClient("461 " + client.getNickName() + " PRIVMSG :Not enough parameters");
+			return ;
+		}
 
 		if (!validate_client(client))
 			return ;
@@ -126,15 +126,15 @@ void	Server::commandHandler(std::string command, Client & client)
 			Channel * channel = findChannel(args[1]);
 			if (channel)
 			{
-                if (channel->findClient(ID, client.getId()) == channel->getClients().end())
-                    client.sendMessageToClient("PRIVMSG: User not in channel");
-                else
-				    channel->sendMsgToAll(args, client);
+				if (channel->findClient(ID, client.getId()) == channel->getClients().end())
+					client.sendMessageToClient("PRIVMSG: User not in channel");
+				else
+					channel->sendMsgToAll(args, client);
 			}
 
 			else
 			{
-                client.sendMessageToClient("PRIVMSG: Channel doesn't exist");
+				client.sendMessageToClient("PRIVMSG: Channel doesn't exist");
 				throw std::runtime_error("PRIVMSG: Error: Channel doesn't exist");
 			}
 		}
@@ -145,7 +145,7 @@ void	Server::commandHandler(std::string command, Client & client)
 		}
 	}
 
-    else if (starts_with(command, "KICK"))
+	else if (starts_with(command, "KICK"))
 	{
 		if (!validate_client(client))
 			return ;
@@ -153,46 +153,46 @@ void	Server::commandHandler(std::string command, Client & client)
 		kickHandler(args, client, _channels);
 	}
 
-    else if (starts_with(command, "INVITE"))
+	else if (starts_with(command, "INVITE"))
 	{
 		if (!validate_client(client))
 			return ;
 
 		if (args.size() < 3)
-        {
-            client.sendMessageToClient("461 " + client.getNickName() + " INVITE :Not enough parameters");
+		{
+			client.sendMessageToClient("461 " + client.getNickName() + " INVITE :Not enough parameters");
 			return (std::cerr << "Incomplete command: INVITE\n", void());
-        }
+		}
 
 		inviteToChannel(args[2], args[1], client);
 	}
 
-    else if (starts_with(command, "TOPIC"))
-    {
+	else if (starts_with(command, "TOPIC"))
+	{
 		if (!validate_client(client))
 			return ;
 
-        topicHandler(args, _channels, client);
-    }
+		topicHandler(args, _channels, client);
+	}
 
-    else if (starts_with(command, "MODE"))
-    {
+	else if (starts_with(command, "MODE"))
+	{
 		if (!validate_client(client))
 			return ;
 
-        modeHandler(args, client, _channels);
-    }
+		modeHandler(args, client, _channels);
+	}
 
 	else if (!starts_with(command, "PING") && !starts_with(command, "QUIT"))
-    {
-        std::cerr << "Error: Command not found: " << command << std::endl;
-        client.sendMessageToClient("Command not found: " + command);
-    }
+	{
+		std::cerr << "Error: Command not found: " << command << std::endl;
+		client.sendMessageToClient("Command not found: " + command);
+	}
 }
 /*
-    if (starts_with(command, "PART "))
-    {
-        std::cout << "enter PART" << std::endl;
-        partHandler(args, _channels, client);
-    }
-*/
+   if (starts_with(command, "PART "))
+   {
+   std::cout << "enter PART" << std::endl;
+   partHandler(args, _channels, client);
+   }
+   */

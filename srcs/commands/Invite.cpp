@@ -25,7 +25,7 @@ void Server::inviteToChannel(std::string channelName, std::string inviteeNick, C
 		std::cerr << "No client by such a nick" << std::endl;
 		return ;
 	}
-	
+
 	// Check if channel exists
 	Channel *channel = findChannel(channelName);
 	if (!channel)

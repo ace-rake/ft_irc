@@ -10,11 +10,11 @@
 // Constructor
 Channel::Channel(std::string name, std::string psw): _channelName(name), _psw(psw)
 {
-    this->_channelTopic = "";
-    _settings.inviteOnly = false;
-    _settings.plebsCanChangeTopic = false;
-    _settings.userLimit = MAX_CLIENTS;
-    _settings.userAmount = 0;
+	this->_channelTopic = "";
+	_settings.inviteOnly = false;
+	_settings.plebsCanChangeTopic = false;
+	_settings.userLimit = MAX_CLIENTS;
+	_settings.userAmount = 0;
 }
 
 // Destructor
@@ -78,13 +78,13 @@ int	Channel::addClient(Client & client)
 
 void Channel::changeTopic(const std::string& newTopic, Client& sender)
 {
-    this->_channelTopic = newTopic;
+	this->_channelTopic = newTopic;
 
-    // Notify all clients in the channel about the new topic
-    std::string topicChangeMsg = ":server 332 " + _channelName + " :" + _channelTopic;
-    broadcastMsg(topicChangeMsg);
+	// Notify all clients in the channel about the new topic
+	std::string topicChangeMsg = ":server 332 " + _channelName + " :" + _channelTopic;
+	broadcastMsg(topicChangeMsg);
 
-    // Notify all clients in the channel that the topic has been changed
-    std::string topicNotificationMsg = ":" + sender.getNickName() + "!" + sender.getUserName() + "@" + sender.getHostName() + " TOPIC " + _channelName + " :" + _channelTopic;
-    broadcastMsg(topicNotificationMsg);
+	// Notify all clients in the channel that the topic has been changed
+	std::string topicNotificationMsg = ":" + sender.getNickName() + "!" + sender.getUserName() + "@" + sender.getHostName() + " TOPIC " + _channelName + " :" + _channelTopic;
+	broadcastMsg(topicNotificationMsg);
 }

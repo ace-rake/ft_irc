@@ -36,7 +36,7 @@ class	Server
 		// Logging purposes
 		//void	logCommand(std::string);
 
-        void    shutdown(void);
+		void    shutdown(void);
 
 	protected:
 		bool					_running;
@@ -45,7 +45,7 @@ class	Server
 		struct sockaddr_in		_fall_back_address;
 		int						_addrlen;
 		struct pollfd&			_server;
-        std::string				_serverPassword;
+		std::string				_serverPassword;
 
 		struct pollfd			_fds[MAX_CLIENTS + 1];
 		Client					_clients[MAX_CLIENTS];

@@ -24,32 +24,32 @@ Server::Server(char **av, int argc): _server(_fds[0])
 	_address.sin_family = AF_INET;
 	_address.sin_addr.s_addr = INADDR_ANY;
 
-    int port = std::atoi(av[1]);
-    if (1 > port || port > 65535)
+	int port = std::atoi(av[1]);
+	if (1 > port || port > 65535)
 	{
 		errno = EINVAL;
 
-        perror("Error: Port number");
+		perror("Error: Port number");
 		std::cerr << "Info: Should be between 1 and 65535\n";
 
-        exit(errno);
-    }
+		exit(errno);
+	}
 
-    _address.sin_port = htons(port);
+	_address.sin_port = htons(port);
 
-    std::cout << "Port provided: " << port << std::endl; // Print the port number provided
+	std::cout << "Port provided: " << port << std::endl; // Print the port number provided
 
 	getIpAddress(av[1]); // Gets the first available ip address
 
-    if (argc == 3)
-	    _serverPassword = av[2];
-    else
-	    _serverPassword.clear();
+	if (argc == 3)
+		_serverPassword = av[2];
+	else
+		_serverPassword.clear();
 }
 
 void    Server::createSocket(void)
 {
-    if ((_server.fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
+	if ((_server.fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
 	{
 		perror("Error: Socket creation failed");
 		exit(errno);
@@ -58,7 +58,7 @@ void    Server::createSocket(void)
 
 void    Server::setupPolling(void)
 {		
-    _fds[0].fd = _server.fd;
+	_fds[0].fd = _server.fd;
 	_fds[0].events = POLLIN;
 	_server.events = POLLIN;
 	for (int i = 1; i < MAX_CLIENTS + 1; ++i)// The +1 offset is to compensate for the server fd being a t_fds[0]
@@ -110,7 +110,7 @@ void    Server::listenIncomingConnections(void)
 // Setup the server and then goes in idle state
 void    Server::run(void)
 {
-    listenIncomingConnections();
+	listenIncomingConnections();
 	std::cout << "Server listening on port " << ntohs(_address.sin_port) << std::endl;
 
 	idle();

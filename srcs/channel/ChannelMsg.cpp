@@ -25,9 +25,9 @@ void	Channel::broadcastMsg(std::string str, Client & sender)
 
 void    Channel::broadcastMsg(std::string str)
 {
-    for (size_t i = 0; i < _clients.size(); ++i) 
-    {
-        std::cout << "Sending " << str << " to client in channel:" << _channelName << std::endl;
-        _clients[i].sendMessageToClient(str);
-    }
+	for (size_t i = 0; i < _clients.size(); ++i) 
+	{
+		std::cout << "Sending " << str << " to client in channel:" << _channelName << std::endl;
+		_clients[i].sendMessageToClient(str);
+	}
 }

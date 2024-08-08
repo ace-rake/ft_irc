@@ -13,49 +13,49 @@ int	Channel::deleteClient(Client & c)
 {
 	std::vector<Client>::iterator it = findClient(USER, c.getUserName());
 	if (it != _clients.end())
-    {   
-        std::string partMessage = ":";
-        partMessage += c.getNickName() + "!";
-        partMessage += c.getUserName() + "@";
-        partMessage += c.getHostName();
-        partMessage += " PART ";
-        partMessage += getName();
-        partMessage += " :Reason";
-        broadcastMsg(partMessage);
+	{   
+		std::string partMessage = ":";
+		partMessage += c.getNickName() + "!";
+		partMessage += c.getUserName() + "@";
+		partMessage += c.getHostName();
+		partMessage += " PART ";
+		partMessage += getName();
+		partMessage += " :Reason";
+		broadcastMsg(partMessage);
 
 		deleteClient(it);
-	    _settings.userAmount--;
-    }
+		_settings.userAmount--;
+	}
 	return (0);
 }
 
 void    Channel::kickUser(Client sender, std::string victimName, std::vector<std::string>args)
 {
-    if (findClient(NICK, victimName) == _clients.end())
-    {
-        std::cerr << "Error: Victim is not found in channel" << std::endl;
-        sender.sendMessageToClient("The person you are trying to kick can't be found");
-        return ;
-    }
+	if (findClient(NICK, victimName) == _clients.end())
+	{
+		std::cerr << "Error: Victim is not found in channel" << std::endl;
+		sender.sendMessageToClient("The person you are trying to kick can't be found");
+		return ;
+	}
 
-    std::string kickMessageToClient = ":" + sender.getNickName() + " KICK " + getName() + " " + victimName;
-    
-    std::string kickMessage;
+	std::string kickMessageToClient = ":" + sender.getNickName() + " KICK " + getName() + " " + victimName;
 
-    for (size_t i = 3; i < args.size(); ++i)
+	std::string kickMessage;
+
+	for (size_t i = 3; i < args.size(); ++i)
 		kickMessage += " " + args[i];
 
-    kickMessageToClient += kickMessage;
+	kickMessageToClient += kickMessage;
 
-    Client  wanted = *findClient(NICK, victimName);
+	Client  wanted = *findClient(NICK, victimName);
 
-    wanted.sendMessageToClient(kickMessageToClient);
+	wanted.sendMessageToClient(kickMessageToClient);
 
-    wanted.sendMessageToClient("You have been kicked from " + getName() + " for the reason" + kickMessage);
+	wanted.sendMessageToClient("You have been kicked from " + getName() + " for the reason" + kickMessage);
 
-    broadcastMsg(kickMessageToClient);
+	broadcastMsg(kickMessageToClient);
 
-    deleteClient(findClient(NICK, victimName));
+	deleteClient(findClient(NICK, victimName));
 }
 
 std::vector<Client>::iterator	Channel::findClient(userData field, int id)
@@ -75,23 +75,23 @@ std::vector<Client>::iterator	Channel::findClient(userData field, int id)
 
 std::vector<Client>::iterator	Channel::findClient(userData field, const std::string data)
 {
-	
+
 	std::string (Client::*funcptr)()const;
 	switch (field){
 		case (NICK):
-		{
-			funcptr = &Client::getNickName;
-			break;
-		}
+			{
+				funcptr = &Client::getNickName;
+				break;
+			}
 		case (USER):
-		{
-			funcptr = &Client::getUserName;
-			break;
-		}
+			{
+				funcptr = &Client::getUserName;
+				break;
+			}
 		default:
-		{
-			throw std::runtime_error("find client default, You need to add your field to the switch case");
-		}
+			{
+				throw std::runtime_error("find client default, You need to add your field to the switch case");
+			}
 	}
 	for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); ++it)
 	{
@@ -103,23 +103,23 @@ std::vector<Client>::iterator	Channel::findClient(userData field, const std::str
 
 std::vector<Client>::iterator	Channel::findOperator(userData field, const std::string data)
 {
-	
+
 	std::string (Client::*funcptr)()const;
 	switch (field){
 		case (NICK):
-		{
-			funcptr = &Client::getNickName;
-			break;
-		}
+			{
+				funcptr = &Client::getNickName;
+				break;
+			}
 		case (USER):
-		{
-			funcptr = &Client::getUserName;
-			break;
-		}
+			{
+				funcptr = &Client::getUserName;
+				break;
+			}
 		default:
-		{
-			throw std::runtime_error("find client default, You need to add your field to the switch case");
-		}
+			{
+				throw std::runtime_error("find client default, You need to add your field to the switch case");
+			}
 	}
 	for (std::vector<Client>::iterator it = _opList.begin(); it != _opList.end(); ++it)
 	{
@@ -132,9 +132,9 @@ std::vector<Client>::iterator	Channel::findOperator(userData field, const std::s
 bool    Channel::clientIsOperator(Client findClient)
 {
 	for (std::vector<Client>::iterator it = _opList.begin(); it != _opList.end(); it++)
-        if (it->getId() == findClient.getId())
-            return true;
-    return false;
+		if (it->getId() == findClient.getId())
+			return true;
+	return false;
 }
 
 bool	Channel::isFull()const

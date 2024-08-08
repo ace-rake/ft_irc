@@ -109,7 +109,7 @@ void	Client::create(std::string userData)
 	words.erase(words.begin());
 	_ip = *words.begin();
 	words.erase(words.begin());
-	
+
 	std::string realName = *words.begin();
 	words.erase(words.begin());
 	while (!words.empty())
@@ -124,9 +124,9 @@ void	Client::create(std::string userData)
 
 void    Client::sendMessageToClient(std::string message) const
 {
-    std::string buffer = message + "\r\n";
-    if (send(this->getFd().fd, buffer.c_str(), buffer.size(), 0) < 0)
-        throw std::runtime_error("Error while sending message to the client");
+	std::string buffer = message + "\r\n";
+	if (send(this->getFd().fd, buffer.c_str(), buffer.size(), 0) < 0)
+		throw std::runtime_error("Error while sending message to the client");
 }
 
 bool Client::operator==(const Client & other)const

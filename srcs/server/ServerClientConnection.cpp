@@ -14,7 +14,7 @@ void Server::handleNewConnection()
 				_clients[i].setPsw(true);
 			std::cout << "Client connected with fd " << new_connection << std::endl;
 			/* createNewClient(_clients[i]); */
-			 return ;
+			return ;
 		}
 	std::string msg = "NOTICE AUTH :*** User limit reached\r\n";
 	send(new_connection, msg.c_str(), msg.size(), 0);
@@ -92,21 +92,21 @@ void	Server::clearClient(Client & client)
 }
 //void	Server::createNewClient(Client & client)
 //{
-	//std::string userData = receiveUserData(client.getFd());
-	//client.create(userData);
-	//if (nickInUse(client.getNickName(), client.getId()))
-	//{
-		//std::cerr << "Server::createNewClient: Error: Nick in use" << std::endl;
-		//nickInUseError(client);
-		//client.clear();
-		//return ;
-	//}
-	//std::cout << "create user\n" << client << std::endl;
+//std::string userData = receiveUserData(client.getFd());
+//client.create(userData);
+//if (nickInUse(client.getNickName(), client.getId()))
+//{
+//std::cerr << "Server::createNewClient: Error: Nick in use" << std::endl;
+//nickInUseError(client);
+//client.clear();
+//return ;
+//}
+//std::cout << "create user\n" << client << std::endl;
 
-	//// Password request
-	//requestPsw(client);
+//// Password request
+//requestPsw(client);
 
-	//// Welcome handshake
-	//std::string welcomeMessage = ":serverhostname 001 " + client.getNickName() + " :Welcome to the IRC network, " + client.getNickName() + "!\r\n";
-	//client.sendMessageToClient(welcomeMessage);
+//// Welcome handshake
+//std::string welcomeMessage = ":serverhostname 001 " + client.getNickName() + " :Welcome to the IRC network, " + client.getNickName() + "!\r\n";
+//client.sendMessageToClient(welcomeMessage);
 //}

@@ -13,10 +13,10 @@ bool	Channel::isInInviteList(int id)const
 
 bool    Channel::isInClientList(Client findClient)
 {
-    for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); it++)
-        if (it->getId() == findClient.getId())
-            return true;
-    return false;
+	for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); it++)
+		if (it->getId() == findClient.getId())
+			return true;
+	return false;
 }
 
 void	Channel::removeIdFromList(int id)
