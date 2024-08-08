@@ -36,6 +36,7 @@ void	Server::joinChannel(std::string name, Client & client, std::string psw)
 		channel = createChannel(name, psw);
 	/* channel = findChannel(name); */
 	channel->handleJoinRequest(client, psw);	
+	client.getChannels().push_back(name);
 }
 
 Channel *	Server::createChannel	(std::string name, std::string psw)
