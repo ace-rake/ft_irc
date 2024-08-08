@@ -27,11 +27,11 @@ add_compile_options(-g -O0 -Wall -Werror -Wextra -std=c++98)
            
            
 # Add an executable target
-# add_executable(test_server.exe ${test_server_srcs})
-# add_executable(test_client.exe ${test_client_srcs})
-add_executable(server.exe ${server_srcs})
-# add_executable(client.exe ${client_srcs})
-# add_executable(mock.exe ${mock_srcs})
+# add_executable(test_server ${test_server_srcs})
+# add_executable(test_client ${test_client_srcs})
+add_executable(ircserv ${server_srcs})
+# add_executable(client ${client_srcs})
+# add_executable(mock ${mock_srcs})
            
            
            
