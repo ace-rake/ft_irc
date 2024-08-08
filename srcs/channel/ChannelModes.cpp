@@ -76,6 +76,13 @@ void    Channel::makeClientOperator(Client& victim, Client &sender)
 	sender.sendMessageToClient("You made " + victim.getNickName() + " operator to " + getName());
 }
 
+
+void    Channel::removeClientOperator(Client& victim)
+{
+	if (findOperator(NICK, victim.getNickName()) != _opList.end())
+		this->_opList.erase(Channel::findOperator(NICK, victim.getNickName()));
+}
+
 void    Channel::removeClientOperator(Client& victim, Client &sender)
 {
 	if (findOperator(NICK, victim.getNickName()) != _opList.end())

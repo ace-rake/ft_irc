@@ -81,6 +81,7 @@ class	Channel
 		void    removeUserLimit(Client &sender);
 
 		void    makeClientOperator(Client & client, Client &sender);
+		void    removeClientOperator(Client & client);
 		void    removeClientOperator(Client & client, Client &sender);
 
 		bool    everyoneCanChangeTopic();
