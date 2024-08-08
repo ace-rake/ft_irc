@@ -21,7 +21,7 @@ int	Channel::deleteClient(Client & c)
 		partMessage += " PART ";
 		partMessage += getName();
 		partMessage += " :Reason";
-		broadcastMsg(partMessage);
+		/* broadcastMsg(partMessage); */
 
 		deleteClient(it);
 		_settings.userAmount--;
